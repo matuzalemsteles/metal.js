@@ -3,7 +3,7 @@
 import dom from '../src/dom';
 import features from '../src/features';
 import DomEventEmitterProxy from '../src/DomEventEmitterProxy';
-import { EventEmitter } from 'metal-events';
+import {EventEmitter} from 'metal-events';
 
 describe('DomEventEmitterProxy', function() {
 	afterEach(function() {

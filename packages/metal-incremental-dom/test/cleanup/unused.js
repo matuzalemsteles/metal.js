@@ -2,8 +2,8 @@
 
 import Component from 'metal-component';
 import IncrementalDomRenderer from '../../src/IncrementalDomRenderer';
-import { disposeUnused, schedule } from '../../src/cleanup/unused';
-import { getData } from '../../src/data';
+import {disposeUnused, schedule} from '../../src/cleanup/unused';
+import {getData} from '../../src/data';
 
 describe('unused', function() {
 	var comp;

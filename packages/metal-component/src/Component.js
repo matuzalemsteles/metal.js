@@ -1,12 +1,20 @@
 'use strict';
 
-import { addListenersFromObj } from './events/events';
-import { getStaticProperty, isBoolean, isDefAndNotNull, isElement, isObject, isString, object } from 'metal';
-import { syncState } from './sync/sync';
-import { DomEventEmitterProxy, toElement } from 'metal-dom';
+import {addListenersFromObj} from './events/events';
+import {
+	getStaticProperty,
+	isBoolean,
+	isDefAndNotNull,
+	isElement,
+	isObject,
+	isString,
+	object,
+} from 'metal';
+import {syncState} from './sync/sync';
+import {DomEventEmitterProxy, toElement} from 'metal-dom';
 import ComponentDataManager from './ComponentDataManager';
 import ComponentRenderer from './ComponentRenderer';
-import { EventEmitter, EventHandler } from 'metal-events';
+import {EventEmitter, EventHandler} from 'metal-events';
 
 /**
  * Component collects common behaviors to be followed by UI components, such
@@ -74,7 +82,7 @@ class Component extends EventEmitter {
 		this.elementEventProxy_ = new DomEventEmitterProxy(
 			null,
 			this,
-			proxyBlackList_
+			proxyBlackList_,
 		);
 
 		/**
@@ -169,7 +177,7 @@ class Component extends EventEmitter {
 			this.inDocument = true;
 			this.attachData_ = {
 				parent: opt_parentElement,
-				sibling: opt_siblingElement
+				sibling: opt_siblingElement,
 			};
 			this.emit('attached', this.attachData_);
 			this.attached();
@@ -198,7 +206,8 @@ class Component extends EventEmitter {
 	attachElement(opt_parentElement, opt_siblingElement) {
 		const element = this.element;
 		if (element && (opt_siblingElement || !element.parentNode)) {
-			const parent = toElement(opt_parentElement) || this.DEFAULT_ELEMENT_PARENT;
+			const parent =
+				toElement(opt_parentElement) || this.DEFAULT_ELEMENT_PARENT;
 			parent.insertBefore(element, toElement(opt_siblingElement));
 		}
 	}
@@ -334,7 +343,7 @@ class Component extends EventEmitter {
 		if (this.componentCreated_) {
 			this.emit('elementChanged', {
 				prevVal,
-				newVal
+				newVal,
 			});
 			if (newVal && this.wasRendered) {
 				this.syncVisible(this.dataManager_.get(this, 'visible'));
@@ -365,8 +374,8 @@ class Component extends EventEmitter {
 	handleComponentStateKeyChanged_(data) {
 		this.updateRenderer_({
 			changes: {
-				[data.key]: data
-			}
+				[data.key]: data,
+			},
 		});
 	}
 
@@ -505,7 +514,7 @@ class Component extends EventEmitter {
 		const elementClasses = getStaticProperty(
 			this.constructor,
 			'ELEMENT_CLASSES',
-			this.mergeElementClasses_
+			this.mergeElementClasses_,
 		);
 		if (elementClasses) {
 			val += ` ${elementClasses}`;
@@ -521,7 +530,11 @@ class Component extends EventEmitter {
 		this.dataManager_ = getStaticProperty(this.constructor, 'DATA_MANAGER');
 		this.dataManager_.setUp(
 			this,
-			object.mixin({}, this.renderer_.getExtraDataConfig(this), Component.DATA)
+			object.mixin(
+				{},
+				this.renderer_.getExtraDataConfig(this),
+				Component.DATA,
+			),
 		);
 	}
 
@@ -543,7 +556,7 @@ class Component extends EventEmitter {
 		if (this.hasSyncUpdates()) {
 			this.on(
 				'stateKeyChanged',
-				this.handleComponentStateKeyChanged_.bind(this)
+				this.handleComponentStateKeyChanged_.bind(this),
 			);
 		}
 	}
@@ -615,7 +628,7 @@ Component.DATA = {
 	 */
 	children: {
 		validator: Array.isArray,
-		value: []
+		value: [],
 	},
 
 	/**
@@ -625,7 +638,7 @@ Component.DATA = {
 	elementClasses: {
 		setter: 'setterElementClassesFn_',
 		validator: isString,
-		value: ''
+		value: '',
 	},
 
 	/**
@@ -636,7 +649,7 @@ Component.DATA = {
 	 */
 	events: {
 		validator: 'validatorEventsFn_',
-		value: null
+		value: null,
 	},
 
 	/**
@@ -645,8 +658,8 @@ Component.DATA = {
 	 */
 	visible: {
 		validator: isBoolean,
-		value: true
-	}
+		value: true,
+	},
 };
 
 /**
@@ -694,7 +707,7 @@ Component.prototype[Component.COMPONENT_FLAG] = true;
 const proxyBlackList_ = {
 	eventsChanged: true,
 	stateChanged: true,
-	stateKeyChanged: true
+	stateKeyChanged: true,
 };
 
 export default Component;

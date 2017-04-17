@@ -2,19 +2,36 @@
 
 import dom from 'metal-dom';
 import Component from 'metal-component';
-import { Events as EventsComponent } from './assets/Events.soy.js';
-import { ComputedData as ComputedDataComponent } from './assets/ComputedData.soy.js';
-import { ExternalTemplate as ExternalTemplateComponent } from './assets/ExternalTemplate.soy.js';
-import { Functions as FunctionsComponent } from './assets/Functions.soy.js';
-import { HelloWorld as HelloWorldComponent, templates as helloWorldTemplates } from './assets/HelloWorld.soy.js';
-import { HtmlContent as HtmlContentComponent } from './assets/HtmlContent.soy.js';
-import { IJData as IJDataComponent } from './assets/IJData.soy.js';
-import { Nested as NestedComponent } from './assets/Nested.soy.js';
-import { NestedDataAll as NestedDataAllComponent } from './assets/NestedDataAll.soy.js';
-import { NestedLevels as NestedLevelsComponent } from './assets/NestedLevels.soy.js';
-import { NestedMultiple as NestedMultipleComponent } from './assets/NestedMultiple.soy.js';
-import { NestedNoData as NestedNoDataComponent } from './assets/NestedNoData.soy.js';
-import { TemplateData as TemplateDataComponent } from './assets/TemplateData.soy.js';
+import {Events as EventsComponent} from './assets/Events.soy.js';
+import {
+	ComputedData as ComputedDataComponent,
+} from './assets/ComputedData.soy.js';
+import {
+	ExternalTemplate as ExternalTemplateComponent,
+} from './assets/ExternalTemplate.soy.js';
+import {Functions as FunctionsComponent} from './assets/Functions.soy.js';
+import {
+	HelloWorld as HelloWorldComponent,
+	templates as helloWorldTemplates,
+} from './assets/HelloWorld.soy.js';
+import {HtmlContent as HtmlContentComponent} from './assets/HtmlContent.soy.js';
+import {IJData as IJDataComponent} from './assets/IJData.soy.js';
+import {Nested as NestedComponent} from './assets/Nested.soy.js';
+import {
+	NestedDataAll as NestedDataAllComponent,
+} from './assets/NestedDataAll.soy.js';
+import {
+	NestedLevels as NestedLevelsComponent,
+} from './assets/NestedLevels.soy.js';
+import {
+	NestedMultiple as NestedMultipleComponent,
+} from './assets/NestedMultiple.soy.js';
+import {
+	NestedNoData as NestedNoDataComponent,
+} from './assets/NestedNoData.soy.js';
+import {
+	TemplateData as TemplateDataComponent,
+} from './assets/TemplateData.soy.js';
 import Soy from '../src/Soy';
 
 describe('Soy', function() {
@@ -36,14 +53,14 @@ describe('Soy', function() {
 
 		it('should add soy param as state keys automatically', function() {
 			comp = new HelloWorldComponent({
-				name: 'Foo'
+				name: 'Foo',
 			});
 			assert.strictEqual('Foo', comp.name);
 		});
 
 		it('should pass state values to "render template"', function() {
 			comp = new HelloWorldComponent({
-				name: 'Foo'
+				name: 'Foo',
 			});
 			assert.strictEqual('SPAN', comp.element.tagName);
 			assert.strictEqual('Hello Foo!', comp.element.textContent);
@@ -51,7 +68,7 @@ describe('Soy', function() {
 
 		it('should update content when state values change', function(done) {
 			comp = new HelloWorldComponent({
-				name: 'Foo'
+				name: 'Foo',
 			});
 
 			comp.name = 'Bar';
@@ -71,7 +88,9 @@ describe('Soy', function() {
 				delete HelloWorldComponent.prototype.shouldUpdate;
 			});
 
-			it('should not trigger update when changed state key is not used by template', function(done) {
+			it('should not trigger update when changed state key is not used by template', function(
+				done,
+			) {
 				comp = new HelloWorldComponent();
 				comp.visible = false;
 				comp.once('stateSynced', function() {
@@ -80,7 +99,9 @@ describe('Soy', function() {
 				});
 			});
 
-			it('should not trigger update when shouldUpdate returns false', function(done) {
+			it('should not trigger update when shouldUpdate returns false', function(
+				done,
+			) {
 				HelloWorldComponent.prototype.shouldUpdate = function() {
 					return false;
 				};
@@ -93,7 +114,9 @@ describe('Soy', function() {
 				});
 			});
 
-			it('should trigger update when state key is not used by template if component shouldUpdate returns true', function(done) {
+			it('should trigger update when state key is not used by template if component shouldUpdate returns true', function(
+				done,
+			) {
 				HelloWorldComponent.prototype.shouldUpdate = function() {
 					return true;
 				};
@@ -107,16 +130,20 @@ describe('Soy', function() {
 				});
 			});
 
-			it('should pass state values to "prepareStateForRender" and use them in the template', function(done) {
+			it('should pass state values to "prepareStateForRender" and use them in the template', function(
+				done,
+			) {
 				ComputedDataComponent.prototype.shouldUpdate = function() {
 					return true;
 				};
 
-				ComputedDataComponent.prototype.prepareStateForRender = function(data) {
+				ComputedDataComponent.prototype.prepareStateForRender = function(
+					data,
+				) {
 					data.name = data.name.split('').reverse().join('');
 				};
 
-				comp = new ComputedDataComponent({ name: 'Foo' });
+				comp = new ComputedDataComponent({name: 'Foo'});
 
 				assert.strictEqual('ooF', comp.element.textContent);
 
@@ -131,21 +158,20 @@ describe('Soy', function() {
 
 		it('should not add sub template soy params as state keys', function() {
 			comp = new TemplateDataComponent({
-				foo: 'foo'
+				foo: 'foo',
 			});
 			assert.ok(!comp.foo);
 		});
 
 		it('should pass non state config data to sub templates', function() {
 			comp = new TemplateDataComponent({
-				foo: 'foo'
+				foo: 'foo',
 			});
 			assert.strictEqual('foo', comp.element.textContent);
 		});
 
 		it('should not throw error if rendering component with no templates', function() {
-			class NoTemplateComponent extends Component {
-			}
+			class NoTemplateComponent extends Component {}
 			NoTemplateComponent.RENDERER = Soy;
 
 			assert.doesNotThrow(function() {
@@ -153,12 +179,12 @@ describe('Soy', function() {
 			});
 		});
 
-		it('should not throw error if updating component with no templates', function(done) {
-			class NoTemplateComponent extends Component {
-			}
+		it('should not throw error if updating component with no templates', function(
+			done,
+		) {
+			class NoTemplateComponent extends Component {}
 			NoTemplateComponent.STATE = {
-				foo: {
-				}
+				foo: {},
 			};
 			NoTemplateComponent.RENDERER = Soy;
 
@@ -180,8 +206,9 @@ describe('Soy', function() {
 		});
 
 		it('should allow specifying injected data content', function() {
+			debugger;
 			Soy.setInjectedData({
-				content: 'Foo'
+				content: 'Foo',
 			});
 			comp = new IJDataComponent();
 			assert.strictEqual('DIV', comp.element.tagName);
@@ -196,8 +223,7 @@ describe('Soy', function() {
 		});
 
 		it('should allow registering template with any name for a component', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			Soy.register(TestComponent, helloWorldTemplates, 'content');
 
 			comp = new TestComponent();
@@ -207,16 +233,17 @@ describe('Soy', function() {
 		});
 
 		it('should use last component registration for the same template', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			Soy.register(TestComponent, helloWorldTemplates, 'content');
 
-			class TestComponent2 extends Component {
-			}
+			class TestComponent2 extends Component {}
 			Soy.register(TestComponent2, helloWorldTemplates, 'content');
 
 			assert.strictEqual(TestComponent.TEMPLATE, TestComponent2.TEMPLATE);
-			assert.strictEqual(TestComponent2, TestComponent2.TEMPLATE.componentCtor);
+			assert.strictEqual(
+				TestComponent2,
+				TestComponent2.TEMPLATE.componentCtor,
+			);
 		});
 
 		it('should give precendence to the component\'s own "render" function over template', function() {
@@ -231,15 +258,11 @@ describe('Soy', function() {
 			assert.strictEqual('RENDER', comp.element.tagName);
 		});
 
-		it('should not throw error if soy template doesn\'t have params/types info', function() {
-			class TestComponent extends Component {
-			}
-			Soy.register(
-				TestComponent,
-				{
-					render: () => IncrementalDOM.elementVoid('div')
-				}
-			);
+		it("should not throw error if soy template doesn't have params/types info", function() {
+			class TestComponent extends Component {}
+			Soy.register(TestComponent, {
+				render: () => IncrementalDOM.elementVoid('div'),
+			});
 			assert.doesNotThrow(() => comp = new TestComponent());
 		});
 	});
@@ -247,27 +270,33 @@ describe('Soy', function() {
 	describe('HTML attributes', function() {
 		it('should render html string attributes correctly', function() {
 			comp = new HtmlContentComponent({
-				content: '<span class="custom">HTML Content</span>'
+				content: '<span class="custom">HTML Content</span>',
 			});
 
 			assert.strictEqual(1, comp.element.childNodes.length);
 			assert.strictEqual('SPAN', comp.element.childNodes[0].tagName);
 			assert.ok(dom.hasClass(comp.element.childNodes[0], 'custom'));
-			assert.strictEqual('HTML Content', comp.element.childNodes[0].textContent);
+			assert.strictEqual(
+				'HTML Content',
+				comp.element.childNodes[0].textContent,
+			);
 		});
 
 		it('should render html sanitized object attributes correctly', function() {
 			comp = new HtmlContentComponent({
 				content: {
 					content: '<span class="custom">HTML Content</span>',
-					contentKind: 'HTML'
-				}
+					contentKind: 'HTML',
+				},
 			});
 
 			assert.strictEqual(1, comp.element.childNodes.length);
 			assert.strictEqual('SPAN', comp.element.childNodes[0].tagName);
 			assert.ok(dom.hasClass(comp.element.childNodes[0], 'custom'));
-			assert.strictEqual('HTML Content', comp.element.childNodes[0].textContent);
+			assert.strictEqual(
+				'HTML Content',
+				comp.element.childNodes[0].textContent,
+			);
 		});
 	});
 
@@ -277,7 +306,7 @@ describe('Soy', function() {
 			FunctionsComponent.prototype.handleClick = sinon.stub();
 		});
 
-		it('should attach inline events found in component\'s soy template', function() {
+		it("should attach inline events found in component's soy template", function() {
 			comp = new EventsComponent();
 
 			dom.triggerEvent(comp.element, 'click');
@@ -287,7 +316,7 @@ describe('Soy', function() {
 			assert.strictEqual(1, comp.handleClick.callCount);
 		});
 
-		it('should attach function listeners found in component\'s soy template', function() {
+		it("should attach function listeners found in component's soy template", function() {
 			comp = new FunctionsComponent();
 
 			dom.triggerEvent(comp.element, 'click');
@@ -326,7 +355,7 @@ describe('Soy', function() {
 
 		it('should pass data to nested components', function() {
 			comp = new NestedComponent({
-				name: 'Foo'
+				name: 'Foo',
 			});
 
 			var nested = comp.components.hello;
@@ -337,7 +366,7 @@ describe('Soy', function() {
 
 		it('should pass data via `data="all"` to nested components', function() {
 			comp = new NestedDataAllComponent({
-				name: 'Foo'
+				name: 'Foo',
 			});
 
 			var nested = comp.components.hello;
@@ -349,12 +378,15 @@ describe('Soy', function() {
 		it('should render and instantiate nested components even without ref', function() {
 			comp = new NestedNoDataComponent();
 			assert.strictEqual(1, comp.element.childNodes.length);
-			assert.strictEqual('Hello World!', comp.element.childNodes[0].textContent);
+			assert.strictEqual(
+				'Hello World!',
+				comp.element.childNodes[0].textContent,
+			);
 		});
 
 		it('should render and instantiate nested components inside nested components', function() {
 			comp = new NestedLevelsComponent({
-				name: 'Foo'
+				name: 'Foo',
 			});
 
 			var nested = comp.components.nested;
@@ -369,7 +401,7 @@ describe('Soy', function() {
 
 		it('should render and instantiate multiple nested components', function() {
 			comp = new NestedMultipleComponent({
-				count: 2
+				count: 2,
 			});
 
 			var nested1 = comp.components.hello1;
@@ -386,18 +418,26 @@ describe('Soy', function() {
 
 	describe('Soy.getTemplate', function() {
 		it('should not throw error if called for undeclared namespace', function() {
-			assert.doesNotThrow(() => Soy.getTemplate('Undeclared.incrementaldom', 'render'));
+			assert.doesNotThrow(() =>
+				Soy.getTemplate('Undeclared.incrementaldom', 'render'),
+			);
 		});
 
 		it('should throw error if returned function is called for undeclared namespace', function() {
-			var template = Soy.getTemplate('Undeclared.incrementaldom', 'render');
+			var template = Soy.getTemplate(
+				'Undeclared.incrementaldom',
+				'render',
+			);
 			assert.throws(template);
 		});
 
 		it('should not throw error if namespace is declared before returned function is called', function() {
-			var template = Soy.getTemplate('DeclaredLater.incrementaldom', 'render');
+			var template = Soy.getTemplate(
+				'DeclaredLater.incrementaldom',
+				'render',
+			);
 			var module = {
-				render: sinon.stub()
+				render: sinon.stub(),
 			};
 			goog.loadModule(function() {
 				goog.module('DeclaredLater.incrementaldom');
@@ -411,12 +451,21 @@ describe('Soy', function() {
 	describe('Soy.toHtmlString', function() {
 		it('should convert given incremental dom function into an html string', function() {
 			var fn = function() {
-				IncrementalDOM.elementOpen('div', null, [], 'class', 'toHtmlString');
+				IncrementalDOM.elementOpen(
+					'div',
+					null,
+					[],
+					'class',
+					'toHtmlString',
+				);
 				IncrementalDOM.text('To Convert');
 				IncrementalDOM.elementClose('div');
 			};
 			var str = Soy.toHtmlString(fn);
-			assert.strictEqual('<div class="toHtmlString">To Convert</div>', str);
+			assert.strictEqual(
+				'<div class="toHtmlString">To Convert</div>',
+				str,
+			);
 		});
 	});
 
@@ -434,7 +483,7 @@ describe('Soy', function() {
 			var str = '<div class="toHtmlString">To Convert</div>';
 			var fn = Soy.toIncDom({
 				content: str,
-				contentKind: 'HTML'
+				contentKind: 'HTML',
 			});
 
 			var element = document.createElement('div');

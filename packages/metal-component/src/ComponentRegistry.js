@@ -1,6 +1,6 @@
 'use strict';
 
-import { getFunctionName } from 'metal';
+import {getFunctionName} from 'metal';
 
 /**
  * The component registry is used to register components, so they can
@@ -20,7 +20,7 @@ class ComponentRegistry {
 		if (!constructorFn) {
 			console.error(
 				`There's no constructor registered for the component named ${name}.
-				Components need to be registered via ComponentRegistry.register.`
+				Components need to be registered via ComponentRegistry.register.`,
 			);
 		}
 		return constructorFn;

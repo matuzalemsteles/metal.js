@@ -1,12 +1,11 @@
 'use strict';
 
 import dom from '../src/all/dom';
-import { object } from 'metal';
+import {object} from 'metal';
 import UA from 'metal-useragent';
 import DomEventHandle from '../src/DomEventHandle';
 
 describe('dom', function() {
-
 	afterEach(function() {
 		document.body.innerHTML = '';
 	});
@@ -144,11 +143,17 @@ describe('dom', function() {
 
 			element.className = 'lorem ipsum dolor sit amet';
 			dom.toggleClasses(element, 'lorem sit consectetur adipiscing elit');
-			assert.strictEqual('ipsum dolor amet consectetur adipiscing elit', element.className);
+			assert.strictEqual(
+				'ipsum dolor amet consectetur adipiscing elit',
+				element.className,
+			);
 
 			element.className = 'lorem ipsum dolor sit amet';
 			dom.toggleClasses(element, 'adipiscing elit lorem sit consectetur');
-			assert.strictEqual('ipsum dolor amet adipiscing elit consectetur', element.className);
+			assert.strictEqual(
+				'ipsum dolor amet adipiscing elit consectetur',
+				element.className,
+			);
 		});
 	});
 
@@ -190,7 +195,9 @@ describe('dom', function() {
 
 		it('should append node list to parent element', function() {
 			var parent = document.createElement('div');
-			var childFrag = dom.buildFragment('<div class="myChild"></div><div class="myChild2"></div>');
+			var childFrag = dom.buildFragment(
+				'<div class="myChild"></div><div class="myChild2"></div>',
+			);
 
 			dom.append(parent, childFrag.childNodes);
 			assert.strictEqual(2, parent.childNodes.length);
@@ -216,7 +223,7 @@ describe('dom', function() {
 			assert.strictEqual(element, document.body.childNodes[0]);
 		});
 
-		it('should not throw error if trying to replace element that doesn\'t have a parent', function() {
+		it("should not throw error if trying to replace element that doesn't have a parent", function() {
 			var element1 = document.createElement('div');
 			var element2 = document.createElement('div');
 
@@ -286,8 +293,14 @@ describe('dom', function() {
 			assert.ok(fragment);
 			assert.strictEqual(11, fragment.nodeType);
 			assert.strictEqual(2, fragment.childNodes.length);
-			assert.strictEqual('Hello World 1', fragment.childNodes[0].innerHTML);
-			assert.strictEqual('Hello World 2', fragment.childNodes[1].innerHTML);
+			assert.strictEqual(
+				'Hello World 1',
+				fragment.childNodes[0].innerHTML,
+			);
+			assert.strictEqual(
+				'Hello World 2',
+				fragment.childNodes[1].innerHTML,
+			);
 		});
 
 		it('should remove children from element', function() {
@@ -406,7 +419,7 @@ describe('dom', function() {
 			element.addEventListener('click', listener);
 
 			dom.triggerEvent(element, 'click', {
-				test: 'test'
+				test: 'test',
 			});
 			assert.strictEqual(1, listener.callCount);
 			assert.strictEqual('click', listener.args[0][0].type);
@@ -499,7 +512,8 @@ describe('dom', function() {
 
 		it('should keep bubling and triggering click event listeners for non-disabled elements', function() {
 			var element = document.createElement('div');
-			element.innerHTML = '<div class="match"><fieldset disabled>' +
+			element.innerHTML =
+				'<div class="match"><fieldset disabled>' +
 				'<span class="match"></span></fieldset></div>';
 			document.body.appendChild(element);
 
@@ -520,7 +534,8 @@ describe('dom', function() {
 		describe('selector', function() {
 			it('should trigger delegate listener for matched elements', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="nomatch">' +
+				element.innerHTML =
+					'<div class="nomatch">' +
 					'<div class="match">' +
 					'<div class="nomatch">' +
 					'<div class="match">' +
@@ -542,7 +557,8 @@ describe('dom', function() {
 
 			it('should trigger delegate listener for "focus" event', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="nomatch">' +
+				element.innerHTML =
+					'<div class="nomatch">' +
 					'<div class="match">' +
 					'<div class="nomatch">' +
 					'<div class="match">' +
@@ -564,7 +580,8 @@ describe('dom', function() {
 
 			it('should only trigger delegate event starting from initial target', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="nomatch">' +
+				element.innerHTML =
+					'<div class="nomatch">' +
 					'<div class="match">' +
 					'<div class="nomatch">' +
 					'<div class="match">' +
@@ -594,7 +611,12 @@ describe('dom', function() {
 
 				var listener = sinon.stub();
 				dom.delegate(element, 'click', '.match', listener);
-				dom.delegate(element.childNodes[0], 'click', '.match', listener);
+				dom.delegate(
+					element.childNodes[0],
+					'click',
+					'.match',
+					listener,
+				);
 
 				dom.triggerEvent(element.querySelector('.match'), 'click');
 				assert.strictEqual(2, listener.callCount);
@@ -616,7 +638,8 @@ describe('dom', function() {
 
 			it('should stop triggering event if stopPropagation is called', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="nomatch">' +
+				element.innerHTML =
+					'<div class="nomatch">' +
 					'<div class="match">' +
 					'<div class="nomatch">' +
 					'<div class="match">' +
@@ -638,7 +661,8 @@ describe('dom', function() {
 
 			it('should stop triggering event if stopImmediatePropagation is called', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="nomatch">' +
+				element.innerHTML =
+					'<div class="nomatch">' +
 					'<div class="match">' +
 					'<div class="nomatch">' +
 					'<div class="match">' +
@@ -660,7 +684,8 @@ describe('dom', function() {
 
 			it('should run default listeners last', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="root"><div class="match"></div></div>';
+				element.innerHTML =
+					'<div class="root"><div class="match"></div></div>';
 				document.body.appendChild(element);
 
 				var listener1 = sinon.stub();
@@ -681,7 +706,8 @@ describe('dom', function() {
 
 			it('should pass correct delegateTarget to default listener', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="root"><div class="match"></div></div>';
+				element.innerHTML =
+					'<div class="root"><div class="match"></div></div>';
 				document.body.appendChild(element);
 
 				var target;
@@ -702,7 +728,9 @@ describe('dom', function() {
 
 				var listener = sinon.stub();
 				dom.delegate(element, 'click', '.match', listener, true);
-				dom.delegate(element, 'click', '.match', event => event.preventDefault());
+				dom.delegate(element, 'click', '.match', event =>
+					event.preventDefault(),
+				);
 
 				dom.triggerEvent(element.querySelector('.match'), 'click');
 				assert.strictEqual(0, listener.callCount);
@@ -710,7 +738,8 @@ describe('dom', function() {
 
 			it('should cancel listener through returned handle', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="nomatch">' +
+				element.innerHTML =
+					'<div class="nomatch">' +
 					'<div class="match">' +
 					'<div class="nomatch">' +
 					'<div class="match">' +
@@ -719,7 +748,12 @@ describe('dom', function() {
 				var matchedElements = element.querySelectorAll('.match');
 
 				var listener1 = sinon.stub();
-				var handle = dom.delegate(element, 'click', '.match', listener1);
+				var handle = dom.delegate(
+					element,
+					'click',
+					'.match',
+					listener1,
+				);
 
 				handle.removeListener();
 				dom.triggerEvent(matchedElements[0], 'click');
@@ -728,7 +762,8 @@ describe('dom', function() {
 
 			it('should clear delegateTarget from event object after event is done', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<div class="nomatch">' +
+				element.innerHTML =
+					'<div class="nomatch">' +
 					'<div class="match">' +
 					'<div class="nomatch">' +
 					'<div class="match">' +
@@ -816,7 +851,8 @@ describe('dom', function() {
 
 			it('should run click event listeners to an element that have not the disabled attribute with a disabled parent using "dispatchEvent()"', function() {
 				var element = document.createElement('div');
-				element.innerHTML = '<fieldset class="nomatch" disabled>' +
+				element.innerHTML =
+					'<fieldset class="nomatch" disabled>' +
 					'<span class="match"></span></fieldset>';
 				document.body.appendChild(element);
 
@@ -977,7 +1013,7 @@ describe('dom', function() {
 				var listener = sinon.stub();
 				dom.delegate(element, 'click', child, listener);
 				dom.triggerEvent(child, 'click', {
-					button: 2
+					button: 2,
 				});
 				assert.strictEqual(0, listener.callCount);
 			});
@@ -1014,7 +1050,9 @@ describe('dom', function() {
 
 				var listener = sinon.stub();
 				dom.delegate(element, 'click', child, listener, true);
-				dom.delegate(element, 'click', child, event => event.preventDefault());
+				dom.delegate(element, 'click', child, event =>
+					event.preventDefault(),
+				);
 
 				dom.triggerEvent(child, 'click');
 				assert.strictEqual(0, listener.callCount);
@@ -1044,7 +1082,13 @@ describe('dom', function() {
 				dom.append(element, child);
 
 				var listener = sinon.stub();
-				var handle = dom.delegate(element, 'click', child, listener, true);
+				var handle = dom.delegate(
+					element,
+					'click',
+					child,
+					listener,
+					true,
+				);
 
 				handle.removeListener();
 				dom.triggerEvent(child, 'click');
@@ -1069,7 +1113,8 @@ describe('dom', function() {
 	describe('match', function() {
 		before(function() {
 			this.origMatches_ = Element.prototype.matches;
-			this.origWebkitMatchesSelector_ = Element.prototype.webkitMatchesSelector;
+			this.origWebkitMatchesSelector_ =
+				Element.prototype.webkitMatchesSelector;
 			this.origMozMatchesSelector_ = Element.prototype.mozMatchesSelector;
 			this.origMsMatchesSelector_ = Element.prototype.msMatchesSelector;
 			this.origOMatchesSelector_ = Element.prototype.oMatchesSelector;
@@ -1100,24 +1145,34 @@ describe('dom', function() {
 		it('should use webkitMatchesSelector function when available', function() {
 			var matchedElement = document.createElement('div');
 			Element.prototype.matches = null;
-			Element.prototype.webkitMatchesSelector = sinon.stub().returns(matchedElement);
+			Element.prototype.webkitMatchesSelector = sinon
+				.stub()
+				.returns(matchedElement);
 			var element = document.createElement('div');
 
 			assert.strictEqual(matchedElement, dom.match(element, '.selector'));
 			assert.strictEqual(1, element.webkitMatchesSelector.callCount);
-			assert.strictEqual('.selector', element.webkitMatchesSelector.args[0][0]);
+			assert.strictEqual(
+				'.selector',
+				element.webkitMatchesSelector.args[0][0],
+			);
 		});
 
 		it('should use mozMatchesSelector function when available', function() {
 			var matchedElement = document.createElement('div');
 			Element.prototype.matches = null;
 			Element.prototype.webkitMatchesSelector = null;
-			Element.prototype.mozMatchesSelector = sinon.stub().returns(matchedElement);
+			Element.prototype.mozMatchesSelector = sinon
+				.stub()
+				.returns(matchedElement);
 			var element = document.createElement('div');
 
 			assert.strictEqual(matchedElement, dom.match(element, '.selector'));
 			assert.strictEqual(1, element.mozMatchesSelector.callCount);
-			assert.strictEqual('.selector', element.mozMatchesSelector.args[0][0]);
+			assert.strictEqual(
+				'.selector',
+				element.mozMatchesSelector.args[0][0],
+			);
 		});
 
 		it('should use msMatchesSelector function when available', function() {
@@ -1125,12 +1180,17 @@ describe('dom', function() {
 			Element.prototype.matches = null;
 			Element.prototype.webkitMatchesSelector = null;
 			Element.prototype.mozMatchesSelector = null;
-			Element.prototype.msMatchesSelector = sinon.stub().returns(matchedElement);
+			Element.prototype.msMatchesSelector = sinon
+				.stub()
+				.returns(matchedElement);
 			var element = document.createElement('div');
 
 			assert.strictEqual(matchedElement, dom.match(element, '.selector'));
 			assert.strictEqual(1, element.msMatchesSelector.callCount);
-			assert.strictEqual('.selector', element.msMatchesSelector.args[0][0]);
+			assert.strictEqual(
+				'.selector',
+				element.msMatchesSelector.args[0][0],
+			);
 		});
 
 		it('should use oMatchesSelector function when available', function() {
@@ -1139,12 +1199,17 @@ describe('dom', function() {
 			Element.prototype.webkitMatchesSelector = null;
 			Element.prototype.mozMatchesSelector = null;
 			Element.prototype.msMatchesSelector = null;
-			Element.prototype.oMatchesSelector = sinon.stub().returns(matchedElement);
+			Element.prototype.oMatchesSelector = sinon
+				.stub()
+				.returns(matchedElement);
 			var element = document.createElement('div');
 
 			assert.strictEqual(matchedElement, dom.match(element, '.selector'));
 			assert.strictEqual(1, element.oMatchesSelector.callCount);
-			assert.strictEqual('.selector', element.oMatchesSelector.args[0][0]);
+			assert.strictEqual(
+				'.selector',
+				element.oMatchesSelector.args[0][0],
+			);
 		});
 
 		it('should return false for invalid node type', function() {
@@ -1178,7 +1243,7 @@ describe('dom', function() {
 	describe('parent', function() {
 		it('should return the first parent that matches the given selector', function() {
 			dom.enterDocument(
-				'<div class="parent2"><div class="parent1"><div class="element"></div></div></div>'
+				'<div class="parent2"><div class="parent1"><div class="element"></div></div></div>',
 			);
 			var element = dom.toElement('.element');
 			var parent2 = dom.toElement('.parent1');
@@ -1193,7 +1258,7 @@ describe('dom', function() {
 	describe('closest', function() {
 		it('should return the closest element up the tree that matches the given selector', function() {
 			dom.enterDocument(
-				'<div class="parent2"><div class="parent1"><div class="element"></div></div></div>'
+				'<div class="parent2"><div class="parent1"><div class="element"></div></div></div>',
 			);
 			var element = dom.toElement('.element');
 			var parent2 = dom.toElement('.parent1');
@@ -1208,7 +1273,7 @@ describe('dom', function() {
 	describe('next', function() {
 		it('should return the next sibling that matches the given selector', function() {
 			dom.enterDocument(
-				'<div class="rootElement"></div><div class="sibling1"></div><div class="sibling2"></div>'
+				'<div class="rootElement"></div><div class="sibling1"></div><div class="sibling2"></div>',
 			);
 			var element = dom.toElement('.rootElement');
 			var sibling1 = dom.toElement('.sibling1');
@@ -1261,7 +1326,7 @@ describe('dom', function() {
 			assert.strictEqual(null, dom.toElement(null));
 		});
 
-		it('should return matching element if selector is document fragment', function () {
+		it('should return matching element if selector is document fragment', function() {
 			var frag1 = document.createDocumentFragment();
 			assert.strictEqual(frag1, dom.toElement(frag1));
 
@@ -1299,7 +1364,7 @@ describe('dom', function() {
 						return listener(event);
 					}
 				},
-				originalEvent: 'click'
+				originalEvent: 'click',
 			});
 		});
 
@@ -1344,8 +1409,12 @@ describe('dom', function() {
 		});
 
 		it('should return true when supportsEvent is called for registered custom event', function() {
-			assert.ok(dom.supportsEvent(document.createElement('div'), 'myClick'));
-			assert.ok(!dom.supportsEvent(document.createElement('div'), 'yourClick'));
+			assert.ok(
+				dom.supportsEvent(document.createElement('div'), 'myClick'),
+			);
+			assert.ok(
+				!dom.supportsEvent(document.createElement('div'), 'yourClick'),
+			);
 		});
 	});
 
@@ -1362,5 +1431,4 @@ describe('dom', function() {
 	function getClassNames(element) {
 		return element.className.trim().split(' ');
 	}
-
 });

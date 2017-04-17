@@ -1,6 +1,6 @@
 'use strict';
 
-import { async } from 'metal';
+import {async} from 'metal';
 import * as dom from '../src/dom';
 import globalEvalStyles from '../src/globalEvalStyles';
 
@@ -15,7 +15,9 @@ describe('globalEvalStyles', function() {
 	afterEach(function() {});
 
 	it('should evaluate style code', function() {
-		var style = globalEvalStyles.run('body{background-color:rgb(255, 0, 0);}');
+		var style = globalEvalStyles.run(
+			'body{background-color:rgb(255, 0, 0);}',
+		);
 		assertComputedStyle('backgroundColor', 'rgb(255, 0, 0)');
 		dom.exitDocument(style);
 	});
@@ -34,7 +36,9 @@ describe('globalEvalStyles', function() {
 		});
 	});
 
-	it('should leave created style file in document after code is evaluated', function(done) {
+	it('should leave created style file in document after code is evaluated', function(
+		done,
+	) {
 		var style = globalEvalStyles.runFile('fixtures/style.css', function() {
 			assert.ok(style.parentNode);
 			dom.exitDocument(style);
@@ -51,7 +55,9 @@ describe('globalEvalStyles', function() {
 		dom.exitDocument(newStyle);
 	});
 
-	it('should leave created style element in document after code is evaluated', function(done) {
+	it('should leave created style element in document after code is evaluated', function(
+		done,
+	) {
 		var style = document.createElement('style');
 		style.innerHTML = 'body{background-color:rgb(255, 0, 0);}';
 
@@ -62,7 +68,9 @@ describe('globalEvalStyles', function() {
 		});
 	});
 
-	it('should not evaluate style element with tel different from stylesheet', function(done) {
+	it('should not evaluate style element with tel different from stylesheet', function(
+		done,
+	) {
 		var link = document.createElement('link');
 		link.innerHTML = 'body{background-color:rgb(255, 0, 0);}';
 		link.rel = 'unknown';
@@ -100,7 +108,7 @@ describe('globalEvalStyles', function() {
 
 	it('should run all styles tags inside given element', function(done) {
 		var element = dom.buildFragment(
-			'<div><style>body{background-color:rgb(255, 0, 0);}</style></div><style>body{margin-top:10px;}</style>'
+			'<div><style>body{background-color:rgb(255, 0, 0);}</style></div><style>body{margin-top:10px;}</style>',
 		);
 		globalEvalStyles.runStylesInElement(element, function() {
 			assertComputedStyle('backgroundColor', 'rgb(255, 0, 0)');
@@ -111,7 +119,7 @@ describe('globalEvalStyles', function() {
 
 	it('should run styles tags inside given element in order', function(done) {
 		var element = dom.buildFragment(
-			'<div><style>body{background-color:rgb(255, 0, 0);}</style></div><style>body{background-color:rgb(0, 255, 0);}</style>'
+			'<div><style>body{background-color:rgb(255, 0, 0);}</style></div><style>body{background-color:rgb(0, 255, 0);}</style>',
 		);
 		globalEvalStyles.runStylesInElement(element, function() {
 			assertComputedStyle('backgroundColor', 'rgb(0, 255, 0)');
@@ -126,7 +134,9 @@ describe('globalEvalStyles', function() {
 		});
 	});
 
-	it('should call given callback on nextTick if no style tags exist in received element', function(done) {
+	it('should call given callback on nextTick if no style tags exist in received element', function(
+		done,
+	) {
 		var element = dom.buildFragment('<div></div>');
 		var callback = sinon.stub();
 		globalEvalStyles.runStylesInElement(element, callback);
@@ -136,10 +146,11 @@ describe('globalEvalStyles', function() {
 			done();
 		});
 	});
-
 });
 
-
 function assertComputedStyle(property, value) {
-	assert.strictEqual(value, window.getComputedStyle(document.body, null)[property]);
+	assert.strictEqual(
+		value,
+		window.getComputedStyle(document.body, null)[property],
+	);
 }

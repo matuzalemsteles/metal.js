@@ -1,8 +1,8 @@
 'use strict';
 
-import { append, exitDocument } from 'metal-dom';
-import { getData } from '../data';
-import { render } from './render';
+import {append, exitDocument} from 'metal-dom';
+import {getData} from '../data';
+import {render} from './render';
 
 const patchingComponents_ = [];
 
@@ -40,7 +40,9 @@ function callPatch_(component, element, opt_outer) {
 		data.render = render.bind(null, component);
 	}
 
-	const patchFn = opt_outer ? IncrementalDOM.patchOuter : IncrementalDOM.patch;
+	const patchFn = opt_outer
+		? IncrementalDOM.patchOuter
+		: IncrementalDOM.patch;
 	patchFn(element, data.render);
 
 	patchingComponents_.pop();

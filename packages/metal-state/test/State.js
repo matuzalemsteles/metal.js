@@ -1,6 +1,6 @@
 'use strict';
 
-import { async } from 'metal';
+import {async} from 'metal';
 import EventEmitter from 'metal-events';
 import State from '../src/State';
 
@@ -9,7 +9,7 @@ describe('State', function() {
 		var state = new State();
 		state.configState({
 			key1: {},
-			key2: {}
+			key2: {},
 		});
 
 		var keys = Object.keys(state.getState());
@@ -22,7 +22,7 @@ describe('State', function() {
 		var state = new State();
 		state.configState({
 			key1: {},
-			key2: {}
+			key2: {},
 		});
 
 		var keys = Object.keys(state);
@@ -31,30 +31,29 @@ describe('State', function() {
 	});
 
 	it('should not allow adding state key with name contained in key blacklist', function() {
-		class Test extends State {
-		}
+		class Test extends State {}
 
 		var test = new Test();
 		test.setKeysBlacklist({
-			invalid: true
+			invalid: true,
 		});
 		assert.throws(function() {
 			test.configState({
-				invalid: {}
+				invalid: {},
 			});
 		});
 	});
 
-	it('should get a state key\'s config object', function() {
+	it("should get a state key's config object", function() {
 		var state = new State();
 		state.configState({
 			key1: {
-				a: 2
-			}
+				a: 2,
+			},
 		});
 
 		var expected = {
-			a: 2
+			a: 2,
 		};
 		assert.deepEqual(expected, state.getStateKeyConfig('key1'));
 	});
@@ -64,13 +63,13 @@ describe('State', function() {
 		state.configState({
 			key1: {
 				config: {
-					a: 2
-				}
-			}
+					a: 2,
+				},
+			},
 		});
 
 		var expected = {
-			a: 2
+			a: 2,
 		};
 		assert.deepEqual(expected, state.getStateKeyConfig('key1'));
 	});
@@ -84,7 +83,7 @@ describe('State', function() {
 		var state = new State();
 		state.configState({
 			key1: {},
-			key2: {}
+			key2: {},
 		});
 
 		assert.strictEqual(undefined, state.key1);
@@ -101,8 +100,8 @@ describe('State', function() {
 		var state = new State();
 		state.configState({
 			key1: {
-				value: 2
-			}
+				value: 2,
+			},
 		});
 
 		assert.strictEqual(2, state.get('key1'));
@@ -112,8 +111,8 @@ describe('State', function() {
 		var state = new State();
 		state.configState({
 			key1: {
-				value: 2
-			}
+				value: 2,
+			},
 		});
 
 		state.set('key1', 3);
@@ -131,8 +130,8 @@ describe('State', function() {
 		var state = new State();
 		state.configState({
 			key1: {
-				value: 1
-			}
+				value: 1,
+			},
 		});
 
 		assert.strictEqual(1, state.key1);
@@ -144,8 +143,8 @@ describe('State', function() {
 			key1: {
 				valueFn: function() {
 					return 1;
-				}
-			}
+				},
+			},
 		});
 
 		assert.strictEqual(1, state.key1);
@@ -158,8 +157,8 @@ describe('State', function() {
 		};
 		state.configState({
 			key1: {
-				valueFn: 'returns1'
-			}
+				valueFn: 'returns1',
+			},
 		});
 
 		assert.strictEqual(1, state.key1);
@@ -169,8 +168,8 @@ describe('State', function() {
 		var state = new State();
 		state.configState({
 			key1: {
-				valueFn: 1
-			}
+				valueFn: 1,
+			},
 		});
 
 		assert.strictEqual(undefined, state.key1);
@@ -183,8 +182,8 @@ describe('State', function() {
 				value: '',
 				valueFn: function() {
 					return '1';
-				}
-			}
+				},
+			},
 		});
 
 		assert.strictEqual('', state.key1);
@@ -193,18 +192,16 @@ describe('State', function() {
 	it('should override default state key value', function() {
 		var state = new State({
 			key1: 10,
-			key2: 20
+			key2: 20,
 		});
-		state.configState(
-			{
-				key1: {
-					value: 1
-				},
-				key2: {
-					value: 2
-				}
-			}
-		);
+		state.configState({
+			key1: {
+				value: 1,
+			},
+			key2: {
+				value: 2,
+			},
+		});
 
 		assert.strictEqual(10, state.key1);
 		assert.strictEqual(20, state.key2);
@@ -223,8 +220,8 @@ describe('State', function() {
 		var valueFn = sinon.stub().returns(2);
 		state.configState({
 			key1: {
-				valueFn: valueFn
-			}
+				valueFn: valueFn,
+			},
 		});
 
 		assert.strictEqual(0, valueFn.callCount);
@@ -233,7 +230,9 @@ describe('State', function() {
 		assert.strictEqual(1, valueFn.callCount);
 	});
 
-	it('should pass value, name and context args to validator function', function(done) {
+	it('should pass value, name and context args to validator function', function(
+		done,
+	) {
 		var state = new State();
 		var keyName = 'key1';
 		var value = 2;
@@ -245,8 +244,8 @@ describe('State', function() {
 					assert.strictEqual(state, context);
 
 					done();
-				}
-			}
+				},
+			},
 		});
 
 		state[keyName] = value;
@@ -259,8 +258,8 @@ describe('State', function() {
 				validator: function(val) {
 					return val > 0;
 				},
-				value: 1
-			}
+				value: 1,
+			},
 		});
 
 		state.key1 = -1;
@@ -278,8 +277,8 @@ describe('State', function() {
 		state.configState({
 			key1: {
 				validator: 'isPositive',
-				value: 1
-			}
+				value: 1,
+			},
 		});
 
 		state.key1 = -1;
@@ -291,38 +290,34 @@ describe('State', function() {
 
 	it('should validate initial state values', function() {
 		var state = new State({
-			key1: -10
+			key1: -10,
 		});
-		state.configState(
-			{
-				key1: {
-					validator: function(val) {
-						return val > 0;
-					},
-					value: 1
-				}
-			}
-		);
+		state.configState({
+			key1: {
+				validator: function(val) {
+					return val > 0;
+				},
+				value: 1,
+			},
+		});
 
 		assert.strictEqual(1, state.key1);
 	});
 
 	it('should allow accessing other state properties in validator', function() {
 		var state = new State({
-			key1: 1
+			key1: 1,
 		});
-		state.configState(
-			{
-				key1: {
-					validator: function(val) {
-						return val < this.key2;
-					}
+		state.configState({
+			key1: {
+				validator: function(val) {
+					return val < this.key2;
 				},
-				key2: {
-					value: 2
-				}
-			}
-		);
+			},
+			key2: {
+				value: 2,
+			},
+		});
 		assert.strictEqual(1, state.key1);
 
 		state.key1 = 3;
@@ -339,8 +334,8 @@ describe('State', function() {
 				validator: function(val) {
 					return val > 0;
 				},
-				value: -1
-			}
+				value: -1,
+			},
 		});
 
 		assert.strictEqual(-1, state.key1);
@@ -350,15 +345,13 @@ describe('State', function() {
 		var originalConsoleFn = console.error;
 		console.error = sinon.stub();
 		var state = new State();
-		state.configState(
-			{
-				key1: {
-					validator: function(val) {
-						return val;
-					}
-				}
-			}
-		);
+		state.configState({
+			key1: {
+				validator: function(val) {
+					return val;
+				},
+			},
+		});
 
 		state.key1 = 1;
 		assert.ok(!console.error.called);
@@ -372,18 +365,17 @@ describe('State', function() {
 	it('should emit validator error even for "undefined" initial values', function() {
 		var originalConsoleFn = console.error;
 		console.error = sinon.stub();
-		class Test extends State {
-		}
+		class Test extends State {}
 		Test.STATE = {
 			key1: {
 				validator: function() {
 					return new Error();
-				}
-			}
+				},
+			},
 		};
 
 		new Test({
-			key1: undefined
+			key1: undefined,
 		});
 		assert.ok(console.error.called);
 
@@ -397,15 +389,13 @@ describe('State', function() {
 			}
 		}
 		var state = new Test();
-		state.configState(
-			{
-				key1: {
-					validator: function() {
-						return new Error();
-					}
-				}
-			}
-		);
+		state.configState({
+			key1: {
+				validator: function() {
+					return new Error();
+				},
+			},
+		});
 
 		assert.throws(() => state.key1 = 1);
 	});
@@ -417,15 +407,13 @@ describe('State', function() {
 			}
 		}
 		var state = new Test();
-		state.configState(
-			{
-				key1: {
-					validator: function() {
-						return new Error();
-					}
-				}
-			}
-		);
+		state.configState({
+			key1: {
+				validator: function() {
+					return new Error();
+				},
+			},
+		});
 
 		assert.doesNotThrow(() => state.key1 = 1);
 		assert.strictEqual(1, state.key1);
@@ -436,8 +424,8 @@ describe('State', function() {
 		state.configState({
 			key1: {
 				setter: Math.abs,
-				value: -1
-			}
+				value: -1,
+			},
 		});
 
 		assert.strictEqual(1, state.key1);
@@ -455,8 +443,8 @@ describe('State', function() {
 		state.configState({
 			key1: {
 				setter: 'makePositive',
-				value: -1
-			}
+				value: -1,
+			},
 		});
 
 		assert.strictEqual(1, state.key1);
@@ -468,15 +456,17 @@ describe('State', function() {
 		assert.strictEqual(3, state.key1);
 	});
 
-	it('should pass the state key\'s current value to setter', function() {
+	it("should pass the state key's current value to setter", function() {
 		var state = new State();
 		state.configState({
 			key1: {
 				setter: (newValue, currentValue) => {
-					return currentValue ? currentValue + ':' + newValue : newValue;
+					return currentValue
+						? currentValue + ':' + newValue
+						: newValue;
 				},
-				value: 'first'
-			}
+				value: 'first',
+			},
 		});
 
 		assert.strictEqual('first', state.key1);
@@ -490,16 +480,14 @@ describe('State', function() {
 
 	it('should allow setting a writeOnce with initial value', function() {
 		var state = new State({
-			key1: 2
+			key1: 2,
 		});
-		state.configState(
-			{
-				key1: {
-					value: 1,
-					writeOnce: true
-				}
-			}
-		);
+		state.configState({
+			key1: {
+				value: 1,
+				writeOnce: true,
+			},
+		});
 
 		assert.strictEqual(2, state.key1);
 	});
@@ -509,22 +497,21 @@ describe('State', function() {
 		state.configState({
 			key1: {
 				value: 1,
-				writeOnce: true
-			}
+				writeOnce: true,
+			},
 		});
 
 		state.key1 = 2;
 		assert.strictEqual(2, state.key1);
 	});
 
-
 	it('should not allow changing a writeOnce state value after it has been written', function() {
 		var state = new State();
 		state.configState({
 			key1: {
 				value: 1,
-				writeOnce: true
-			}
+				writeOnce: true,
+			},
 		});
 
 		assert.strictEqual(1, state.key1);
@@ -546,39 +533,37 @@ describe('State', function() {
 
 		it('should log error if required property gets no initial value via configState', function() {
 			var state = new State({
-				key2: 'initialValue'
+				key2: 'initialValue',
 			});
 			state.configState({
-				key1: {}
+				key1: {},
 			});
 			assert.strictEqual(0, console.error.callCount);
 
-			state.configState(
-				{
-					key2: {
-						required: true
-					}
-				}
-			);
+			state.configState({
+				key2: {
+					required: true,
+				},
+			});
 			assert.strictEqual(0, console.error.callCount);
 
 			state.configState({
 				key3: {
-					required: true
-				}
+					required: true,
+				},
 			});
 			assert.strictEqual(1, console.error.callCount);
 		});
 
 		it('should log error if required property is set to null or undefined', function() {
 			var state = new State({
-				key: 'initialValue'
+				key: 'initialValue',
 			});
 
 			state.configState({
 				key: {
-					required: true
-				}
+					required: true,
+				},
 			});
 			assert.strictEqual(0, console.error.callCount);
 
@@ -599,30 +584,28 @@ describe('State', function() {
 				}
 			}
 			var state = new Test({
-				key2: 'initialValue'
+				key2: 'initialValue',
 			});
 
 			assert.doesNotThrow(() => {
 				state.configState({
-					key1: {}
+					key1: {},
 				});
 			});
 
 			assert.doesNotThrow(() => {
-				state.configState(
-					{
-						key2: {
-							required: true
-						}
-					}
-				);
+				state.configState({
+					key2: {
+						required: true,
+					},
+				});
 			});
 
 			assert.throws(() => {
 				state.configState({
 					key3: {
-						required: true
-					}
+						required: true,
+					},
 				});
 			});
 		});
@@ -634,14 +617,14 @@ describe('State', function() {
 				}
 			}
 			var state = new Test({
-				key: 'initialValue'
+				key: 'initialValue',
 			});
 
 			assert.doesNotThrow(() => {
 				state.configState({
 					key: {
-						required: true
-					}
+						required: true,
+					},
 				});
 			});
 
@@ -666,8 +649,8 @@ describe('State', function() {
 			}
 			Test.STATE = {
 				key: {
-					required: true
-				}
+					required: true,
+				},
 			};
 
 			assert.throws(() => {
@@ -676,15 +659,15 @@ describe('State', function() {
 		});
 	});
 
-	it('should emit event when a state key\'s value changes', function() {
+	it("should emit event when a state key's value changes", function() {
 		var state = new State({
-			key1: 10
+			key1: 10,
 		});
 		state.configState({
 			key1: {
 				value: 1,
-				writeOnce: true
-			}
+				writeOnce: true,
+			},
 		});
 
 		var listener = sinon.stub();
@@ -699,15 +682,15 @@ describe('State', function() {
 		assert.strictEqual('key1Changed', listener.args[0][1].type);
 	});
 
-	it('should emit stateKeyChanged event when a state key\'s value changes', function() {
+	it("should emit stateKeyChanged event when a state key's value changes", function() {
 		var state = new State({
-			key1: 10
+			key1: 10,
 		});
 		state.configState({
 			key1: {
 				value: 1,
-				writeOnce: true
-			}
+				writeOnce: true,
+			},
 		});
 
 		var listener = sinon.stub();
@@ -722,7 +705,7 @@ describe('State', function() {
 		assert.strictEqual('stateKeyChanged', listener.args[0][1].type);
 	});
 
-	it('should not emit events when state value doesn\'t change', function() {
+	it("should not emit events when state value doesn't change", function() {
 		var state = createStateInstance();
 		var listener = sinon.stub();
 		state.on('key1Changed', listener);
@@ -731,7 +714,7 @@ describe('State', function() {
 		assert.strictEqual(0, listener.callCount);
 	});
 
-	it('should emit events even when state value doesn\'t change if value is an object', function() {
+	it("should emit events even when state value doesn't change if value is an object", function() {
 		var state = createStateInstance();
 		state.key1 = {};
 
@@ -742,7 +725,7 @@ describe('State', function() {
 		assert.strictEqual(1, listener.callCount);
 	});
 
-	it('should emit events even when state value doesn\'t change if value is an array', function() {
+	it("should emit events even when state value doesn't change if value is an array", function() {
 		var state = createStateInstance();
 		state.key1 = [];
 
@@ -753,7 +736,7 @@ describe('State', function() {
 		assert.strictEqual(1, listener.callCount);
 	});
 
-	it('should emit events even when state value doesn\'t change if value is a function', function() {
+	it("should emit events even when state value doesn't change if value is a function", function() {
 		var state = createStateInstance();
 		state.key1 = function() {};
 
@@ -764,7 +747,9 @@ describe('State', function() {
 		assert.strictEqual(1, listener.callCount);
 	});
 
-	it('should emit a batch event with all state changes for the cycle', function(done) {
+	it('should emit a batch event with all state changes for the cycle', function(
+		done,
+	) {
 		var state = createStateInstance();
 
 		state.on('stateChanged', function(data, facade) {
@@ -787,13 +772,13 @@ describe('State', function() {
 
 	it('should pass given event data with change events', function() {
 		var state = new State({
-			key1: 10
+			key1: 10,
 		});
 		state.configState({
-			key1: {}
+			key1: {},
 		});
 		state.setEventData({
-			foo: 'bar'
+			foo: 'bar',
 		});
 
 		var listener = sinon.stub();
@@ -804,13 +789,15 @@ describe('State', function() {
 			foo: 'bar',
 			key: 'key1',
 			newVal: 2,
-			prevVal: 10
+			prevVal: 10,
 		};
 		assert.strictEqual(1, listener.callCount);
 		assert.deepEqual(expected, listener.args[0][0]);
 	});
 
-	it('should call callback function from setState asynchronously after the batch event is triggered', function(done) {
+	it('should call callback function from setState asynchronously after the batch event is triggered', function(
+		done,
+	) {
 		var state = createStateInstance();
 
 		var listener = sinon.stub();
@@ -818,7 +805,7 @@ describe('State', function() {
 
 		var newState = {
 			key1: 12,
-			key2: 21
+			key2: 21,
 		};
 		state.setState(newState, function() {
 			assert.strictEqual(1, listener.callCount);
@@ -851,7 +838,7 @@ describe('State', function() {
 		var state = createStateInstance();
 		state.setState({
 			key1: 10,
-			key2: 20
+			key2: 20,
 		});
 
 		assert.strictEqual(10, state.key1);
@@ -863,20 +850,20 @@ describe('State', function() {
 		state.myVar = 1;
 		state.setState({
 			key1: 10,
-			myVar: 2
+			myVar: 2,
 		});
 
 		assert.strictEqual(10, state.key1);
 		assert.strictEqual(1, state.myVar);
 	});
 
-	it('should check if a state key\'s value has already been set', function() {
+	it("should check if a state key's value has already been set", function() {
 		var state = new State({
-			key1: 1
+			key1: 1,
 		});
 		state.configState({
 			key1: {},
-			key2: {}
+			key2: {},
 		});
 
 		assert.ok(state.hasBeenSet('key1'));
@@ -895,8 +882,8 @@ describe('State', function() {
 				},
 				validator: function(val) {
 					return val > 0;
-				}
-			}
+				},
+			},
 		});
 		var listener = sinon.stub();
 		state.on('key1Changed', listener);
@@ -911,8 +898,7 @@ describe('State', function() {
 
 	describe('Static STATE', function() {
 		function createTestClass() {
-			class Test extends State {
-			}
+			class Test extends State {}
 			return Test;
 		}
 
@@ -920,8 +906,8 @@ describe('State', function() {
 			var Test = createTestClass();
 			Test.STATE = {
 				key1: {
-					value: 1
-				}
+					value: 1,
+				},
 			};
 
 			var test = new Test();
@@ -932,12 +918,12 @@ describe('State', function() {
 			var Test = createTestClass();
 			Test.STATE = {
 				key1: {
-					value: 1
-				}
+					value: 1,
+				},
 			};
 
 			var test = new Test({
-				key1: 2
+				key1: 2,
 			});
 			assert.strictEqual(2, test.key1);
 		});
@@ -946,22 +932,21 @@ describe('State', function() {
 			var Test = createTestClass();
 			Test.STATE = {
 				key1: {
-					value: 1
+					value: 1,
 				},
 				key2: {
-					value: 2
-				}
+					value: 2,
+				},
 			};
 
-			class ChildTest extends Test {
-			}
+			class ChildTest extends Test {}
 			ChildTest.STATE = {
 				key1: {
-					value: -1
+					value: -1,
 				},
 				key3: {
-					value: 3
-				}
+					value: 3,
+				},
 			};
 
 			var child = new ChildTest();
@@ -979,51 +964,52 @@ describe('State', function() {
 			var Test = createTestClass();
 			Test.STATE = {
 				key1: {
-					value: 1
+					value: 1,
 				},
 				key2: {
-					value: 2
-				}
+					value: 2,
+				},
 			};
 
-			class ChildTest extends Test {
-			}
+			class ChildTest extends Test {}
 			ChildTest.STATE = {
 				key1: {
-					value: -1
+					value: -1,
 				},
 				key3: {
-					value: 3
-				}
+					value: 3,
+				},
 			};
 
-			assert.deepEqual({
-				key1: {
-					value: -1
+			assert.deepEqual(
+				{
+					key1: {
+						value: -1,
+					},
+					key2: {
+						value: 2,
+					},
+					key3: {
+						value: 3,
+					},
 				},
-				key2: {
-					value: 2
-				},
-				key3: {
-					value: 3
-				}
-			}, State.getStateStatic(ChildTest));
+				State.getStateStatic(ChildTest),
+			);
 		});
 
 		it('should conflict STATE properties from instance with previous instances', function() {
 			var Test = createTestClass();
 			Test.STATE = {
-				key1: {
-				}
+				key1: {},
 			};
 
 			var test1 = new Test({
-				key1: 'foo1'
+				key1: 'foo1',
 			});
 			assert.strictEqual('foo1', test1.key1);
 
 			var test2 = new Test({
-				key1: 'foo2'
+				key1: 'foo2',
 			});
 			assert.strictEqual('foo2', test2.key1);
 			assert.strictEqual('foo1', test1.key1);
@@ -1036,7 +1022,7 @@ describe('State', function() {
 			var state = new State({}, obj);
 			state.configState({
 				key1: {},
-				key2: {}
+				key2: {},
 			});
 
 			var keys = Object.keys(obj);
@@ -1045,12 +1031,11 @@ describe('State', function() {
 		});
 
 		it('should add state properties from STATE static variable to object under given name', function() {
-			class Test extends State {
-			}
+			class Test extends State {}
 			Test.STATE = {
 				key1: {
-					value: 1
-				}
+					value: 1,
+				},
 			};
 
 			var obj = {};
@@ -1068,29 +1053,26 @@ describe('State', function() {
 			Test.STATE = {
 				key1: {
 					setter: 'setFn',
-					value: 1
-				}
+					value: 1,
+				},
 			};
 
 			var obj = {
 				setFn(val) {
 					return 'obj:' + val;
-				}
+				},
 			};
 			new Test({}, obj, obj);
 			assert.strictEqual('obj:1', obj.key1);
 		});
 
 		it('should use given context object when emitting change events', function() {
-			class Test extends State {
-			}
+			class Test extends State {}
 			Test.STATE = {
-				key1: {
-				}
+				key1: {},
 			};
 
-			class Test2 extends EventEmitter {
-			}
+			class Test2 extends EventEmitter {}
 			const obj = new Test2();
 			const listener = sinon.stub();
 			obj.on('key1Changed', listener);
@@ -1104,27 +1086,30 @@ describe('State', function() {
 			const expected = {
 				key: 'key1',
 				newVal: 2,
-				prevVal: undefined
+				prevVal: undefined,
 			};
 			assert.deepEqual(expected, listener.args[0][0]);
 		});
 
 		it('should pass given context object when calling validator', function() {
 			var validator = sinon.stub().returns(true);
-			class Test extends State {
-			}
+			class Test extends State {}
 			Test.STATE = {
 				key1: {
-					validator
-				}
+					validator,
+				},
 			};
 
 			var obj = {};
 			var context = {};
 			var key1 = 1;
-			new Test({
-				key1
-			}, obj, context);
+			new Test(
+				{
+					key1,
+				},
+				obj,
+				context,
+			);
 			assert.strictEqual(1, obj.key1);
 			assert.strictEqual(1, validator.callCount);
 			assert.strictEqual(1, validator.args[0][0]);
@@ -1138,7 +1123,7 @@ describe('State', function() {
 
 			state.configState({
 				key1: {},
-				key2: {}
+				key2: {},
 			});
 			state.removeStateKey('key1');
 
@@ -1152,7 +1137,7 @@ describe('State', function() {
 			var state = new State({}, obj);
 			state.configState({
 				key1: {},
-				key2: {}
+				key2: {},
 			});
 
 			assert.deepEqual(obj, state.getState());
@@ -1164,7 +1149,7 @@ describe('State', function() {
 			var state = new State({}, obj);
 			state.configState({
 				key1: {},
-				key2: {}
+				key2: {},
 			});
 
 			var listener = sinon.stub();
@@ -1195,7 +1180,9 @@ describe('State', function() {
 			console.warn = originalWarnFn;
 		});
 
-		it('should not throw error when trying to emit scheduled stateChanged after disposed', function(done) {
+		it('should not throw error when trying to emit scheduled stateChanged after disposed', function(
+			done,
+		) {
 			var state = createStateInstance();
 
 			state.key1 = 10;
@@ -1224,7 +1211,7 @@ describe('State', function() {
 			state.dispose();
 			assert.doesNotThrow(() => {
 				state.setState({
-					key1: 'new'
+					key1: 'new',
 				});
 			});
 			assert.strictEqual(1, console.warn.callCount);
@@ -1248,11 +1235,11 @@ function createStateInstance() {
 	var state = new State();
 	state.configState({
 		key1: {
-			value: 1
+			value: 1,
 		},
 		key2: {
-			value: 2
-		}
+			value: 2,
+		},
 	});
 
 	return state;

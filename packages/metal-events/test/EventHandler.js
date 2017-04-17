@@ -13,7 +13,7 @@ describe('EventHandler', function() {
 
 		handler.add(
 			emitter1.on('event1', listener1),
-			emitter2.on('event2', listener2)
+			emitter2.on('event2', listener2),
 		);
 
 		emitter1.on('event2', listener1);

@@ -1,6 +1,6 @@
 'use strict';
 
-import { getFunctionName, isFunction, isObject, isString } from 'metal';
+import {getFunctionName, isFunction, isObject, isString} from 'metal';
 
 /**
  * Adds the listeners specified in the given object.
@@ -16,7 +16,11 @@ export function addListenersFromObj(component, events) {
 		if (info.fn) {
 			let handle;
 			if (info.selector) {
-				handle = component.delegate(eventNames[i], info.selector, info.fn);
+				handle = component.delegate(
+					eventNames[i],
+					info.selector,
+					info.fn,
+				);
 			} else {
 				handle = component.on(eventNames[i], info.fn);
 			}
@@ -36,7 +40,7 @@ export function addListenersFromObj(component, events) {
  */
 function extractListenerInfo_(component, value) {
 	const info = {
-		fn: value
+		fn: value,
 	};
 	if (isObject(value) && !isFunction(value)) {
 		info.selector = value.selector;
@@ -58,9 +62,10 @@ export function getComponentFn(component, fnName) {
 	if (isFunction(component[fnName])) {
 		return component[fnName].bind(component);
 	} else {
-		console.error(`No function named ${fnName} was found in the component
+		console.error(
+			`No function named ${fnName} was found in the component
 			"${getFunctionName(component.constructor)}". Make sure that you specify
-			valid function names when adding inline listeners`
+			valid function names when adding inline listeners`,
 		);
 	}
 }

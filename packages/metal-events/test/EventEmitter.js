@@ -156,7 +156,10 @@ describe('EventEmitter', function() {
 		this.emitter.on('anotherEvent', listener2);
 		this.emitter.on('event', listener3, true);
 
-		assert.deepEqual([listener1, listener3], this.emitter.listeners('event'));
+		assert.deepEqual(
+			[listener1, listener3],
+			this.emitter.listeners('event'),
+		);
 		assert.deepEqual([listener2], this.emitter.listeners('anotherEvent'));
 		assert.deepEqual([], this.emitter.listeners('noListeners'));
 	});
@@ -331,9 +334,11 @@ describe('EventEmitter', function() {
 
 	it('should not throw error when detaching event type that was never used before', function() {
 		var listener = sinon.stub();
-		assert.doesNotThrow(function() {
-			this.emitter.off('event', listener);
-		}.bind(this));
+		assert.doesNotThrow(
+			function() {
+				this.emitter.off('event', listener);
+			}.bind(this),
+		);
 	});
 
 	it('should remove all listeners', function() {
@@ -425,8 +430,8 @@ describe('EventEmitter', function() {
 			sinon.match({
 				preventDefault: sinon.match.func,
 				target: this.emitter,
-				type: 'event'
-			})
+				type: 'event',
+			}),
 		);
 	});
 

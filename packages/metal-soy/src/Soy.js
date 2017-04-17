@@ -1,9 +1,9 @@
 'use strict';
 
 import 'metal-soy-bundle';
-import { ComponentRegistry } from 'metal-component';
-import { isFunction, isObject, isString, object } from 'metal';
-import { validators, Config } from 'metal-state';
+import {ComponentRegistry} from 'metal-component';
+import {isFunction, isObject, isString, object} from 'metal';
+import {validators, Config} from 'metal-state';
 import HTML2IncDom from 'html2incdom';
 import IncrementalDomRenderer from 'metal-incremental-dom';
 import SoyAop from './SoyAop';
@@ -83,10 +83,14 @@ class Soy extends IncrementalDomRenderer.constructor {
 		return function(opt_data, opt_ignored, opt_ijData) {
 			if (!goog.loadedModules_[namespace]) {
 				throw new Error(
-					`No template with namespace "${namespace}" has been loaded yet.`
+					`No template with namespace "${namespace}" has been loaded yet.`,
 				);
 			}
-			return goog.loadedModules_[namespace][templateName](opt_data, opt_ignored, opt_ijData);
+			return goog.loadedModules_[namespace][templateName](
+				opt_data,
+				opt_ignored,
+				opt_ijData,
+			);
 		};
 	}
 
@@ -119,7 +123,9 @@ class Soy extends IncrementalDomRenderer.constructor {
 			return true;
 		}
 
-		const elementTemplate = SoyAop.getOriginalFn(component.constructor.TEMPLATE);
+		const elementTemplate = SoyAop.getOriginalFn(
+			component.constructor.TEMPLATE,
+		);
 		const type = (elementTemplate.types || {})[name] || '';
 		return type.split('|').indexOf('html') !== -1;
 	}
@@ -150,10 +156,16 @@ class Soy extends IncrementalDomRenderer.constructor {
 	 */
 	renderIncDom(component) {
 		let elementTemplate = component.constructor.TEMPLATE;
+		console.log('rendering ' + component + ' to IncDOM');
 		if (isFunction(elementTemplate) && !component.render) {
 			elementTemplate = SoyAop.getOriginalFn(elementTemplate);
 			SoyAop.startInterception(this.handleInterceptedCall_);
-			const data = this.buildTemplateData_(component, elementTemplate.params || []);
+			const data = this.buildTemplateData_(
+				component,
+				elementTemplate.params || [],
+			);
+			console.log('ijData is:');
+			console.log(ijData);
 			elementTemplate(data, null, ijData);
 			SoyAop.stopInterception();
 		} else {
@@ -166,7 +178,11 @@ class Soy extends IncrementalDomRenderer.constructor {
 	 * @param {Object} data
 	 */
 	setInjectedData(data) {
+		console.log('ijData_pre');
+		console.log(ijData);
 		ijData = data || {};
+		console.log('ijData_post');
+		console.log(ijData);
 	}
 
 	/**
@@ -209,7 +225,11 @@ class Soy extends IncrementalDomRenderer.constructor {
 	 * @return {!function()}
 	 */
 	toIncDom(value) {
-		if (isObject(value) && isString(value.content) && (value.contentKind === 'HTML')) {
+		if (
+			isObject(value) &&
+			isString(value.content) &&
+			value.contentKind === 'HTML'
+		) {
 			value = value.content;
 		}
 		if (isString(value)) {
@@ -223,9 +243,4 @@ const soyRenderer_ = new Soy();
 soyRenderer_.RENDERER_NAME = 'soy';
 
 export default soyRenderer_;
-export {
-	Config,
-	soyRenderer_ as Soy,
-	SoyAop,
-	validators
-};
+export {Config, soyRenderer_ as Soy, SoyAop, validators};

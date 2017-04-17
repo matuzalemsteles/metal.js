@@ -1,6 +1,6 @@
 'use strict';
 
-import { object } from 'metal';
+import {object} from 'metal';
 import State from 'metal-state';
 
 const BLACKLIST = {
@@ -10,7 +10,7 @@ const BLACKLIST = {
 	refs: true,
 	state: true,
 	stateKey: true,
-	wasRendered: true
+	wasRendered: true,
 };
 const DATA_MANAGER_DATA = '__DATA_MANAGER_DATA__';
 
@@ -22,10 +22,14 @@ class ComponentDataManager {
 	 * @protected
 	 */
 	createState_(component, data) {
-		const state = new State(component.getInitialConfig(), component, component);
+		const state = new State(
+			component.getInitialConfig(),
+			component,
+			component,
+		);
 		state.setKeysBlacklist(BLACKLIST);
 		state.configState(
-			object.mixin({}, data, State.getStateStatic(component.constructor))
+			object.mixin({}, data, State.getStateStatic(component.constructor)),
 		);
 		this.getManagerData(component).state_ = state;
 	}

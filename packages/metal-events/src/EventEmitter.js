@@ -1,6 +1,6 @@
 'use strict';
 
-import { array, Disposable, isFunction, isString } from 'metal';
+import {array, Disposable, isFunction, isString} from 'metal';
 import EventHandle from './EventHandle';
 
 const singleArray_ = [0];
@@ -97,7 +97,7 @@ class EventEmitter extends Disposable {
 			listener = {
 				default: opt_default,
 				fn: listener,
-				origin: opt_origin
+				origin: opt_origin,
 			};
 		}
 		this.events_ = this.events_ || {};
@@ -117,7 +117,7 @@ class EventEmitter extends Disposable {
 					facade.preventedDefault = true;
 				},
 				target: this,
-				type: event
+				type: event,
 			};
 			return facade;
 		}
@@ -156,7 +156,9 @@ class EventEmitter extends Disposable {
 	 */
 	getRawListeners_(event) {
 		const directListeners = toArray(this.events_ && this.events_[event]);
-		return directListeners.concat(toArray(this.events_ && this.events_['*']));
+		return directListeners.concat(
+			toArray(this.events_ && this.events_['*']),
+		);
 	}
 
 	/**
@@ -176,7 +178,7 @@ class EventEmitter extends Disposable {
 	 */
 	listeners(event) {
 		return this.getRawListeners_(event).map(
-			listener => listener.fn ? listener.fn : listener
+			listener => (listener.fn ? listener.fn : listener),
 		);
 	}
 
@@ -236,8 +238,10 @@ class EventEmitter extends Disposable {
 	 */
 	matchesListener_(listenerObj, listener) {
 		const fn = listenerObj.fn || listenerObj;
-		return fn === listener ||
-			(listenerObj.origin && listenerObj.origin === listener);
+		return (
+			fn === listener ||
+			(listenerObj.origin && listenerObj.origin === listener)
+		);
 	}
 
 	/**
@@ -257,7 +261,7 @@ class EventEmitter extends Disposable {
 		for (let i = 0; i < events.length; i++) {
 			this.events_[events[i]] = this.removeMatchingListenerObjs_(
 				toArray(this.events_[events[i]]),
-				listener
+				listener,
 			);
 		}
 
@@ -280,7 +284,10 @@ class EventEmitter extends Disposable {
 	 * @param {!function()}
 	 */
 	onListener(handler) {
-		this.listenerHandlers_ = this.addHandler_(this.listenerHandlers_, handler);
+		this.listenerHandlers_ = this.addHandler_(
+			this.listenerHandlers_,
+			handler,
+		);
 	}
 
 	/**

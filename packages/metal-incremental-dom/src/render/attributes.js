@@ -1,9 +1,9 @@
 'use strict';
 
-import { delegate } from 'metal-dom';
-import { getComponentFn } from 'metal-component';
-import { getOriginalFn } from '../intercept';
-import { isBoolean, isDefAndNotNull, isString } from 'metal';
+import {delegate} from 'metal-dom';
+import {getComponentFn} from 'metal-component';
+import {getOriginalFn} from '../intercept';
+import {isBoolean, isDefAndNotNull, isString} from 'metal';
 
 const HANDLE_SUFFIX = '__handle__';
 const LISTENER_REGEX = /^(?:on([A-Z].+))|(?:data-on(.+))$/;
@@ -130,7 +130,7 @@ function fixCheckedAttr_(name, value) {
  */
 function getEventFromListenerAttr_(attr) {
 	const matches = LISTENER_REGEX.exec(attr);
-	const eventName = matches ? (matches[1] ? matches[1] : matches[2]) : null;
+	const eventName = matches ? matches[1] ? matches[1] : matches[2] : null;
 	return eventName ? eventName.toLowerCase() : null;
 }
 

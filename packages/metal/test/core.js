@@ -14,13 +14,20 @@ describe('core', function() {
 		});
 
 		it('should not use same uid for both an object and the one it inherits from', function() {
-			class Class1 {
-			}
-			class Class2 extends Class1 {
-			}
-			assert.strictEqual(core.getUid(Class1, true), core.getUid(Class1, true));
-			assert.strictEqual(core.getUid(Class2, true), core.getUid(Class2, true));
-			assert.notStrictEqual(core.getUid(Class1, true), core.getUid(Class2, true));
+			class Class1 {}
+			class Class2 extends Class1 {}
+			assert.strictEqual(
+				core.getUid(Class1, true),
+				core.getUid(Class1, true),
+			);
+			assert.strictEqual(
+				core.getUid(Class2, true),
+				core.getUid(Class2, true),
+			);
+			assert.notStrictEqual(
+				core.getUid(Class1, true),
+				core.getUid(Class2, true),
+			);
 		});
 	});
 
@@ -34,15 +41,11 @@ describe('core', function() {
 
 	describe('getStaticProperty', function() {
 		it('should get inherited static properties from super classes', function() {
-			class Test1 {
-			}
-			class Test2 extends Test1 {
-			}
+			class Test1 {}
+			class Test2 extends Test1 {}
 			Test2.FOO = 1;
-			class Test3 extends Test2 {
-			}
-			class Test4 extends Test2 {
-			}
+			class Test3 extends Test2 {}
+			class Test4 extends Test2 {}
 			Test4.FOO = 2;
 
 			assert.equal(undefined, core.getStaticProperty(Test1, 'FOO'));
@@ -52,11 +55,9 @@ describe('core', function() {
 		});
 
 		it('should set property with suffix "MERGED" with merged value', function() {
-			class Test1 {
-			}
+			class Test1 {}
 			Test1.FOO = 1;
-			class Test2 extends Test1 {
-			}
+			class Test2 extends Test1 {}
 
 			assert.ok(!Test1.hasOwnProperty('FOO_MERGED'));
 			assert.ok(!Test2.hasOwnProperty('FOO_MERGED'));
@@ -67,14 +68,11 @@ describe('core', function() {
 		});
 
 		it('should call merge function when given', function() {
-			class Test1 {
-			}
+			class Test1 {}
 			Test1.FOO = 1;
-			class Test2 extends Test1 {
-			}
+			class Test2 extends Test1 {}
 			Test2.FOO = 2;
-			class Test3 extends Test2 {
-			}
+			class Test3 extends Test2 {}
 			Test3.FOO = 3;
 
 			var prop = core.getStaticProperty(Test3, 'FOO', (a, b) => a + b);
@@ -82,14 +80,11 @@ describe('core', function() {
 		});
 
 		it('should not recalculate static property after set for the first time', function() {
-			class Test1 {
-			}
+			class Test1 {}
 			Test1.FOO = 1;
-			class Test2 extends Test1 {
-			}
+			class Test2 extends Test1 {}
 			Test2.FOO = 2;
-			class Test3 extends Test2 {
-			}
+			class Test3 extends Test2 {}
 			Test3.FOO = 3;
 
 			const mergeFn = sinon.stub().returns(1);
@@ -106,7 +101,7 @@ describe('core', function() {
 			assert.strictEqual(1, core.identityFunction(1));
 
 			var obj = {
-				a: 2
+				a: 2,
 			};
 			assert.strictEqual(obj, core.identityFunction(obj));
 		});
@@ -154,9 +149,11 @@ describe('core', function() {
 			assert.ok(!core.isPromise(null));
 			assert.ok(!core.isPromise(undefined));
 
-			assert.ok(core.isPromise({
-				then: core.nullFunction
-			}));
+			assert.ok(
+				core.isPromise({
+					then: core.nullFunction,
+				}),
+			);
 		});
 
 		it('should check if var is string', function() {
@@ -187,27 +184,33 @@ describe('core', function() {
 		});
 
 		it('should check if var is element', function() {
-			assert.ok(core.isElement({
-				nodeType: 1
-			}));
+			assert.ok(
+				core.isElement({
+					nodeType: 1,
+				}),
+			);
 			assert.ok(!core.isElement({}));
 			assert.ok(!core.isElement(null));
 			assert.ok(!core.isElement(true));
 		});
 
 		it('should check if var is document', function() {
-			assert.ok(core.isDocument({
-				nodeType: 9
-			}));
-			assert.ok(!core.isDocument({
-					nodeType: 1
-				}));
+			assert.ok(
+				core.isDocument({
+					nodeType: 9,
+				}),
+			);
+			assert.ok(
+				!core.isDocument({
+					nodeType: 1,
+				}),
+			);
 			assert.ok(!core.isDocument({}));
 			assert.ok(!core.isDocument(null));
 			assert.ok(!core.isDocument(true));
 		});
 
-		it('should check if var is document fragment', function () {
+		it('should check if var is document fragment', function() {
 			assert.ok(!core.isDocumentFragment(null));
 			assert.ok(!core.isDocumentFragment({nodeType: 0}));
 			assert.ok(!core.isDocumentFragment({nodeType: 9}));
@@ -220,12 +223,16 @@ describe('core', function() {
 				return;
 			}
 
-			assert.ok(!core.isWindow({
-					nodeType: 9
-				}));
-			assert.ok(!core.isWindow({
-					nodeType: 1
-				}));
+			assert.ok(
+				!core.isWindow({
+					nodeType: 9,
+				}),
+			);
+			assert.ok(
+				!core.isWindow({
+					nodeType: 1,
+				}),
+			);
 			assert.ok(core.isWindow(window));
 			assert.ok(!core.isWindow(null));
 			assert.ok(!core.isWindow(true));
@@ -264,8 +271,7 @@ describe('core', function() {
 
 	describe('getFunctionName', function() {
 		it('should return the name of the given function', function() {
-			function myFunction() {
-			}
+			function myFunction() {}
 			assert.strictEqual('myFunction', core.getFunctionName(myFunction));
 		});
 	});

@@ -1,7 +1,7 @@
 'use strict';
 
-import { async } from 'metal';
-import { exitDocument, once } from './dom';
+import {async} from 'metal';
+import {exitDocument, once} from './dom';
 
 /**
  * Utility functions for running javascript code in the global scope.
@@ -92,7 +92,12 @@ class globalEval {
 	static runScriptsInElement(element, opt_callback, opt_appendFn) {
 		const scripts = element.querySelectorAll('script');
 		if (scripts.length) {
-			globalEval.runScriptsInOrder(scripts, 0, opt_callback, opt_appendFn);
+			globalEval.runScriptsInOrder(
+				scripts,
+				0,
+				opt_callback,
+				opt_appendFn,
+			);
 		} else if (opt_callback) {
 			async.nextTick(opt_callback);
 		}
@@ -108,13 +113,22 @@ class globalEval {
 	 *   into document.
 	 */
 	static runScriptsInOrder(scripts, index, opt_callback, opt_appendFn) {
-		globalEval.runScript(scripts.item(index), function() {
-			if (index < scripts.length - 1) {
-				globalEval.runScriptsInOrder(scripts, index + 1, opt_callback, opt_appendFn);
-			} else if (opt_callback) {
-				async.nextTick(opt_callback);
-			}
-		}, opt_appendFn);
+		globalEval.runScript(
+			scripts.item(index),
+			function() {
+				if (index < scripts.length - 1) {
+					globalEval.runScriptsInOrder(
+						scripts,
+						index + 1,
+						opt_callback,
+						opt_appendFn,
+					);
+				} else if (opt_callback) {
+					async.nextTick(opt_callback);
+				}
+			},
+			opt_appendFn,
+		);
 	}
 }
 

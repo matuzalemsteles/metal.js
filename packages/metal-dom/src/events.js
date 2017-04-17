@@ -1,13 +1,13 @@
 'use strict';
 
-import { registerCustomEvent, contains } from './dom';
+import {registerCustomEvent, contains} from './dom';
 import features from './features';
 
 const mouseEventMap = {
 	mouseenter: 'mouseover',
 	mouseleave: 'mouseout',
 	pointerenter: 'pointerover',
-	pointerleave: 'pointerout'
+	pointerleave: 'pointerout',
 };
 Object.keys(mouseEventMap).forEach(function(eventName) {
 	registerCustomEvent(eventName, {
@@ -15,18 +15,20 @@ Object.keys(mouseEventMap).forEach(function(eventName) {
 		handler: function(callback, event) {
 			const related = event.relatedTarget;
 			const target = event.delegateTarget;
-			if (!related || (related !== target && !contains(target, related))) {
+			if (
+				!related || (related !== target && !contains(target, related))
+			) {
 				event.customType = eventName;
 				return callback(event);
 			}
 		},
-		originalEvent: mouseEventMap[eventName]
+		originalEvent: mouseEventMap[eventName],
 	});
 });
 
 const animationEventMap = {
 	animation: 'animationend',
-	transition: 'transitionend'
+	transition: 'transitionend',
 };
 Object.keys(animationEventMap).forEach(function(eventType) {
 	const eventName = animationEventMap[eventType];
@@ -37,6 +39,6 @@ Object.keys(animationEventMap).forEach(function(eventType) {
 			event.customType = eventName;
 			return callback(event);
 		},
-		originalEvent: features.checkAnimationEventName()[eventType]
+		originalEvent: features.checkAnimationEventName()[eventType],
 	});
 });

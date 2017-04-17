@@ -55,7 +55,7 @@ const originalFns = {
 	elementOpenEnd: IncrementalDOM.elementOpenEnd,
 	elementOpenStart: IncrementalDOM.elementOpenStart,
 	elementVoid: IncrementalDOM.elementVoid,
-	text: IncrementalDOM.text
+	text: IncrementalDOM.text,
 };
 
 const fnStack = [];
@@ -85,7 +85,7 @@ function getStack() {
 
 function buildHandleCall(name) {
 	const data = {
-		name
+		name,
 	};
 	const fn = handleCall.bind(data);
 	return fn;
@@ -107,5 +107,5 @@ IncrementalDOM.elementVoid = buildHandleCall('elementVoid');
 IncrementalDOM.text = buildHandleCall('text');
 
 IncrementalDOM.attributes[IncrementalDOM.symbols.default] = buildHandleCall(
-	'attributes'
+	'attributes',
 );

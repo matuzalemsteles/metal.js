@@ -59,7 +59,7 @@ describe('JSXRenderer', function() {
 							<span>Children Test 3</span>
 						</ChildComponent>
 					</div>
-					);
+				);
 			}
 		}
 
@@ -70,7 +70,9 @@ describe('JSXRenderer', function() {
 		assert.strictEqual('Children Test 2', child.element.textContent);
 	});
 
-	it('should reuse child empty component when it renders content for the first time', function(done) {
+	it('should reuse child empty component when it renders content for the first time', function(
+		done,
+	) {
 		class Wrapper extends TestJSXComponent {
 			render() {
 				return this.props.children;
@@ -88,24 +90,25 @@ describe('JSXRenderer', function() {
 			}
 		}
 		Child.STATE = {
-			show: {
-			}
+			show: {},
 		};
 
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <Wrapper>
-					<div class="root">
-						<Child />
-					</div>
-				</Wrapper>;
+				return (
+					<Wrapper>
+						<div class="root">
+							<Child />
+						</div>
+					</Wrapper>
+				);
 			}
 		}
 
 		const element = document.createElement('div');
 		dom.enterDocument(element);
 		component = new TestComponent({
-			element
+			element,
 		});
 		assert.strictEqual(1, childInstances.length);
 		const child = childInstances[0];
@@ -120,7 +123,9 @@ describe('JSXRenderer', function() {
 		});
 	});
 
-	it('should reuse child empty component when its parent makes it render content for the first time', function(done) {
+	it('should reuse child empty component when its parent makes it render content for the first time', function(
+		done,
+	) {
 		class Wrapper extends TestJSXComponent {
 			render() {
 				return this.props.children;
@@ -140,22 +145,23 @@ describe('JSXRenderer', function() {
 
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <Wrapper>
-					<div class="root">
-						<Child show={this.state.show} />
-					</div>
-				</Wrapper>;
+				return (
+					<Wrapper>
+						<div class="root">
+							<Child show={this.state.show} />
+						</div>
+					</Wrapper>
+				);
 			}
 		}
 		TestComponent.STATE = {
-			show: {
-			}
+			show: {},
 		};
 
 		const element = document.createElement('div');
 		dom.enterDocument(element);
 		component = new TestComponent({
-			element
+			element,
 		});
 		assert.strictEqual(1, childInstances.length);
 		const child = childInstances[0];
@@ -178,8 +184,8 @@ describe('JSXRenderer', function() {
 		}
 		TestComponent.PROPS = {
 			foo: {
-				value: 'defaultFoo'
-			}
+				value: 'defaultFoo',
+			},
 		};
 
 		component = new TestComponent();
@@ -200,8 +206,8 @@ describe('JSXRenderer', function() {
 		}
 		TestComponent.STATE = {
 			foo: {
-				value: 'defaultFoo'
-			}
+				value: 'defaultFoo',
+			},
 		};
 
 		component = new TestComponent();
@@ -214,17 +220,17 @@ describe('JSXRenderer', function() {
 		});
 	});
 
-	it('should pass both state and prop changes to shouldUpdate', function(done) {
+	it('should pass both state and prop changes to shouldUpdate', function(
+		done,
+	) {
 		class TestComponent extends TestJSXComponent {
 			shouldUpdate() {}
 		}
 		TestComponent.PROPS = {
-			bar: {
-			}
+			bar: {},
 		};
 		TestComponent.STATE = {
-			foo: {
-			}
+			foo: {},
 		};
 
 		component = new TestComponent();
@@ -248,7 +254,9 @@ describe('JSXRenderer', function() {
 		});
 	});
 
-	it('should reuse elements correctly when child skips update', function(done) {
+	it('should reuse elements correctly when child skips update', function(
+		done,
+	) {
 		class ChildComponent extends TestJSXComponent {
 			render() {
 				return <span>Child</span>;
@@ -261,15 +269,16 @@ describe('JSXRenderer', function() {
 
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <div>
-					<ChildComponent />
-					<span>{this.state.foo}</span>
-				</div>;
+				return (
+					<div>
+						<ChildComponent />
+						<span>{this.state.foo}</span>
+					</div>
+				);
 			}
 		}
 		TestComponent.STATE = {
-			foo: {
-			}
+			foo: {},
 		};
 
 		component = new TestComponent();
@@ -286,27 +295,30 @@ describe('JSXRenderer', function() {
 		});
 	});
 
-	it('should reuse component rendered after a conditionally rendered component', function(done) {
+	it('should reuse component rendered after a conditionally rendered component', function(
+		done,
+	) {
 		class ChildComponent extends TestJSXComponent {
 			render() {
 				return <span>Child</span>;
 			}
 		}
 
-		class ChildComponent2 extends ChildComponent {
-		}
+		class ChildComponent2 extends ChildComponent {}
 
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <div>
-					{!this.props.hide && <div class="child1"><ChildComponent /></div>}
-					<div class="child1"><ChildComponent2 /></div>
-				</div>;
+				return (
+					<div>
+						{!this.props.hide &&
+							<div class="child1"><ChildComponent /></div>}
+						<div class="child1"><ChildComponent2 /></div>
+					</div>
+				);
 			}
 		}
 		TestComponent.PROPS = {
-			hide: {
-			}
+			hide: {},
 		};
 
 		class ParentComponent extends TestJSXComponent {
@@ -340,15 +352,16 @@ describe('JSXRenderer', function() {
 	it('should reuse elements with keys after moving around', function(done) {
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <div>
-					<span key={this.props.switch ? 'node2' : 'node1'} />
-					<span key={this.props.switch ? 'node1' : 'node2'} />
-				</div>;
+				return (
+					<div>
+						<span key={this.props.switch ? 'node2' : 'node1'} />
+						<span key={this.props.switch ? 'node1' : 'node2'} />
+					</div>
+				);
 			}
 		}
 		TestComponent.PROPS = {
-			switch: {
-			}
+			switch: {},
 		};
 
 		component = new TestComponent();
@@ -376,15 +389,20 @@ describe('JSXRenderer', function() {
 
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <div>
-					<ChildComponent key={this.props.switch ? 'child2' : 'child1'} />
-					<ChildComponent key={this.props.switch ? 'child1' : 'child2'} />
-				</div>;
+				return (
+					<div>
+						<ChildComponent
+							key={this.props.switch ? 'child2' : 'child1'}
+						/>
+						<ChildComponent
+							key={this.props.switch ? 'child1' : 'child2'}
+						/>
+					</div>
+				);
 			}
 		}
 		TestComponent.PROPS = {
-			switch: {
-			}
+			switch: {},
 		};
 
 		component = new TestComponent();
@@ -405,7 +423,9 @@ describe('JSXRenderer', function() {
 		});
 	});
 
-	it('should rerender sub component correctly after an update', function(done) {
+	it('should rerender sub component correctly after an update', function(
+		done,
+	) {
 		class ChildComponent extends TestJSXComponent {
 			render() {
 				return <div>{this.props.foo}</div>;
@@ -413,16 +433,18 @@ describe('JSXRenderer', function() {
 		}
 		ChildComponent.PROPS = {
 			foo: {
-				value: 'initialFoo'
-			}
+				value: 'initialFoo',
+			},
 		};
 
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <div>
-					<div>Test</div>
-					<ChildComponent ref="child" />
-				</div>;
+				return (
+					<div>
+						<div>Test</div>
+						<ChildComponent ref="child" />
+					</div>
+				);
 			}
 		}
 
@@ -430,8 +452,14 @@ describe('JSXRenderer', function() {
 
 		component.components.child.props.foo = 'newFoo';
 		component.components.child.once('stateSynced', function() {
-			assert.strictEqual('Test', component.element.childNodes[0].textContent);
-			assert.strictEqual('newFoo', component.element.childNodes[1].textContent);
+			assert.strictEqual(
+				'Test',
+				component.element.childNodes[0].textContent,
+			);
+			assert.strictEqual(
+				'newFoo',
+				component.element.childNodes[1].textContent,
+			);
 			done();
 		});
 	});
@@ -444,8 +472,8 @@ describe('JSXRenderer', function() {
 		}
 		ChildComponent.PROPS = {
 			foo: {
-				value: 'initialFoo'
-			}
+				value: 'initialFoo',
+			},
 		};
 
 		class TestComponent extends TestJSXComponent {
@@ -465,7 +493,9 @@ describe('JSXRenderer', function() {
 		});
 	});
 
-	it('should reuse elements correctly after update from previously empty child', function(done) {
+	it('should reuse elements correctly after update from previously empty child', function(
+		done,
+	) {
 		let child;
 		class ChildComponent extends TestJSXComponent {
 			created() {
@@ -478,16 +508,18 @@ describe('JSXRenderer', function() {
 		}
 		ChildComponent.STATE = {
 			first: {
-				value: true
-			}
+				value: true,
+			},
 		};
 
 		class TestComponent extends TestJSXComponent {
 			render() {
-				return <div>
-					<div>First child element</div>
-					<ChildComponent />
-				</div>;
+				return (
+					<div>
+						<div>First child element</div>
+						<ChildComponent />
+					</div>
+				);
 			}
 		}
 

@@ -1,6 +1,5 @@
 goog.provide('goog.string');
 
-
 /**
  * Does simple python-style string substitution.
  * subs("foo%s hot%s", "bar", "dog") becomes "foobar hotdog".
@@ -10,18 +9,20 @@ goog.provide('goog.string');
  *     {@code %s} has been replaced an argument from {@code var_args}.
  */
 goog.string.subs = function(str, var_args) {
-  var splitParts = str.split('%s');
-  var returnString = '';
+	var splitParts = str.split('%s');
+	var returnString = '';
 
-  var subsArguments = Array.prototype.slice.call(arguments, 1);
-  while (subsArguments.length &&
-         // Replace up to the last split part. We are inserting in the
-         // positions between split parts.
-         splitParts.length > 1) {
-    returnString += splitParts.shift() + subsArguments.shift();
-  }
+	var subsArguments = Array.prototype.slice.call(arguments, 1);
+	while (
+		subsArguments.length &&
+		// Replace up to the last split part. We are inserting in the
+		// positions between split parts.
+		splitParts.length > 1
+	) {
+		returnString += splitParts.shift() + subsArguments.shift();
+	}
 
-  return returnString + splitParts.join('%s');  // Join unused '%s'
+	return returnString + splitParts.join('%s'); // Join unused '%s'
 };
 
 /**
@@ -31,14 +32,12 @@ goog.string.subs = function(str, var_args) {
  */
 goog.string.AMP_RE_ = /&/g;
 
-
 /**
  * Regular expression that matches a less than sign, for use in escaping.
  * @const {!RegExp}
  * @private
  */
 goog.string.LT_RE_ = /</g;
-
 
 /**
  * Regular expression that matches a greater than sign, for use in escaping.
@@ -47,14 +46,12 @@ goog.string.LT_RE_ = /</g;
  */
 goog.string.GT_RE_ = />/g;
 
-
 /**
  * Regular expression that matches a double quote, for use in escaping.
  * @const {!RegExp}
  * @private
  */
 goog.string.QUOT_RE_ = /"/g;
-
 
 /**
  * Regular expression that matches a single quote, for use in escaping.
@@ -63,14 +60,12 @@ goog.string.QUOT_RE_ = /"/g;
  */
 goog.string.SINGLE_QUOTE_RE_ = /'/g;
 
-
 /**
  * Regular expression that matches null character, for use in escaping.
  * @const {!RegExp}
  * @private
  */
 goog.string.NULL_RE_ = /\x00/g;
-
 
 /**
  * Regular expression that matches a lowercase letter "e", for use in escaping.
@@ -79,14 +74,14 @@ goog.string.NULL_RE_ = /\x00/g;
  */
 goog.string.E_RE_ = /e/g;
 
-
 /**
  * Regular expression that matches any character that needs to be escaped.
  * @const {!RegExp}
  * @private
  */
-goog.string.ALL_RE_ =
-    (goog.string.DETECT_DOUBLE_ESCAPING ? /[\x00&<>"'e]/ : /[\x00&<>"']/);
+goog.string.ALL_RE_ = goog.string.DETECT_DOUBLE_ESCAPING
+	? /[\x00&<>"'e]/
+	: /[\x00&<>"']/;
 
 /**
  * Unescapes an HTML string.
@@ -95,18 +90,20 @@ goog.string.ALL_RE_ =
  * @return {string} An unescaped copy of {@code str}.
  */
 goog.string.unescapeEntities = function(str) {
-  if (goog.string.contains(str, '&')) {
-    // We are careful not to use a DOM if we do not have one or we explicitly
-    // requested non-DOM html unescaping.
-    if (!goog.string.FORCE_NON_DOM_HTML_UNESCAPING &&
-        'document' in goog.global) {
-      return goog.string.unescapeEntitiesUsingDom_(str);
-    } else {
-      // Fall back on pure XML entities
-      return goog.string.unescapePureXmlEntities_(str);
-    }
-  }
-  return str;
+	if (goog.string.contains(str, '&')) {
+		// We are careful not to use a DOM if we do not have one or we explicitly
+		// requested non-DOM html unescaping.
+		if (
+			!goog.string.FORCE_NON_DOM_HTML_UNESCAPING &&
+			'document' in goog.global
+		) {
+			return goog.string.unescapeEntitiesUsingDom_(str);
+		} else {
+			// Fall back on pure XML entities
+			return goog.string.unescapePureXmlEntities_(str);
+		}
+	}
+	return str;
 };
 
 /**
@@ -120,44 +117,44 @@ goog.string.unescapeEntities = function(str) {
  * @return {string} The unescaped {@code str} string.
  */
 goog.string.unescapeEntitiesUsingDom_ = function(str, opt_document) {
-  /** @type {!Object<string, string>} */
-  var seen = {'&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"'};
-  var div;
-  if (opt_document) {
-    div = opt_document.createElement('div');
-  } else {
-    div = goog.global.document.createElement('div');
-  }
-  // Match as many valid entity characters as possible. If the actual entity
-  // happens to be shorter, it will still work as innerHTML will return the
-  // trailing characters unchanged. Since the entity characters do not include
-  // open angle bracket, there is no chance of XSS from the innerHTML use.
-  // Since no whitespace is passed to innerHTML, whitespace is preserved.
-  return str.replace(goog.string.HTML_ENTITY_PATTERN_, function(s, entity) {
-    // Check for cached entity.
-    var value = seen[s];
-    if (value) {
-      return value;
-    }
-    // Check for numeric entity.
-    if (entity.charAt(0) == '#') {
-      // Prefix with 0 so that hex entities (e.g. &#x10) parse as hex numbers.
-      var n = Number('0' + entity.substr(1));
-      if (!isNaN(n)) {
-        value = String.fromCharCode(n);
-      }
-    }
-    // Fall back to innerHTML otherwise.
-    if (!value) {
-      // Append a non-entity character to avoid a bug in Webkit that parses
-      // an invalid entity at the end of innerHTML text as the empty string.
-      div.innerHTML = s + ' ';
-      // Then remove the trailing character from the result.
-      value = div.firstChild.nodeValue.slice(0, -1);
-    }
-    // Cache and return.
-    return seen[s] = value;
-  });
+	/** @type {!Object<string, string>} */
+	var seen = {'&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"'};
+	var div;
+	if (opt_document) {
+		div = opt_document.createElement('div');
+	} else {
+		div = goog.global.document.createElement('div');
+	}
+	// Match as many valid entity characters as possible. If the actual entity
+	// happens to be shorter, it will still work as innerHTML will return the
+	// trailing characters unchanged. Since the entity characters do not include
+	// open angle bracket, there is no chance of XSS from the innerHTML use.
+	// Since no whitespace is passed to innerHTML, whitespace is preserved.
+	return str.replace(goog.string.HTML_ENTITY_PATTERN_, function(s, entity) {
+		// Check for cached entity.
+		var value = seen[s];
+		if (value) {
+			return value;
+		}
+		// Check for numeric entity.
+		if (entity.charAt(0) == '#') {
+			// Prefix with 0 so that hex entities (e.g. &#x10) parse as hex numbers.
+			var n = Number('0' + entity.substr(1));
+			if (!isNaN(n)) {
+				value = String.fromCharCode(n);
+			}
+		}
+		// Fall back to innerHTML otherwise.
+		if (!value) {
+			// Append a non-entity character to avoid a bug in Webkit that parses
+			// an invalid entity at the end of innerHTML text as the empty string.
+			div.innerHTML = s + ' ';
+			// Then remove the trailing character from the result.
+			value = div.firstChild.nodeValue.slice(0, -1);
+		}
+		// Cache and return.
+		return (seen[s] = value);
+	});
 };
 
 /**
@@ -167,28 +164,28 @@ goog.string.unescapeEntitiesUsingDom_ = function(str, opt_document) {
  * @return {string} An unescaped copy of {@code str}.
  */
 goog.string.unescapePureXmlEntities_ = function(str) {
-  return str.replace(/&([^;]+);/g, function(s, entity) {
-    switch (entity) {
-      case 'amp':
-        return '&';
-      case 'lt':
-        return '<';
-      case 'gt':
-        return '>';
-      case 'quot':
-        return '"';
-      default:
-        if (entity.charAt(0) == '#') {
-          // Prefix with 0 so that hex entities (e.g. &#x10) parse as hex.
-          var n = Number('0' + entity.substr(1));
-          if (!isNaN(n)) {
-            return String.fromCharCode(n);
-          }
-        }
-        // For invalid entities we just return the entity
-        return s;
-    }
-  });
+	return str.replace(/&([^;]+);/g, function(s, entity) {
+		switch (entity) {
+			case 'amp':
+				return '&';
+			case 'lt':
+				return '<';
+			case 'gt':
+				return '>';
+			case 'quot':
+				return '"';
+			default:
+				if (entity.charAt(0) == '#') {
+					// Prefix with 0 so that hex entities (e.g. &#x10) parse as hex.
+					var n = Number('0' + entity.substr(1));
+					if (!isNaN(n)) {
+						return String.fromCharCode(n);
+					}
+				}
+				// For invalid entities we just return the entity
+				return s;
+		}
+	});
 };
 
 /**
@@ -206,7 +203,7 @@ goog.string.HTML_ENTITY_PATTERN_ = /&([^;\s<&]+);?/g;
  * @return {boolean} Whether {@code str} contains {@code subString}.
  */
 goog.string.contains = function(str, subString) {
-  return str.indexOf(subString) != -1;
+	return str.indexOf(subString) != -1;
 };
 
 /**
@@ -254,46 +251,45 @@ goog.string.contains = function(str, subString) {
  * @return {string} An escaped copy of {@code str}.
  */
 goog.string.htmlEscape = function(str, opt_isLikelyToContainHtmlChars) {
+	if (opt_isLikelyToContainHtmlChars) {
+		str = str
+			.replace(goog.string.AMP_RE_, '&amp;')
+			.replace(goog.string.LT_RE_, '&lt;')
+			.replace(goog.string.GT_RE_, '&gt;')
+			.replace(goog.string.QUOT_RE_, '&quot;')
+			.replace(goog.string.SINGLE_QUOTE_RE_, '&#39;')
+			.replace(goog.string.NULL_RE_, '&#0;');
+		if (goog.string.DETECT_DOUBLE_ESCAPING) {
+			str = str.replace(goog.string.E_RE_, '&#101;');
+		}
+		return str;
+	} else {
+		// quick test helps in the case when there are no chars to replace, in
+		// worst case this makes barely a difference to the time taken
+		if (!goog.string.ALL_RE_.test(str)) return str;
 
-  if (opt_isLikelyToContainHtmlChars) {
-    str = str.replace(goog.string.AMP_RE_, '&amp;')
-              .replace(goog.string.LT_RE_, '&lt;')
-              .replace(goog.string.GT_RE_, '&gt;')
-              .replace(goog.string.QUOT_RE_, '&quot;')
-              .replace(goog.string.SINGLE_QUOTE_RE_, '&#39;')
-              .replace(goog.string.NULL_RE_, '&#0;');
-    if (goog.string.DETECT_DOUBLE_ESCAPING) {
-      str = str.replace(goog.string.E_RE_, '&#101;');
-    }
-    return str;
-
-  } else {
-    // quick test helps in the case when there are no chars to replace, in
-    // worst case this makes barely a difference to the time taken
-    if (!goog.string.ALL_RE_.test(str)) return str;
-
-    // str.indexOf is faster than regex.test in this case
-    if (str.indexOf('&') != -1) {
-      str = str.replace(goog.string.AMP_RE_, '&amp;');
-    }
-    if (str.indexOf('<') != -1) {
-      str = str.replace(goog.string.LT_RE_, '&lt;');
-    }
-    if (str.indexOf('>') != -1) {
-      str = str.replace(goog.string.GT_RE_, '&gt;');
-    }
-    if (str.indexOf('"') != -1) {
-      str = str.replace(goog.string.QUOT_RE_, '&quot;');
-    }
-    if (str.indexOf('\'') != -1) {
-      str = str.replace(goog.string.SINGLE_QUOTE_RE_, '&#39;');
-    }
-    if (str.indexOf('\x00') != -1) {
-      str = str.replace(goog.string.NULL_RE_, '&#0;');
-    }
-    if (goog.string.DETECT_DOUBLE_ESCAPING && str.indexOf('e') != -1) {
-      str = str.replace(goog.string.E_RE_, '&#101;');
-    }
-    return str;
-  }
+		// str.indexOf is faster than regex.test in this case
+		if (str.indexOf('&') != -1) {
+			str = str.replace(goog.string.AMP_RE_, '&amp;');
+		}
+		if (str.indexOf('<') != -1) {
+			str = str.replace(goog.string.LT_RE_, '&lt;');
+		}
+		if (str.indexOf('>') != -1) {
+			str = str.replace(goog.string.GT_RE_, '&gt;');
+		}
+		if (str.indexOf('"') != -1) {
+			str = str.replace(goog.string.QUOT_RE_, '&quot;');
+		}
+		if (str.indexOf("'") != -1) {
+			str = str.replace(goog.string.SINGLE_QUOTE_RE_, '&#39;');
+		}
+		if (str.indexOf('\x00') != -1) {
+			str = str.replace(goog.string.NULL_RE_, '&#0;');
+		}
+		if (goog.string.DETECT_DOUBLE_ESCAPING && str.indexOf('e') != -1) {
+			str = str.replace(goog.string.E_RE_, '&#101;');
+		}
+		return str;
+	}
 };

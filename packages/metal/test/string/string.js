@@ -15,11 +15,17 @@ describe('string', function() {
 	});
 
 	it('should collapse breaking spaces', function() {
-		assert.strictEqual('foo bar', string.collapseBreakingSpaces('   foo   bar   '));
+		assert.strictEqual(
+			'foo bar',
+			string.collapseBreakingSpaces('   foo   bar   '),
+		);
 	});
 
 	it('should generate random strings', function() {
-		assert.notStrictEqual(string.getRandomString(), string.getRandomString());
+		assert.notStrictEqual(
+			string.getRandomString(),
+			string.getRandomString(),
+		);
 	});
 
 	it('should replace interval', function() {

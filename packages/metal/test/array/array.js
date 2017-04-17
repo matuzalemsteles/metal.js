@@ -10,7 +10,7 @@ describe('array', function() {
 		assert.deepEqual([1, 2, 4, 5], arr);
 	});
 
-	it('should ignore call to remove item that doesn\'t exist', function() {
+	it("should ignore call to remove item that doesn't exist", function() {
 		var arr = [1, 2, 3, 4, 5];
 
 		array.remove(arr, 6);
@@ -47,8 +47,14 @@ describe('array', function() {
 
 	it('should return first defined value', function() {
 		assert.strictEqual(1, array.firstDefinedValue([1, 2, 3]));
-		assert.strictEqual(1, array.firstDefinedValue([undefined, undefined, 1, 2, 3]));
-		assert.strictEqual(null, array.firstDefinedValue([undefined, undefined, null, 2, 3]));
+		assert.strictEqual(
+			1,
+			array.firstDefinedValue([undefined, undefined, 1, 2, 3]),
+		);
+		assert.strictEqual(
+			null,
+			array.firstDefinedValue([undefined, undefined, null, 2, 3]),
+		);
 	});
 
 	describe('equal', function() {

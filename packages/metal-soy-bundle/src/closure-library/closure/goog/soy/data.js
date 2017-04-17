@@ -32,46 +32,46 @@ goog.soy.data = {};
  * @enum {!Object}
  */
 goog.soy.data.SanitizedContentKind = {
-
-  /**
+	/**
    * A snippet of HTML that does not start or end inside a tag, comment, entity,
    * or DOCTYPE; and that does not contain any executable code
    * (JS, {@code <object>}s, etc.) from a different trust domain.
    */
-  HTML: goog.DEBUG ? {sanitizedContentKindHtml: true} : {},
+	HTML: goog.DEBUG ? {sanitizedContentKindHtml: true} : {},
 
-  /**
+	/**
    * Executable Javascript code or expression, safe for insertion in a
    * script-tag or event handler context, known to be free of any
    * attacker-controlled scripts. This can either be side-effect-free
    * Javascript (such as JSON) or Javascript that's entirely under Google's
    * control.
    */
-  JS: goog.DEBUG ? {sanitizedContentJsChars: true} : {},
+	JS: goog.DEBUG ? {sanitizedContentJsChars: true} : {},
 
-  /** A properly encoded portion of a URI. */
-  URI: goog.DEBUG ? {sanitizedContentUri: true} : {},
+	/** A properly encoded portion of a URI. */
+	URI: goog.DEBUG ? {sanitizedContentUri: true} : {},
 
-  /** A resource URI not under attacker control. */
-  TRUSTED_RESOURCE_URI:
-      goog.DEBUG ? {sanitizedContentTrustedResourceUri: true} : {},
+	/** A resource URI not under attacker control. */
+	TRUSTED_RESOURCE_URI: goog.DEBUG
+		? {sanitizedContentTrustedResourceUri: true}
+		: {},
 
-  /**
+	/**
    * Repeated attribute names and values. For example,
    * {@code dir="ltr" foo="bar" onclick="trustedFunction()" checked}.
    */
-  ATTRIBUTES: goog.DEBUG ? {sanitizedContentHtmlAttribute: true} : {},
+	ATTRIBUTES: goog.DEBUG ? {sanitizedContentHtmlAttribute: true} : {},
 
-  // TODO: Consider separating rules, declarations, and values into
-  // separate types, but for simplicity, we'll treat explicitly blessed
-  // SanitizedContent as allowed in all of these contexts.
-  /**
+	// TODO: Consider separating rules, declarations, and values into
+	// separate types, but for simplicity, we'll treat explicitly blessed
+	// SanitizedContent as allowed in all of these contexts.
+	/**
    * A CSS3 declaration, property, value or group of semicolon separated
    * declarations.
    */
-  CSS: goog.DEBUG ? {sanitizedContentCss: true} : {},
+	CSS: goog.DEBUG ? {sanitizedContentCss: true} : {},
 
-  /**
+	/**
    * Unsanitized plain-text content.
    *
    * This is effectively the "null" entry of this enum, and is sometimes used
@@ -79,10 +79,8 @@ goog.soy.data.SanitizedContentKind = {
    * string is safe to use as text, being of ContentKind.TEXT makes no
    * guarantees about its safety in any other context such as HTML.
    */
-  TEXT: goog.DEBUG ? {sanitizedContentKindText: true} : {}
+	TEXT: goog.DEBUG ? {sanitizedContentKindText: true} : {},
 };
-
-
 
 /**
  * A string-like object that carries a content-type and a content direction.
@@ -96,16 +94,14 @@ goog.soy.data.SanitizedContentKind = {
  * @constructor
  */
 goog.soy.data.SanitizedContent = function() {
-  throw Error('Do not instantiate directly');
+	throw Error('Do not instantiate directly');
 };
-
 
 /**
  * The context in which this content is safe from XSS attacks.
  * @type {goog.soy.data.SanitizedContentKind}
  */
 goog.soy.data.SanitizedContent.prototype.contentKind;
-
 
 /**
  * The content's direction; null if unknown and thus to be estimated when
@@ -114,26 +110,23 @@ goog.soy.data.SanitizedContent.prototype.contentKind;
  */
 goog.soy.data.SanitizedContent.prototype.contentDir = null;
 
-
 /**
  * The already-safe content.
  * @protected {string}
  */
 goog.soy.data.SanitizedContent.prototype.content;
 
-
 /**
  * Gets the already-safe content.
  * @return {string}
  */
 goog.soy.data.SanitizedContent.prototype.getContent = function() {
-  return this.content;
+	return this.content;
 };
-
 
 /** @override */
 goog.soy.data.SanitizedContent.prototype.toString = function() {
-  return this.content;
+	return this.content;
 };
 
 /**
@@ -143,8 +136,8 @@ goog.soy.data.SanitizedContent.prototype.toString = function() {
  * @constructor
  */
 goog.soy.data.UnsanitizedText = function() {
-  // TODO(gboyer): Delete this class after moving soydata to Closure.
-  goog.soy.data.UnsanitizedText.base(this, 'constructor');
+	// TODO(gboyer): Delete this class after moving soydata to Closure.
+	goog.soy.data.UnsanitizedText.base(this, 'constructor');
 };
 
 goog.inherits(goog.soy.data.UnsanitizedText, goog.soy.data.SanitizedContent);
@@ -163,13 +156,13 @@ goog.inherits(goog.soy.data.UnsanitizedText, goog.soy.data.SanitizedContent);
  * @constructor
  */
 goog.soy.data.SanitizedHtml = function() {
-  goog.soy.data.SanitizedHtml.base(this, 'constructor');
+	goog.soy.data.SanitizedHtml.base(this, 'constructor');
 };
 goog.inherits(goog.soy.data.SanitizedHtml, goog.soy.data.SanitizedContent);
 
 /** @override */
 goog.soy.data.SanitizedHtml.prototype.contentKind =
-    goog.soy.data.SanitizedContentKind.HTML;
+	goog.soy.data.SanitizedContentKind.HTML;
 
 /**
  * Checks if the value could be used as the Soy type {html}.
@@ -177,8 +170,10 @@ goog.soy.data.SanitizedHtml.prototype.contentKind =
  * @return {boolean}
  */
 goog.soy.data.SanitizedHtml.isCompatibleWith = function(value) {
-  return goog.isString(value) ||
-      value instanceof goog.soy.data.SanitizedHtml ||
-      value instanceof goog.soy.data.UnsanitizedText ||
-      value instanceof goog.html.SafeHtml;
+	return (
+		goog.isString(value) ||
+		value instanceof goog.soy.data.SanitizedHtml ||
+		value instanceof goog.soy.data.UnsanitizedText ||
+		value instanceof goog.html.SafeHtml
+	);
 };

@@ -26,12 +26,12 @@ describe('Custom Events', function() {
 		dom.triggerEvent(this.element1, 'mouseover');
 		assert.strictEqual(0, listener.callCount);
 		dom.triggerEvent(this.element2, 'mouseover', {
-			relatedTarget: this.element1
+			relatedTarget: this.element1,
 		});
 		assert.strictEqual(1, listener.callCount);
 		assert.strictEqual('mouseenter', listener.args[0][0].customType);
 		dom.triggerEvent(this.element2, 'mouseover', {
-			relatedTarget: this.element3
+			relatedTarget: this.element3,
 		});
 		assert.strictEqual(1, listener.callCount);
 	});
@@ -43,12 +43,12 @@ describe('Custom Events', function() {
 		dom.triggerEvent(this.element1, 'mouseout');
 		assert.strictEqual(0, listener.callCount);
 		dom.triggerEvent(this.element2, 'mouseout', {
-			relatedTarget: this.element1
+			relatedTarget: this.element1,
 		});
 		assert.strictEqual(1, listener.callCount);
 		assert.strictEqual('mouseleave', listener.args[0][0].customType);
 		dom.triggerEvent(this.element2, 'mouseout', {
-			relatedTarget: this.element3
+			relatedTarget: this.element3,
 		});
 		assert.strictEqual(1, listener.callCount);
 	});
@@ -60,12 +60,12 @@ describe('Custom Events', function() {
 		dom.triggerEvent(this.element1, 'pointerover');
 		assert.strictEqual(0, listener.callCount);
 		dom.triggerEvent(this.element2, 'pointerover', {
-			relatedTarget: this.element1
+			relatedTarget: this.element1,
 		});
 		assert.strictEqual(1, listener.callCount);
 		assert.strictEqual('pointerenter', listener.args[0][0].customType);
 		dom.triggerEvent(this.element2, 'pointerover', {
-			relatedTarget: this.element3
+			relatedTarget: this.element3,
 		});
 		assert.strictEqual(1, listener.callCount);
 	});
@@ -77,12 +77,12 @@ describe('Custom Events', function() {
 		dom.triggerEvent(this.element1, 'pointerout');
 		assert.strictEqual(0, listener.callCount);
 		dom.triggerEvent(this.element2, 'pointerout', {
-			relatedTarget: this.element1
+			relatedTarget: this.element1,
 		});
 		assert.strictEqual(1, listener.callCount);
 		assert.strictEqual('pointerleave', listener.args[0][0].customType);
 		dom.triggerEvent(this.element2, 'pointerout', {
-			relatedTarget: this.element3
+			relatedTarget: this.element3,
 		});
 		assert.strictEqual(1, listener.callCount);
 	});
@@ -90,7 +90,10 @@ describe('Custom Events', function() {
 	it('should handle transitionend event', function() {
 		var listener = sinon.stub();
 		dom.on(this.element1, 'transitionend', listener);
-		dom.triggerEvent(this.element1, features.checkAnimationEventName().transition);
+		dom.triggerEvent(
+			this.element1,
+			features.checkAnimationEventName().transition,
+		);
 		assert.strictEqual(1, listener.callCount);
 		assert.strictEqual('transitionend', listener.args[0][0].customType);
 	});
@@ -98,7 +101,10 @@ describe('Custom Events', function() {
 	it('should handle animationend event', function() {
 		var listener = sinon.stub();
 		dom.on(this.element1, 'animationend', listener);
-		dom.triggerEvent(this.element1, features.checkAnimationEventName().animation);
+		dom.triggerEvent(
+			this.element1,
+			features.checkAnimationEventName().animation,
+		);
 		assert.strictEqual(1, listener.callCount);
 		assert.strictEqual('animationend', listener.args[0][0].customType);
 	});

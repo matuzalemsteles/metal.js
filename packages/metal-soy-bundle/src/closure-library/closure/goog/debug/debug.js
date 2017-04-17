@@ -10,12 +10,15 @@ goog.debug = {};
  * @return {string} The best display name for the value, or 'unknown type name'.
  */
 goog.debug.runtimeType = function(value) {
-  if (value instanceof Function) {
-    return value.displayName || value.name || 'unknown type name';
-  } else if (value instanceof Object) {
-    return value.constructor.displayName || value.constructor.name ||
-        Object.prototype.toString.call(value);
-  } else {
-    return value === null ? 'null' : typeof value;
-  }
+	if (value instanceof Function) {
+		return value.displayName || value.name || 'unknown type name';
+	} else if (value instanceof Object) {
+		return (
+			value.constructor.displayName ||
+			value.constructor.name ||
+			Object.prototype.toString.call(value)
+		);
+	} else {
+		return value === null ? 'null' : typeof value;
+	}
 };

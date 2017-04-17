@@ -2,7 +2,11 @@
 
 import core from 'metal';
 import dom from 'metal-dom';
-import { getOriginalFns, startInterception, stopInterception } from '../src/intercept';
+import {
+	getOriginalFns,
+	startInterception,
+	stopInterception,
+} from '../src/intercept';
 
 describe('intercept', function() {
 	var element;
@@ -36,9 +40,15 @@ describe('intercept', function() {
 		it('should intercept elementOpen calls with specified function', function() {
 			var fn = sinon.stub();
 			startInterception({
-				elementOpen: fn
+				elementOpen: fn,
 			});
-			IncrementalDOM.elementOpen('div', 'key', 'statics', 'name', 'value');
+			IncrementalDOM.elementOpen(
+				'div',
+				'key',
+				'statics',
+				'name',
+				'value',
+			);
 
 			assert.strictEqual(1, fn.callCount);
 			assert.strictEqual('div', fn.args[0][0]);
@@ -51,11 +61,13 @@ describe('intercept', function() {
 		it('should stop intercepting elementOpen calls', function() {
 			var fn = sinon.stub();
 			startInterception({
-				elementOpen: fn
+				elementOpen: fn,
 			});
 			stopInterception();
 
-			IncrementalDOM.patch(element, () => IncrementalDOM.elementOpen('div'));
+			IncrementalDOM.patch(element, () =>
+				IncrementalDOM.elementOpen('div'),
+			);
 			assert.strictEqual(0, fn.callCount);
 		});
 	});
@@ -66,10 +78,16 @@ describe('intercept', function() {
 			var closeFn = sinon.stub();
 			startInterception({
 				elementClose: closeFn,
-				elementOpen: openFn
+				elementOpen: openFn,
 			});
 
-			IncrementalDOM.elementVoid('div', 'key', 'statics', 'name', 'value');
+			IncrementalDOM.elementVoid(
+				'div',
+				'key',
+				'statics',
+				'name',
+				'value',
+			);
 			assert.strictEqual(1, openFn.callCount);
 			assert.strictEqual('div', openFn.args[0][0]);
 			assert.strictEqual('key', openFn.args[0][1]);
@@ -82,11 +100,13 @@ describe('intercept', function() {
 		it('should stop intercepting elementOpen from elementVoid calls', function() {
 			var fn = sinon.stub();
 			startInterception({
-				elementOpen: fn
+				elementOpen: fn,
 			});
 			stopInterception();
 
-			IncrementalDOM.patch(element, () => IncrementalDOM.elementVoid('div'));
+			IncrementalDOM.patch(element, () =>
+				IncrementalDOM.elementVoid('div'),
+			);
 			assert.strictEqual(0, fn.callCount);
 		});
 	});
@@ -95,7 +115,7 @@ describe('intercept', function() {
 		it('should intercept elementOpen from elementOpenEnd calls with specified function', function() {
 			var fn = sinon.stub();
 			startInterception({
-				elementOpen: fn
+				elementOpen: fn,
 			});
 
 			IncrementalDOM.elementOpenStart('div', 'key', 'statics');
@@ -115,7 +135,7 @@ describe('intercept', function() {
 		it('should stop intercepting elementOpen from elementOpenEnd calls', function() {
 			var fn = sinon.stub();
 			startInterception({
-				elementOpen: fn
+				elementOpen: fn,
 			});
 			stopInterception();
 
@@ -131,7 +151,7 @@ describe('intercept', function() {
 		it('should intercept "text" calls with specified function', function() {
 			var fn = sinon.stub();
 			startInterception({
-				text: fn
+				text: fn,
 			});
 
 			IncrementalDOM.text('foo');
@@ -142,7 +162,7 @@ describe('intercept', function() {
 		it('should stop intercepting "text" calls', function() {
 			var fn = sinon.stub();
 			startInterception({
-				text: fn
+				text: fn,
 			});
 			stopInterception();
 
@@ -155,11 +175,15 @@ describe('intercept', function() {
 		it('should intercept attribute calls with specified function', function() {
 			var fn = sinon.stub();
 			startInterception({
-				attributes: fn
+				attributes: fn,
 			});
 
 			var element = document.createElement('div');
-			IncrementalDOM.attributes[IncrementalDOM.symbols.default](element, 'name', 'value');
+			IncrementalDOM.attributes[IncrementalDOM.symbols.default](
+				element,
+				'name',
+				'value',
+			);
 
 			assert.strictEqual(1, fn.callCount);
 			assert.ok(core.isElement(fn.args[0][0]));
@@ -170,11 +194,15 @@ describe('intercept', function() {
 		it('should stop intercepting attribute calls', function() {
 			var fn = sinon.stub();
 			startInterception({
-				attributes: fn
+				attributes: fn,
 			});
 			stopInterception();
 
-			IncrementalDOM.attributes[IncrementalDOM.symbols.default](element, 'name', 'value');
+			IncrementalDOM.attributes[IncrementalDOM.symbols.default](
+				element,
+				'name',
+				'value',
+			);
 			assert.strictEqual(0, fn.callCount);
 		});
 	});
@@ -187,11 +215,11 @@ describe('intercept', function() {
 		it('should use last registered function for intercepting', function() {
 			var fn = sinon.stub();
 			startInterception({
-				elementOpen: fn
+				elementOpen: fn,
 			});
 			var fn2 = sinon.stub();
 			startInterception({
-				elementOpen: fn2
+				elementOpen: fn2,
 			});
 
 			IncrementalDOM.elementOpen('div');
@@ -202,11 +230,11 @@ describe('intercept', function() {
 		it('should revert to previous registered function when stopping interception', function() {
 			var fn = sinon.stub();
 			startInterception({
-				elementOpen: fn
+				elementOpen: fn,
 			});
 			var fn2 = sinon.stub();
 			startInterception({
-				elementOpen: fn2
+				elementOpen: fn2,
 			});
 
 			stopInterception();

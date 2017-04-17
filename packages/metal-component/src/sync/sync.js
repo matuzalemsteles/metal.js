@@ -1,6 +1,6 @@
 'use strict';
 
-import { isFunction } from 'metal';
+import {isFunction} from 'metal';
 
 const SYNC_FNS_KEY = '__METAL_SYNC_FNS__';
 
@@ -24,7 +24,9 @@ function getSyncFns_(component) {
 	const keys = component.getDataManager().getSyncKeys(component);
 	let canCache = true;
 	for (let i = 0; i < keys.length; i++) {
-		const name = `sync${keys[i].charAt(0).toUpperCase()}${keys[i].slice(1)}`;
+		const name = `sync${keys[i]
+			.charAt(0)
+			.toUpperCase()}${keys[i].slice(1)}`;
 		const fn = component[name];
 		if (fn) {
 			fns[keys[i]] = fn;
@@ -55,7 +57,7 @@ export function syncState(component, opt_changes) {
 			fn.call(
 				component,
 				change ? change.newVal : manager.get(component, keys[i]),
-				change ? change.prevVal : undefined
+				change ? change.prevVal : undefined,
 			);
 		}
 	}

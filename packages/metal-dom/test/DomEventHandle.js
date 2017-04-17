@@ -5,7 +5,7 @@ import DomEventHandle from '../src/DomEventHandle';
 describe('DomEventHandle', function() {
 	it('should unsubscribe listener', function() {
 		var element = {
-			removeEventListener: sinon.stub()
+			removeEventListener: sinon.stub(),
 		};
 		var listener = sinon.stub();
 		var handle = new DomEventHandle(element, 'event', listener);
@@ -18,7 +18,7 @@ describe('DomEventHandle', function() {
 
 	it('should unsubscribe listener attached on capture phase', function() {
 		var element = {
-			removeEventListener: sinon.stub()
+			removeEventListener: sinon.stub(),
 		};
 		var listener = sinon.stub();
 		var handle = new DomEventHandle(element, 'event', listener, true);

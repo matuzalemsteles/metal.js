@@ -30,17 +30,16 @@
  *
  */
 
-
 // -----------------------------------------------------------------------------
 // StringBuilder (compatible with the 'stringbuilder' code style).
 
 (function() {
-  var soy = {};
-  soy.asserts = {};
-  soy.esc = {};
-  var soydata = {};
+	var soy = {};
+	soy.asserts = {};
+	soy.esc = {};
+	var soydata = {};
 
-  /**
+	/**
    * Utility class to facilitate much faster string concatenation in IE,
    * using Array.join() rather than the '+' operator. For other browsers
    * we simply use the '+' operator.
@@ -49,25 +48,23 @@
    *     e.g., new soy.StringBuilder('foo', 'bar').
    * @constructor
    */
-  soy.StringBuilder = goog.string.StringBuffer;
+	soy.StringBuilder = goog.string.StringBuffer;
 
+	// -----------------------------------------------------------------------------
+	// soydata: Defines typed strings, e.g. an HTML string {@code "a<b>c"} is
+	// semantically distinct from the plain text string {@code "a<b>c"} and smart
+	// templates can take that distinction into account.
 
-  // -----------------------------------------------------------------------------
-  // soydata: Defines typed strings, e.g. an HTML string {@code "a<b>c"} is
-  // semantically distinct from the plain text string {@code "a<b>c"} and smart
-  // templates can take that distinction into account.
-
-  /**
+	/**
    * A type of textual content.
    *
    * This is an enum of type Object so that these values are unforgeable.
    *
    * @enum {!Object}
    */
-  soydata.SanitizedContentKind = goog.soy.data.SanitizedContentKind;
+	soydata.SanitizedContentKind = goog.soy.data.SanitizedContentKind;
 
-
-  /**
+	/**
    * Checks whether a given value is of a given content kind.
    *
    * @param {*} value The value to be examined.
@@ -76,14 +73,14 @@
    * @return {boolean} Whether the given value is of the given kind.
    * @private
    */
-  soydata.isContentKind = function(value, contentKind) {
-    // TODO(user): This function should really include the assert on
-    // value.constructor that is currently sprinkled at most of the call sites.
-    // Unfortunately, that would require a (debug-mode-only) switch statement.
-    // TODO(user): Perhaps we should get rid of the contentKind property
-    // altogether and only at the constructor.
-    return value != null && value.contentKind === contentKind;
-  };
+	soydata.isContentKind = function(value, contentKind) {
+		// TODO(user): This function should really include the assert on
+		// value.constructor that is currently sprinkled at most of the call sites.
+		// Unfortunately, that would require a (debug-mode-only) switch statement.
+		// TODO(user): Perhaps we should get rid of the contentKind property
+		// altogether and only at the constructor.
+		return value != null && value.contentKind === contentKind;
+	};
 
 	/**
 	 * Content of type {@link goog.soy.data.SanitizedContentKind.HTML}.
@@ -99,7 +96,7 @@
 	 * @extends {goog.soy.data.SanitizedHtml}
 	 */
 	soydata.SanitizedHtml = function() {
-		soydata.SanitizedHtml.base(this, 'constructor');  // Throws an exception.
+		soydata.SanitizedHtml.base(this, 'constructor'); // Throws an exception.
 	};
 	goog.inherits(soydata.SanitizedHtml, goog.soy.data.SanitizedHtml);
 
@@ -117,19 +114,26 @@
 	 */
 	soydata.SanitizedHtml.from = function(value) {
 		// The check is soydata.isContentKind_() inlined for performance.
-		if (value != null &&
-				value.contentKind === goog.soy.data.SanitizedContentKind.HTML) {
+		if (
+			value != null &&
+			value.contentKind === goog.soy.data.SanitizedContentKind.HTML
+		) {
 			goog.asserts.assert(
-					value.constructor === goog.soy.data.SanitizedHtml ||
-					value.constructor === soydata.SanitizedHtml);
-			return /** @type {!soydata.SanitizedHtml} */ (value);
+				value.constructor === goog.soy.data.SanitizedHtml ||
+					value.constructor === soydata.SanitizedHtml,
+			);
+			return /** @type {!soydata.SanitizedHtml} */ value;
 		}
 		if (value instanceof goog.html.SafeHtml) {
 			return soydata.VERY_UNSAFE.ordainSanitizedHtml(
-					goog.html.SafeHtml.unwrap(value), value.getDirection());
+				goog.html.SafeHtml.unwrap(value),
+				value.getDirection(),
+			);
 		}
 		return soydata.VERY_UNSAFE.ordainSanitizedHtml(
-				soy.esc.$$escapeHtmlHelper(String(value)), soydata.getContentDir(value));
+			soy.esc.$$escapeHtmlHelper(String(value)),
+			soydata.getContentDir(value),
+		);
 	};
 
 	/**
@@ -138,14 +142,15 @@
 	 * @return {boolean}
 	 */
 	soydata.SanitizedHtml.isCompatibleWith = function(value) {
-		return goog.isString(value) ||
-				value instanceof goog.soy.data.SanitizedHtml ||
-				value instanceof goog.soy.data.UnsanitizedText ||
-				value instanceof goog.html.SafeHtml;
+		return (
+			goog.isString(value) ||
+			value instanceof goog.soy.data.SanitizedHtml ||
+			value instanceof goog.soy.data.UnsanitizedText ||
+			value instanceof goog.html.SafeHtml
+		);
 	};
 
-
-  /**
+	/**
    * Content of type {@link soydata.SanitizedContentKind.URI}.
    *
    * The content is a URI chunk that the caller knows is safe to emit in a
@@ -154,18 +159,19 @@
    * @constructor
    * @extends {goog.soy.data.SanitizedContent}
    */
-  soydata.SanitizedUri = function() {
-    goog.soy.data.SanitizedContent.call(this);  // Throws an exception.
-  };
-  goog.inherits(soydata.SanitizedUri, goog.soy.data.SanitizedContent);
+	soydata.SanitizedUri = function() {
+		goog.soy.data.SanitizedContent.call(this); // Throws an exception.
+	};
+	goog.inherits(soydata.SanitizedUri, goog.soy.data.SanitizedContent);
 
-  /** @override */
-  soydata.SanitizedUri.prototype.contentKind = soydata.SanitizedContentKind.URI;
+	/** @override */
+	soydata.SanitizedUri.prototype.contentKind =
+		soydata.SanitizedContentKind.URI;
 
-  /** @override */
-  soydata.SanitizedUri.prototype.contentDir = goog.i18n.bidi.Dir.LTR;
+	/** @override */
+	soydata.SanitizedUri.prototype.contentDir = goog.i18n.bidi.Dir.LTR;
 
-  /**
+	/**
    * Unsanitized plain text string.
    *
    * While all strings are effectively safe to use as a plain text, there are no
@@ -178,29 +184,27 @@
    * @constructor
    * @extends {goog.soy.data.UnsanitizedText}
    */
-  soydata.UnsanitizedText = function(content, opt_contentDir) {
-    /** @override */
-    this.content = String(content);
-    this.contentDir = opt_contentDir != null ? opt_contentDir : null;
-  };
-  goog.inherits(soydata.UnsanitizedText, goog.soy.data.UnsanitizedText);
+	soydata.UnsanitizedText = function(content, opt_contentDir) {
+		/** @override */
+		this.content = String(content);
+		this.contentDir = opt_contentDir != null ? opt_contentDir : null;
+	};
+	goog.inherits(soydata.UnsanitizedText, goog.soy.data.UnsanitizedText);
 
-  /** @override */
-  soydata.UnsanitizedText.prototype.contentKind =
-      soydata.SanitizedContentKind.TEXT;
+	/** @override */
+	soydata.UnsanitizedText.prototype.contentKind =
+		soydata.SanitizedContentKind.TEXT;
 
-
-  /**
+	/**
    * Empty string, used as a type in Soy templates.
    * @enum {string}
    * @private
    */
-  soydata.$$EMPTY_STRING_ = {
-    VALUE: ''
-  };
+	soydata.$$EMPTY_STRING_ = {
+		VALUE: '',
+	};
 
-
-  /**
+	/**
    * Creates a factory for SanitizedContent types.
    *
    * This is a hack so that the soydata.VERY_UNSAFE.ordainSanitized* can
@@ -216,18 +220,18 @@
    * @template T
    * @private
    */
-  soydata.$$makeSanitizedContentFactory_ = function(ctor) {
-    /**
+	soydata.$$makeSanitizedContentFactory_ = function(ctor) {
+		/**
      * @param {string} content
      * @constructor
      * @extends {goog.soy.data.SanitizedContent}
      */
-    function InstantiableCtor(content) {
-      /** @override */
-      this.content = content;
-    }
-    InstantiableCtor.prototype = ctor.prototype;
-    /**
+		function InstantiableCtor(content) {
+			/** @override */
+			this.content = content;
+		}
+		InstantiableCtor.prototype = ctor.prototype;
+		/**
      * Creates a ctor-type SanitizedContent instance.
      *
      * @param {*} content The content to put in the instance.
@@ -237,18 +241,17 @@
      *     of type T above (ctor's type, a descendant of SanitizedContent), but
      *     there is no way to express that here.
      */
-    function sanitizedContentFactory(content, opt_contentDir) {
-      var result = new InstantiableCtor(String(content));
-      if (opt_contentDir !== undefined) {
-        result.contentDir = opt_contentDir;
-      }
-      return result;
-    }
-    return sanitizedContentFactory;
-  };
+		function sanitizedContentFactory(content, opt_contentDir) {
+			var result = new InstantiableCtor(String(content));
+			if (opt_contentDir !== undefined) {
+				result.contentDir = opt_contentDir;
+			}
+			return result;
+		}
+		return sanitizedContentFactory;
+	};
 
-
-  /**
+	/**
    * Creates a factory for SanitizedContent types that should always have their
    * default directionality.
    *
@@ -264,18 +267,18 @@
    * @template T
    * @private
    */
-  soydata.$$makeSanitizedContentFactoryWithDefaultDirOnly_ = function(ctor) {
-    /**
+	soydata.$$makeSanitizedContentFactoryWithDefaultDirOnly_ = function(ctor) {
+		/**
      * @param {string} content
      * @constructor
      * @extends {goog.soy.data.SanitizedContent}
      */
-    function InstantiableCtor(content) {
-      /** @override */
-      this.content = content;
-    }
-    InstantiableCtor.prototype = ctor.prototype;
-    /**
+		function InstantiableCtor(content) {
+			/** @override */
+			this.content = content;
+		}
+		InstantiableCtor.prototype = ctor.prototype;
+		/**
      * Creates a ctor-type SanitizedContent instance.
      *
      * @param {*} content The content to put in the instance.
@@ -283,22 +286,20 @@
      *     of type T above (ctor's type, a descendant of SanitizedContent), but
      *     there is no way to express that here.
      */
-    function sanitizedContentFactory(content) {
-      var result = new InstantiableCtor(String(content));
-      return result;
-    }
-    return sanitizedContentFactory;
-  };
+		function sanitizedContentFactory(content) {
+			var result = new InstantiableCtor(String(content));
+			return result;
+		}
+		return sanitizedContentFactory;
+	};
 
+	// -----------------------------------------------------------------------------
+	// Sanitized content ordainers. Please use these with extreme caution (with the
+	// exception of markUnsanitizedText). A good recommendation is to limit usage
+	// of these to just a handful of files in your source tree where usages can be
+	// carefully audited.
 
-  // -----------------------------------------------------------------------------
-  // Sanitized content ordainers. Please use these with extreme caution (with the
-  // exception of markUnsanitizedText). A good recommendation is to limit usage
-  // of these to just a handful of files in your source tree where usages can be
-  // carefully audited.
-
-
-  /**
+	/**
    * Protects a string from being used in an noAutoescaped context.
    *
    * This is useful for content where there is significant risk of accidental
@@ -311,14 +312,13 @@
    * @return {!soydata.UnsanitizedText} A wrapper that is rejected by the
    *     Soy noAutoescape print directive.
    */
-  soydata.markUnsanitizedText = function(content, opt_contentDir) {
-    return new soydata.UnsanitizedText(content, opt_contentDir);
-  };
+	soydata.markUnsanitizedText = function(content, opt_contentDir) {
+		return new soydata.UnsanitizedText(content, opt_contentDir);
+	};
 
-  soydata.VERY_UNSAFE = {};
+	soydata.VERY_UNSAFE = {};
 
-
-  /**
+	/**
   * Takes a leap of faith that the provided content is "safe" to use as a URI
   * in a Soy template.
   *
@@ -332,14 +332,14 @@
   * @return {!soydata.SanitizedUri} Sanitized content wrapper that indicates to
   *     Soy not to escape or filter when printed in URI context.
   */
-  soydata.VERY_UNSAFE.ordainSanitizedUri =
-      soydata.$$makeSanitizedContentFactoryWithDefaultDirOnly_(
-          soydata.SanitizedUri);
+	soydata.VERY_UNSAFE.ordainSanitizedUri = soydata.$$makeSanitizedContentFactoryWithDefaultDirOnly_(
+		soydata.SanitizedUri,
+	);
 
-  // -----------------------------------------------------------------------------
-  // Below are private utilities to be used by Soy-generated code only.
+	// -----------------------------------------------------------------------------
+	// Below are private utilities to be used by Soy-generated code only.
 
-  /**
+	/**
    * Builds an augmented map. The returned map will contain mappings from both
    * the base map and the additional map. If the same key appears in both, then
    * the value from the additional map will be visible, while the value from the
@@ -350,12 +350,14 @@
    * @return {!Object} An augmented map containing both the original and
    *     additional mappings.
    */
-  soy.$$augmentMap = function(baseMap, additionalMap) {
-    return soy.$$assignDefaults(soy.$$assignDefaults({}, additionalMap), baseMap);
-  };
+	soy.$$augmentMap = function(baseMap, additionalMap) {
+		return soy.$$assignDefaults(
+			soy.$$assignDefaults({}, additionalMap),
+			baseMap,
+		);
+	};
 
-
-  /**
+	/**
    * Copies extra properties into an object if they do not already exist. The
    * destination object is mutated in the process.
    *
@@ -363,62 +365,62 @@
    * @param {!Object} defaults An object with default properties to apply.
    * @return {!Object} The destination object for convenience.
    */
-  soy.$$assignDefaults = function(obj, defaults) {
-    for (var key in defaults) {
-      if (!(key in obj)) {
-        obj[key] = defaults[key];
-      }
-    }
+	soy.$$assignDefaults = function(obj, defaults) {
+		for (var key in defaults) {
+			if (!(key in obj)) {
+				obj[key] = defaults[key];
+			}
+		}
 
-    return obj;
-  };
+		return obj;
+	};
 
-  /**
+	/**
    * Checks that the given map key is a string.
    * @param {*} key Key to check.
    * @return {string} The given key.
    */
-  soy.$$checkMapKey = function(key) {
-    // TODO: Support map literal with nonstring key.
-    if ((typeof key) != 'string') {
-      throw Error(
-          'Map literal\'s key expression must evaluate to string' +
-          ' (encountered type "' + (typeof key) + '").');
-    }
-    return key;
-  };
+	soy.$$checkMapKey = function(key) {
+		// TODO: Support map literal with nonstring key.
+		if (typeof key != 'string') {
+			throw Error(
+				"Map literal's key expression must evaluate to string" +
+					' (encountered type "' +
+					typeof key +
+					'").',
+			);
+		}
+		return key;
+	};
 
-
-  /**
+	/**
    * Gets the keys in a map as an array. There are no guarantees on the order.
    * @param {Object} map The map to get the keys of.
    * @return {!Array<string>} The array of keys in the given map.
    */
-  soy.$$getMapKeys = function(map) {
-    var mapKeys = [];
-    for (var key in map) {
-      mapKeys.push(key);
-    }
-    return mapKeys;
-  };
+	soy.$$getMapKeys = function(map) {
+		var mapKeys = [];
+		for (var key in map) {
+			mapKeys.push(key);
+		}
+		return mapKeys;
+	};
 
-
-  /**
+	/**
    * Returns the argument if it is not null.
    *
    * @param {T} val The value to check
    * @return {T} val if is isn't null
    * @template T
    */
-  soy.$$checkNotNull = function(val) {
-    if (val == null) {
-      throw Error('unexpected null value');
-    }
-    return val;
-  };
+	soy.$$checkNotNull = function(val) {
+		if (val == null) {
+			throw Error('unexpected null value');
+		}
+		return val;
+	};
 
-
-  /**
+	/**
    * Gets a consistent unique id for the given delegate template name. Two calls
    * to this function will return the same id if and only if the input names are
    * the same.
@@ -436,28 +438,26 @@
    *
    * @consistentIdGenerator
    */
-  soy.$$getDelTemplateId = function(delTemplateName) {
-    return delTemplateName;
-  };
+	soy.$$getDelTemplateId = function(delTemplateName) {
+		return delTemplateName;
+	};
 
-
-  /**
+	/**
    * Map from registered delegate template key to the priority of the
    * implementation.
    * @type {Object}
    * @private
    */
-  soy.$$DELEGATE_REGISTRY_PRIORITIES_ = {};
+	soy.$$DELEGATE_REGISTRY_PRIORITIES_ = {};
 
-  /**
+	/**
    * Map from registered delegate template key to the implementation function.
    * @type {Object}
    * @private
    */
-  soy.$$DELEGATE_REGISTRY_FUNCTIONS_ = {};
+	soy.$$DELEGATE_REGISTRY_FUNCTIONS_ = {};
 
-
-  /**
+	/**
    * Registers a delegate implementation. If the same delegate template key (id
    * and variant) has been registered previously, then priority values are
    * compared and only the higher priority implementation is stored (if
@@ -469,27 +469,33 @@
    * @param {number} delPriority The implementation's priority value.
    * @param {Function} delFn The implementation function.
    */
-  soy.$$registerDelegateFn = function(
-      delTemplateId, delTemplateVariant, delPriority, delFn) {
+	soy.$$registerDelegateFn = function(
+		delTemplateId,
+		delTemplateVariant,
+		delPriority,
+		delFn,
+	) {
+		var mapKey = 'key_' + delTemplateId + ':' + delTemplateVariant;
+		var currPriority = soy.$$DELEGATE_REGISTRY_PRIORITIES_[mapKey];
+		if (currPriority === undefined || delPriority > currPriority) {
+			// Registering new or higher-priority function: replace registry entry.
+			soy.$$DELEGATE_REGISTRY_PRIORITIES_[mapKey] = delPriority;
+			soy.$$DELEGATE_REGISTRY_FUNCTIONS_[mapKey] = delFn;
+		} else if (delPriority == currPriority) {
+			// Registering same-priority function: error.
+			throw Error(
+				'Encountered two active delegates with the same priority ("' +
+					delTemplateId +
+					':' +
+					delTemplateVariant +
+					'").',
+			);
+		} else {
+			// Registering lower-priority function: do nothing.
+		}
+	};
 
-    var mapKey = 'key_' + delTemplateId + ':' + delTemplateVariant;
-    var currPriority = soy.$$DELEGATE_REGISTRY_PRIORITIES_[mapKey];
-    if (currPriority === undefined || delPriority > currPriority) {
-      // Registering new or higher-priority function: replace registry entry.
-      soy.$$DELEGATE_REGISTRY_PRIORITIES_[mapKey] = delPriority;
-      soy.$$DELEGATE_REGISTRY_FUNCTIONS_[mapKey] = delFn;
-    } else if (delPriority == currPriority) {
-      // Registering same-priority function: error.
-      throw Error(
-          'Encountered two active delegates with the same priority ("' +
-              delTemplateId + ':' + delTemplateVariant + '").');
-    } else {
-      // Registering lower-priority function: do nothing.
-    }
-  };
-
-
-  /**
+	/**
    * Retrieves the (highest-priority) implementation that has been registered for
    * a given delegate template key (id and variant). If no implementation has
    * been registered for the key, then the fallback is the same id with empty
@@ -504,29 +510,39 @@
    *     function if there's no active implementation.
    * @return {Function} The retrieved implementation function.
    */
-  soy.$$getDelegateFn = function(
-      delTemplateId, delTemplateVariant, allowsEmptyDefault) {
+	soy.$$getDelegateFn = function(
+		delTemplateId,
+		delTemplateVariant,
+		allowsEmptyDefault,
+	) {
+		var delFn =
+			soy.$$DELEGATE_REGISTRY_FUNCTIONS_[
+				'key_' + delTemplateId + ':' + delTemplateVariant
+			];
+		if (!delFn && delTemplateVariant != '') {
+			// Fallback to empty variant.
+			delFn =
+				soy.$$DELEGATE_REGISTRY_FUNCTIONS_[
+					'key_' + delTemplateId + ':'
+				];
+		}
 
-    var delFn = soy.$$DELEGATE_REGISTRY_FUNCTIONS_[
-        'key_' + delTemplateId + ':' + delTemplateVariant];
-    if (! delFn && delTemplateVariant != '') {
-      // Fallback to empty variant.
-      delFn = soy.$$DELEGATE_REGISTRY_FUNCTIONS_['key_' + delTemplateId + ':'];
-    }
+		if (delFn) {
+			return delFn;
+		} else if (allowsEmptyDefault) {
+			return soy.$$EMPTY_TEMPLATE_FN_;
+		} else {
+			throw Error(
+				'Found no active impl for delegate call to "' +
+					delTemplateId +
+					':' +
+					delTemplateVariant +
+					'" (and not allowemptydefault="true").',
+			);
+		}
+	};
 
-    if (delFn) {
-      return delFn;
-    } else if (allowsEmptyDefault) {
-      return soy.$$EMPTY_TEMPLATE_FN_;
-    } else {
-      throw Error(
-          'Found no active impl for delegate call to "' + delTemplateId + ':' +
-              delTemplateVariant + '" (and not allowemptydefault="true").');
-    }
-  };
-
-
-  /**
+	/**
    * Private helper soy.$$getDelegateFn(). This is the empty template function
    * that is returned whenever there's no delegate implementation found.
    *
@@ -536,15 +552,14 @@
    * @return {string}
    * @private
    */
-  soy.$$EMPTY_TEMPLATE_FN_ = function(opt_data, opt_sb, opt_ijData) {
-    return '';
-  };
+	soy.$$EMPTY_TEMPLATE_FN_ = function(opt_data, opt_sb, opt_ijData) {
+		return '';
+	};
 
-  // -----------------------------------------------------------------------------
-  // Basic directives/functions.
+	// -----------------------------------------------------------------------------
+	// Basic directives/functions.
 
-
-  /**
+	/**
    * Truncates a string to a given max length (if it's currently longer),
    * optionally adding ellipsis at the end.
    *
@@ -556,64 +571,65 @@
    *     truncation.
    * @return {string} The string after truncation.
    */
-  soy.$$truncate = function(str, maxLen, doAddEllipsis) {
+	soy.$$truncate = function(str, maxLen, doAddEllipsis) {
+		str = String(str);
+		if (str.length <= maxLen) {
+			return str; // no need to truncate
+		}
 
-    str = String(str);
-    if (str.length <= maxLen) {
-      return str;  // no need to truncate
-    }
+		// If doAddEllipsis, either reduce maxLen to compensate, or else if maxLen is
+		// too small, just turn off doAddEllipsis.
+		if (doAddEllipsis) {
+			if (maxLen > 3) {
+				maxLen -= 3;
+			} else {
+				doAddEllipsis = false;
+			}
+		}
 
-    // If doAddEllipsis, either reduce maxLen to compensate, or else if maxLen is
-    // too small, just turn off doAddEllipsis.
-    if (doAddEllipsis) {
-      if (maxLen > 3) {
-        maxLen -= 3;
-      } else {
-        doAddEllipsis = false;
-      }
-    }
+		// Make sure truncating at maxLen doesn't cut up a unicode surrogate pair.
+		if (
+			soy.$$isHighSurrogate_(str.charAt(maxLen - 1)) &&
+			soy.$$isLowSurrogate_(str.charAt(maxLen))
+		) {
+			maxLen -= 1;
+		}
 
-    // Make sure truncating at maxLen doesn't cut up a unicode surrogate pair.
-    if (soy.$$isHighSurrogate_(str.charAt(maxLen - 1)) &&
-        soy.$$isLowSurrogate_(str.charAt(maxLen))) {
-      maxLen -= 1;
-    }
+		// Truncate.
+		str = str.substring(0, maxLen);
 
-    // Truncate.
-    str = str.substring(0, maxLen);
+		// Add ellipsis.
+		if (doAddEllipsis) {
+			str += '...';
+		}
 
-    // Add ellipsis.
-    if (doAddEllipsis) {
-      str += '...';
-    }
+		return str;
+	};
 
-    return str;
-  };
-
-  /**
+	/**
    * Private helper for $$truncate() to check whether a char is a high surrogate.
    * @param {string} ch The char to check.
    * @return {boolean} Whether the given char is a unicode high surrogate.
    * @private
    */
-  soy.$$isHighSurrogate_ = function(ch) {
-    return 0xD800 <= ch && ch <= 0xDBFF;
-  };
+	soy.$$isHighSurrogate_ = function(ch) {
+		return 0xd800 <= ch && ch <= 0xdbff;
+	};
 
-  /**
+	/**
    * Private helper for $$truncate() to check whether a char is a low surrogate.
    * @param {string} ch The char to check.
    * @return {boolean} Whether the given char is a unicode low surrogate.
    * @private
    */
-  soy.$$isLowSurrogate_ = function(ch) {
-    return 0xDC00 <= ch && ch <= 0xDFFF;
-  };
+	soy.$$isLowSurrogate_ = function(ch) {
+		return 0xdc00 <= ch && ch <= 0xdfff;
+	};
 
-  // -----------------------------------------------------------------------------
-  // Assertion methods used by runtime.
+	// -----------------------------------------------------------------------------
+	// Assertion methods used by runtime.
 
-/**
+	/**
  * Checks if the type assertion is true if goog.asserts.ENABLE_ASSERTS is
  * true. Report errors on runtime types if goog.DEBUG is true.
  * @param {boolean} condition The type check condition.
@@ -623,62 +639,72 @@
  * @return {?} the param value
  * @throws {goog.asserts.AssertionError} When the condition evaluates to false.
  */
-soy.asserts.assertType = function(condition, paramName, param, jsDocTypeStr) {
-  if (goog.asserts.ENABLE_ASSERTS && !condition) {
-    var msg = 'expected param ' + paramName + ' of type ' + jsDocTypeStr +
-        (goog.DEBUG ? (', but got ' + goog.debug.runtimeType(param)) : '') +
-        '.';
-    goog.asserts.fail(msg);
-  }
-  return param;
-};
+	soy.asserts.assertType = function(
+		condition,
+		paramName,
+		param,
+		jsDocTypeStr,
+	) {
+		if (goog.asserts.ENABLE_ASSERTS && !condition) {
+			var msg =
+				'expected param ' +
+				paramName +
+				' of type ' +
+				jsDocTypeStr +
+				(goog.DEBUG
+					? ', but got ' + goog.debug.runtimeType(param)
+					: '') +
+				'.';
+			goog.asserts.fail(msg);
+		}
+		return param;
+	};
 
+	// -----------------------------------------------------------------------------
+	// Generated code.
 
-  // -----------------------------------------------------------------------------
-  // Generated code.
+	// START GENERATED CODE FOR ESCAPERS.
 
-
-  // START GENERATED CODE FOR ESCAPERS.
-
-  /**
+	/**
    * @type {function (*) : string}
    */
-  soy.esc.$$escapeHtmlHelper = function(v) {
-    return goog.string.htmlEscape(String(v));
-  };
+	soy.esc.$$escapeHtmlHelper = function(v) {
+		return goog.string.htmlEscape(String(v));
+	};
 
-  /**
+	/**
    * Allows only data-protocol image URI's.
    *
    * @param {*} value The value to process. May not be a string, but the value
    *     will be coerced to a string.
    * @return {!soydata.SanitizedUri} An escaped version of value.
    */
-  soy.$$filterImageDataUri = function(value) {
-    // NOTE: Even if it's a SanitizedUri, we will still filter it.
-    return soydata.VERY_UNSAFE.ordainSanitizedUri(
-        soy.esc.$$filterImageDataUriHelper(value));
-  };
+	soy.$$filterImageDataUri = function(value) {
+		// NOTE: Even if it's a SanitizedUri, we will still filter it.
+		return soydata.VERY_UNSAFE.ordainSanitizedUri(
+			soy.esc.$$filterImageDataUriHelper(value),
+		);
+	};
 
-  /**
+	/**
    * A pattern that vets values produced by the named directives.
    * @private {!RegExp}
    */
-  soy.esc.$$FILTER_FOR_FILTER_IMAGE_DATA_URI_ = /^data:image\/(?:bmp|gif|jpe?g|png|tiff|webp);base64,[a-z0-9+\/]+=*$/i;
+	soy.esc.$$FILTER_FOR_FILTER_IMAGE_DATA_URI_ = /^data:image\/(?:bmp|gif|jpe?g|png|tiff|webp);base64,[a-z0-9+\/]+=*$/i;
 
-  /**
+	/**
    * A helper for the Soy directive |filterImageDataUri
    * @param {*} value Can be of any type but will be coerced to a string.
    * @return {string} The escaped text.
    */
-  soy.esc.$$filterImageDataUriHelper = function(value) {
-    var str = String(value);
-    if (!soy.esc.$$FILTER_FOR_FILTER_IMAGE_DATA_URI_.test(str)) {
-      goog.asserts.fail('Bad value `%s` for |filterImageDataUri', [str]);
-      return 'data:image/gif;base64,zSoyz';
-    }
-    return str;
-  };
+	soy.esc.$$filterImageDataUriHelper = function(value) {
+		var str = String(value);
+		if (!soy.esc.$$FILTER_FOR_FILTER_IMAGE_DATA_URI_.test(str)) {
+			goog.asserts.fail('Bad value `%s` for |filterImageDataUri', [str]);
+			return 'data:image/gif;base64,zSoyz';
+		}
+		return str;
+	};
 
 	var incrementaldom = IncrementalDOM;
 	var soyIDOM = {};
@@ -721,20 +747,20 @@ soy.asserts.assertType = function(condition, paramName, param, jsDocTypeStr) {
 		return soyIDOM;
 	});
 
-  // END GENERATED CODE
+	// END GENERATED CODE
 
-  goog.loadModule(function() {
-    goog.module('soy');
-    return soy;
-  });
+	goog.loadModule(function() {
+		goog.module('soy');
+		return soy;
+	});
 
-  goog.loadModule(function() {
-    goog.module('soydata');
-    return soydata;
-  });
+	goog.loadModule(function() {
+		goog.module('soydata');
+		return soydata;
+	});
 
-  goog.loadModule(function() {
-    goog.module('soy.asserts');
-    return soy;
-  });
+	goog.loadModule(function() {
+		goog.module('soy.asserts');
+		return soy;
+	});
 })();

@@ -13,8 +13,7 @@ describe('Disposable', function() {
 	});
 
 	it('should call `disposeInternal` when running `dispose`', function() {
-		class TestDisposable extends Disposable {
-		}
+		class TestDisposable extends Disposable {}
 
 		TestDisposable.prototype.disposeInternal = sinon.stub();
 
@@ -25,8 +24,7 @@ describe('Disposable', function() {
 	});
 
 	it('should not dispose more than once', function() {
-		class TestDisposable extends Disposable {
-		}
+		class TestDisposable extends Disposable {}
 
 		TestDisposable.prototype.disposeInternal = sinon.stub();
 
@@ -35,6 +33,5 @@ describe('Disposable', function() {
 		testDisposable.dispose();
 
 		assert.strictEqual(1, testDisposable.disposeInternal.callCount);
-
 	});
 });

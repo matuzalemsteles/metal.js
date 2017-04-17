@@ -31,10 +31,22 @@ const SoyAop = {
 	 * @return {*} The return value of the function that is called to handle this
 	 *     interception.
 	 */
-	handleTemplateCall_: function(originalFn, opt_data, opt_ignored, opt_ijData) {
-		const interceptFn = SoyAop.interceptFns_[SoyAop.interceptFns_.length - 1];
+	handleTemplateCall_: function(
+		originalFn,
+		opt_data,
+		opt_ignored,
+		opt_ijData,
+	) {
+		const interceptFn =
+			SoyAop.interceptFns_[SoyAop.interceptFns_.length - 1];
 		if (interceptFn) {
-			return interceptFn.call(null, originalFn, opt_data, opt_ignored, opt_ijData);
+			return interceptFn.call(
+				null,
+				originalFn,
+				opt_data,
+				opt_ignored,
+				opt_ijData,
+			);
 		} else {
 			return originalFn.call(null, opt_data, opt_ignored, opt_ijData);
 		}
@@ -75,7 +87,7 @@ const SoyAop = {
 	 */
 	stopInterception: function() {
 		SoyAop.interceptFns_.pop();
-	}
+	},
 };
 
 export default SoyAop;

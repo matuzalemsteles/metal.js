@@ -18,8 +18,7 @@ describe('JSXDataManager', function() {
 	});
 
 	it('should create "props" and "state" objects in component', function() {
-		class TestComponent extends Component {
-		}
+		class TestComponent extends Component {}
 		TestComponent.DATA_MANAGER = JSXDataManager;
 
 		component = new TestComponent();
@@ -29,13 +28,12 @@ describe('JSXDataManager', function() {
 
 	describe('state', function() {
 		it('should add properties from STATE to `state` variable', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.STATE = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
@@ -46,24 +44,22 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should not use constructor values for properties in STATE', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.STATE = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent({
-				foo: 'foo'
+				foo: 'foo',
 			});
 			assert.strictEqual('defaultFoo', component.state.foo);
 		});
 
 		it('should not include default component data in "state"', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 
 			component = new TestComponent();
@@ -73,13 +69,12 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should keep state objects different between component instances', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.STATE = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
@@ -95,7 +90,9 @@ describe('JSXDataManager', function() {
 			assert.equal('foo2', component2.state.foo);
 		});
 
-		it('should run setState\'s callback after component is rerendered', function(done) {
+		it("should run setState's callback after component is rerendered", function(
+			done,
+		) {
 			class TestComponent extends Component {
 				render() {}
 			}
@@ -103,22 +100,25 @@ describe('JSXDataManager', function() {
 			TestComponent.RENDERER = IncrementalDomRenderer;
 			TestComponent.STATE = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
 			sinon.spy(component, 'render');
 
-			component.setState({
-				foo: 'newFoo'
-			}, () => {
-				assert.strictEqual(1, component.render.callCount);
-				done();
-			});
+			component.setState(
+				{
+					foo: 'newFoo',
+				},
+				() => {
+					assert.strictEqual(1, component.render.callCount);
+					done();
+				},
+			);
 		});
 
-		it('should now allow changes to a component\'s props cause changes to another\s', function() {
+		it("should now allow changes to a component's props cause changes to another\s", function() {
 			class TestComponent extends Component {
 				render() {}
 			}
@@ -136,13 +136,12 @@ describe('JSXDataManager', function() {
 
 	describe('props', function() {
 		it('should add properties from PROPS to `props` variable', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
@@ -153,24 +152,22 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should use constructor values for properties in PROPS', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent({
-				foo: 'foo'
+				foo: 'foo',
 			});
 			assert.strictEqual('foo', component.props.foo);
 		});
 
 		it('should include default component data in "props"', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 
 			component = new TestComponent();
@@ -180,13 +177,12 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should keep prop objects different between component instances', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
@@ -203,18 +199,17 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should return value from "props" when "get" is called', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				foo: {
-					value: 'defaultPropsFoo'
-				}
+					value: 'defaultPropsFoo',
+				},
 			};
 			TestComponent.STATE = {
 				foo: {
-					value: 'defaultStateFoo'
-				}
+					value: 'defaultStateFoo',
+				},
 			};
 
 			component = new TestComponent();
@@ -222,69 +217,75 @@ describe('JSXDataManager', function() {
 			assert.strictEqual('defaultStateFoo', component.state.foo);
 
 			var manager = component.getDataManager();
-			assert.strictEqual('defaultPropsFoo', manager.get(component, 'foo'));
+			assert.strictEqual(
+				'defaultPropsFoo',
+				manager.get(component, 'foo'),
+			);
 		});
 
 		it('should return the "State" instance for props from "getPropsInstance"', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				foo: {
-					value: 'defaultPropsFoo'
-				}
+					value: 'defaultPropsFoo',
+				},
 			};
 			TestComponent.STATE = {
 				foo: {
-					value: 'defaultStateFoo'
-				}
+					value: 'defaultStateFoo',
+				},
 			};
 
 			component = new TestComponent();
-			var propsInstance = component.getDataManager().getPropsInstance(component);
+			var propsInstance = component
+				.getDataManager()
+				.getPropsInstance(component);
 			assert.ok(propsInstance);
 			assert.equal('defaultPropsFoo', propsInstance.get('foo'));
 		});
 
 		it('should return keys from "props" when "getSyncKeys" is called', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
-				foo: {
-				}
+				foo: {},
 			};
 			TestComponent.STATE = {
-				bar: {
-				}
+				bar: {},
 			};
 
 			component = new TestComponent();
 			var manager = component.getDataManager();
-			var expected = ['children', 'elementClasses', 'events', 'foo', 'visible'];
+			var expected = [
+				'children',
+				'elementClasses',
+				'events',
+				'foo',
+				'visible',
+			];
 			assert.deepEqual(expected, manager.getSyncKeys(component).sort());
 		});
 	});
 
 	describe('replaceNonInternal', function() {
 		it('should replace props with given values', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				bar: {
-					value: 'defaultBar'
+					value: 'defaultBar',
 				},
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
 			var manager = component.getDataManager();
 			manager.replaceNonInternal(component, {
 				bar: 'bar',
-				foo: 'foo'
+				foo: 'foo',
 			});
 
 			assert.strictEqual('bar', component.props.bar);
@@ -292,22 +293,21 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should replace props with default values if no value is given', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				bar: {
-					value: 'defaultBar'
+					value: 'defaultBar',
 				},
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
 			var manager = component.getDataManager();
 			manager.replaceNonInternal(component, {
-				bar: 'bar'
+				bar: 'bar',
 			});
 
 			assert.strictEqual('bar', component.props.bar);
@@ -315,38 +315,36 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should not replace state values', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.STATE = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
 			var manager = component.getDataManager();
 			manager.replaceNonInternal(component, {
-				foo: 'foo'
+				foo: 'foo',
 			});
 			assert.strictEqual('defaultFoo', component.state.foo);
 		});
 
 		it('should manually set prop values not specified in PROPS', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				bar: {
-					value: 'defaultBar'
-				}
+					value: 'defaultBar',
+				},
 			};
 
 			component = new TestComponent();
 			var manager = component.getDataManager();
 			manager.replaceNonInternal(component, {
 				bar: 'bar',
-				foo: 'foo'
+				foo: 'foo',
 			});
 
 			assert.strictEqual('bar', component.props.bar);
@@ -354,24 +352,26 @@ describe('JSXDataManager', function() {
 		});
 
 		it('should call "propsChanged" lifecycle method when props are replaced', function() {
-			class TestComponent extends Component {
-			}
+			class TestComponent extends Component {}
 			TestComponent.prototype.propsChanged = sinon.stub();
 			TestComponent.DATA_MANAGER = JSXDataManager;
 			TestComponent.PROPS = {
 				foo: {
-					value: 'defaultFoo'
-				}
+					value: 'defaultFoo',
+				},
 			};
 
 			component = new TestComponent();
 			var manager = component.getDataManager();
 			manager.replaceNonInternal(component, {
-				foo: 'foo'
+				foo: 'foo',
 			});
 
 			assert.strictEqual(1, component.propsChanged.callCount);
-			assert.strictEqual('defaultFoo', component.propsChanged.args[0][0].foo);
+			assert.strictEqual(
+				'defaultFoo',
+				component.propsChanged.args[0][0].foo,
+			);
 			assert.strictEqual('foo', component.props.foo);
 		});
 	});

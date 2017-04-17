@@ -19,7 +19,7 @@ let uniqueIdCounter_ = 1;
  * @type {String}
  * @protected
  */
-export const UID_PROPERTY = `core_${((Math.random() * 1e9) >>> 0)}`;
+export const UID_PROPERTY = `core_${(Math.random() * 1e9) >>> 0}`;
 
 /**
  * When defining a class Foo with an abstract method bar(), you can do:
@@ -120,12 +120,14 @@ export function getFunctionName(fn) {
 export function getStaticProperty(ctor, propertyName, opt_mergeFn) {
 	const mergedName = propertyName + '_MERGED';
 	if (!ctor.hasOwnProperty(mergedName)) {
-		let merged = ctor.hasOwnProperty(propertyName) ? ctor[propertyName] : null;
+		let merged = ctor.hasOwnProperty(propertyName)
+			? ctor[propertyName]
+			: null;
 		if (ctor.__proto__ && !ctor.__proto__.isPrototypeOf(Function)) {
 			const mergeFn = opt_mergeFn || getFirstTruthy_;
 			merged = mergeFn(
 				merged,
-				getStaticProperty(ctor.__proto__, propertyName, mergeFn)
+				getStaticProperty(ctor.__proto__, propertyName, mergeFn),
 			);
 		}
 		ctor[mergedName] = merged;
@@ -262,7 +264,7 @@ export function isWindow(val) {
  */
 export function isObject(val) {
 	const type = typeof val;
-	return type === 'object' && val !== null || type === 'function';
+	return (type === 'object' && val !== null) || type === 'function';
 }
 
 /**
@@ -287,5 +289,4 @@ export function isString(val) {
  * Null function used for default values of callbacks, etc.
  * @return {void} Nothing.
  */
-export function nullFunction() {
-}
+export function nullFunction() {}

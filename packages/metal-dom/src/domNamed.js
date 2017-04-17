@@ -1,6 +1,14 @@
 'use strict';
 
-import { isDef, isDocument, isDocumentFragment, isElement, isObject, isString, object } from 'metal';
+import {
+	isDef,
+	isDocument,
+	isDocumentFragment,
+	isElement,
+	isObject,
+	isString,
+	object,
+} from 'metal';
 import domData from './domData';
 import DomDelegatedEventHandle from './DomDelegatedEventHandle';
 import DomEventHandle from './DomEventHandle';
@@ -16,7 +24,7 @@ const USE_CAPTURE = {
 	focus: true,
 	invalid: true,
 	load: true,
-	scroll: true
+	scroll: true,
 };
 
 /**
@@ -135,9 +143,9 @@ function attachDelegateEvent_(element, eventName) {
 				element,
 				eventName,
 				handleDelegateEvent_,
-				!!USE_CAPTURE[eventName]
+				!!USE_CAPTURE[eventName],
 			),
-			selectors: {}
+			selectors: {},
 		};
 	}
 }
@@ -227,7 +235,13 @@ export function contains(element1, element2) {
  *     `preventDefault`.
  * @return {!EventHandle} Can be used to remove the listener.
  */
-export function delegate(element, eventName, selectorOrTarget, callback, opt_default) {
+export function delegate(
+	element,
+	eventName,
+	selectorOrTarget,
+	callback,
+	opt_default,
+) {
 	const customConfig = customEvents[eventName];
 	if (customConfig && customConfig.delegate) {
 		eventName = customConfig.originalEvent;
@@ -251,7 +265,7 @@ export function delegate(element, eventName, selectorOrTarget, callback, opt_def
 		isString(selectorOrTarget) ? element : selectorOrTarget,
 		eventName,
 		callback,
-		isString(selectorOrTarget) ? selectorOrTarget : null
+		isString(selectorOrTarget) ? selectorOrTarget : null,
 	);
 }
 
@@ -270,7 +284,13 @@ function isAbleToInteractWith_(node, eventName, opt_eventObj) {
 		return false;
 	}
 
-	const matchesSelector = ['BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'FIELDSET'];
+	const matchesSelector = [
+		'BUTTON',
+		'INPUT',
+		'SELECT',
+		'TEXTAREA',
+		'FIELDSET',
+	];
 	if (eventName === 'click' && matchesSelector.indexOf(node.tagName) > -1) {
 		return !(node.disabled || parent(node, 'fieldset[disabled]'));
 	}
@@ -351,7 +371,7 @@ function hasClassWithNative_(element, className) {
  * @private
  */
 function hasClassWithoutNative_(element, className) {
-	return (` ${element.className} `).indexOf(` ${className} `) >= 0;
+	return ` ${element.className} `.indexOf(` ${className} `) >= 0;
 }
 
 /**
@@ -375,7 +395,12 @@ export function match(element, selector) {
 	}
 
 	const p = Element.prototype;
-	const m = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || p.oMatchesSelector;
+	const m =
+		p.matches ||
+		p.webkitMatchesSelector ||
+		p.mozMatchesSelector ||
+		p.msMatchesSelector ||
+		p.oMatchesSelector;
 	if (m) {
 		return m.call(element, selector);
 	}
@@ -656,7 +681,12 @@ function triggerDelegatedListeners_(container, event, defaultFns) {
 		if (isAbleToInteractWith_(currElement, event.type, event)) {
 			event.delegateTarget = currElement;
 			ret &= triggerElementListeners_(currElement, event, defaultFns);
-			ret &= triggerSelectorListeners_(container, currElement, event, defaultFns);
+			ret &= triggerSelectorListeners_(
+				container,
+				currElement,
+				event,
+				defaultFns,
+			);
 		}
 		currElement = currElement.parentNode;
 	}
@@ -672,10 +702,17 @@ function triggerDelegatedListeners_(container, event, defaultFns) {
  * @return {Element} The converted element, or null if none was found.
  */
 export function toElement(selectorOrElement) {
-	if (isElement(selectorOrElement) || isDocument(selectorOrElement) || isDocumentFragment(selectorOrElement)) {
+	if (
+		isElement(selectorOrElement) ||
+		isDocument(selectorOrElement) ||
+		isDocumentFragment(selectorOrElement)
+	) {
 		return selectorOrElement;
 	} else if (isString(selectorOrElement)) {
-		if (selectorOrElement[0] === '#' && selectorOrElement.indexOf(' ') === -1) {
+		if (
+			selectorOrElement[0] === '#' &&
+			selectorOrElement.indexOf(' ') === -1
+		) {
 			return document.getElementById(selectorOrElement.substr(1));
 		} else {
 			return document.querySelector(selectorOrElement);
@@ -738,7 +775,9 @@ function toggleClassesWithoutNative_(element, classes) {
 			elementClassName = `${elementClassName}${classes[i]} `;
 		} else {
 			const before = elementClassName.substring(0, classIndex);
-			const after = elementClassName.substring(classIndex + className.length);
+			const after = elementClassName.substring(
+				classIndex + className.length,
+			);
 			elementClassName = `${before} ${after}`;
 		}
 	}
@@ -801,7 +840,7 @@ function triggerListeners_(listeners, event, element, defaultFns) {
 		if (listeners[i].defaultListener_) {
 			defaultFns.push({
 				element,
-				fn: listeners[i]
+				fn: listeners[i],
 			});
 		} else {
 			ret &= listeners[i](event);

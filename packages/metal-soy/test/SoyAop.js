@@ -1,6 +1,6 @@
 'use strict';
 
-import { object } from 'metal';
+import {object} from 'metal';
 import SoyAop from '../src/SoyAop';
 
 describe('SoyAop', function() {
@@ -12,7 +12,7 @@ describe('SoyAop', function() {
 		var templates = {
 			fn1: sinon.stub(),
 			fn2: sinon.stub(),
-			fn3: sinon.stub()
+			fn3: sinon.stub(),
 		};
 		var originals = object.mixin({}, templates);
 		SoyAop.registerForInterception(templates, 'fn1');
@@ -37,7 +37,7 @@ describe('SoyAop', function() {
 	it('should get original function', function() {
 		var templates = {
 			fn1: sinon.stub(),
-			fn2: sinon.stub()
+			fn2: sinon.stub(),
 		};
 		var originals = object.mixin({}, templates);
 		SoyAop.registerForInterception(templates, 'fn1');
@@ -58,7 +58,7 @@ describe('SoyAop', function() {
 	it('should pass correct params to intercepted call', function() {
 		var templates = {
 			fn1: sinon.stub(),
-			fn2: sinon.stub()
+			fn2: sinon.stub(),
 		};
 		SoyAop.registerForInterception(templates, 'fn1');
 		SoyAop.registerForInterception(templates, 'fn2');
@@ -69,19 +69,25 @@ describe('SoyAop', function() {
 		var data = {};
 		var ijData = {};
 		templates.fn1(data, null, ijData);
-		assert.strictEqual(SoyAop.getOriginalFn(templates.fn1), interceptor.args[0][0]);
+		assert.strictEqual(
+			SoyAop.getOriginalFn(templates.fn1),
+			interceptor.args[0][0],
+		);
 		assert.strictEqual(data, interceptor.args[0][1]);
 		assert.strictEqual(ijData, interceptor.args[0][3]);
 
 		templates.fn2(data, null, ijData);
-		assert.strictEqual(SoyAop.getOriginalFn(templates.fn2), interceptor.args[1][0]);
+		assert.strictEqual(
+			SoyAop.getOriginalFn(templates.fn2),
+			interceptor.args[1][0],
+		);
 		assert.strictEqual(data, interceptor.args[1][1]);
 		assert.strictEqual(ijData, interceptor.args[1][3]);
 	});
 
 	it('should stop intercepting calls to template functions', function() {
 		var templates = {
-			fn: sinon.stub()
+			fn: sinon.stub(),
 		};
 		SoyAop.registerForInterception(templates, 'fn');
 
@@ -96,7 +102,7 @@ describe('SoyAop', function() {
 
 	it('should restart intercepting calls to template functions', function() {
 		var templates = {
-			fn: sinon.stub()
+			fn: sinon.stub(),
 		};
 		SoyAop.registerForInterception(templates, 'fn');
 
@@ -112,7 +118,7 @@ describe('SoyAop', function() {
 
 	it('should go back to previous intercepting function when interception is stopped', function() {
 		var templates = {
-			fn: sinon.stub()
+			fn: sinon.stub(),
 		};
 		SoyAop.registerForInterception(templates, 'fn');
 
@@ -145,7 +151,7 @@ describe('SoyAop', function() {
 		SoyAop.startInterception(interceptor);
 
 		var templates = {
-			fn: sinon.stub()
+			fn: sinon.stub(),
 		};
 		SoyAop.registerForInterception(templates, 'fn');
 
@@ -158,7 +164,7 @@ describe('SoyAop', function() {
 		SoyAop.startInterception(sinon.stub());
 
 		var templates = {
-			fn: sinon.stub()
+			fn: sinon.stub(),
 		};
 		SoyAop.registerForInterception(templates, 'fn');
 

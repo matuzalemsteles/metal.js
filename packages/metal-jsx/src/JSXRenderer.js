@@ -1,6 +1,6 @@
 'use strict';
 
-import { isDefAndNotNull } from 'metal';
+import {isDefAndNotNull} from 'metal';
 import IncrementalDomRenderer from 'metal-incremental-dom';
 
 const COUNT_PROP = '__metalJsxCount';

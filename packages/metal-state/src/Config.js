@@ -1,6 +1,6 @@
 'use strict';
 
-import { object } from 'metal';
+import {object} from 'metal';
 import validators from './validators';
 
 /**
@@ -34,7 +34,7 @@ const Config = {
 	 */
 	internal(internal = true) {
 		return mergeConfig(this, {
-			internal
+			internal,
 		});
 	},
 
@@ -45,7 +45,7 @@ const Config = {
 	 */
 	required(required = true) {
 		return mergeConfig(this, {
-			required
+			required,
 		});
 	},
 
@@ -56,7 +56,7 @@ const Config = {
 	 */
 	setter(setter) {
 		return mergeConfig(this, {
-			setter
+			setter,
 		});
 	},
 
@@ -67,7 +67,7 @@ const Config = {
 	 */
 	validator(validator) {
 		return mergeConfig(this, {
-			validator
+			validator,
 		});
 	},
 
@@ -78,9 +78,9 @@ const Config = {
 	 */
 	value(value) {
 		return mergeConfig(this, {
-			value
+			value,
 		});
-	}
+	},
 };
 
 /**
@@ -102,9 +102,10 @@ function mergeConfig(context, config) {
 // Add all validators to `Config`.
 const fnNames = Object.keys(validators);
 fnNames.forEach(
-	name => Config[name] = function() {
-		return this.validator(validators[name]);
-	}
+	name =>
+		Config[name] = function() {
+			return this.validator(validators[name]);
+		},
 );
 
 export default Config;

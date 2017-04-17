@@ -22,7 +22,7 @@ describe('EventEmitterProxy', function() {
 		var origin = new EventEmitter();
 		var target = new EventEmitter();
 		new EventEmitterProxy(origin, target, {
-			event1: true
+			event1: true,
 		});
 
 		var listener = sinon.stub();
@@ -36,7 +36,7 @@ describe('EventEmitterProxy', function() {
 		var origin = new EventEmitter();
 		var target = new EventEmitter();
 		new EventEmitterProxy(origin, target, null, {
-			event1: true
+			event1: true,
 		});
 
 		var listener = sinon.stub();
@@ -51,11 +51,16 @@ describe('EventEmitterProxy', function() {
 	it('should not proxy event that is both whitelisted and blacklisted', function() {
 		var origin = new EventEmitter();
 		var target = new EventEmitter();
-		new EventEmitterProxy(origin, target, {
-			event1: true
-		}, {
-			event1: true
-		});
+		new EventEmitterProxy(
+			origin,
+			target,
+			{
+				event1: true,
+			},
+			{
+				event1: true,
+			},
+		);
 
 		var listener = sinon.stub();
 		target.on('event1', listener);

@@ -1,6 +1,6 @@
 'use strict';
 
-import { isDef } from '../core';
+import {isDef} from '../core';
 
 class array {
 	/**
@@ -65,7 +65,7 @@ class array {
 	static remove(arr, obj) {
 		const i = arr.indexOf(obj);
 		let rv;
-		if ( (rv = i >= 0) ) {
+		if ((rv = i >= 0)) {
 			array.removeAt(arr, i);
 		}
 		return rv;
