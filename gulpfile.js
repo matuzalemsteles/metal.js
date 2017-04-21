@@ -97,8 +97,7 @@ metal.registerTasks({
 gulp.task('soy', function() {
 	return gulp.src('packages/metal-soy/test/**/*.soy')
 		.pipe(compileSoy())
-		.pipe(replace('metal-soy', '../..'))
-		.pipe(replace('metal-component/src/Component', 'metal-component'))
+		.pipe(replace('metal-soy', '../../src/Soy'))
 		.pipe(gulp.dest('packages/metal-soy/test'));
 });
 
