@@ -4,7 +4,7 @@ import { getFunctionName, isDefAndNotNull } from 'metal';
 
 const ERROR_ARRAY_OF_TYPE = 'Expected an array of single type.';
 const ERROR_OBJECT_OF_TYPE = 'Expected object of one type.';
-const ERROR_ONE_OF = 'Expected one of given values.';
+const ERROR_ONE_OF = 'Expected one of the following values: ';
 const ERROR_ONE_OF_TYPE = 'Expected one of given types.';
 const ERROR_SHAPE_OF = 'Expected object with a specific shape.';
 
@@ -83,8 +83,9 @@ const validators = {
 			if (isInvalid(result)) {
 				return result;
 			}
+			const message = ERROR_ONE_OF + arrayOfValues.join(', ') + '.';
 			return arrayOfValues.indexOf(value) === -1 ?
-				composeError(ERROR_ONE_OF, name, context) :
+				composeError(message, name, context) :
 				true;
 		});
 	},
