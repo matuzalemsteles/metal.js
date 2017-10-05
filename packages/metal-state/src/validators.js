@@ -6,7 +6,6 @@ const ERROR_ARRAY_OF_TYPE = 'Expected an array of single type.';
 const ERROR_OBJECT_OF_TYPE = 'Expected object of one type.';
 const ERROR_ONE_OF = 'Expected one of the following values: ';
 const ERROR_ONE_OF_TYPE = 'Expected one of given types.';
-const ERROR_SHAPE_OF = 'Expected object with a specific shape.';
 
 /**
  * Provides access to various type validators that will return an
@@ -133,9 +132,9 @@ const validators = {
 					required = validator.config.required;
 					validator = validator.config.validator;
 				}
-				if ((required && !isDefAndNotNull(value[key])) ||
-					isInvalid(validator(value[key]))) {
-					return composeError(ERROR_SHAPE_OF, name, context);
+				if ((required && !isDefAndNotNull(value)) ||
+					isInvalid(validator(value))) {
+					return validator(value, name + '.' + key, context);
 				}
 			}
 			return true;
