@@ -2,7 +2,6 @@
 
 import { getFunctionName, isDefAndNotNull } from 'metal';
 
-const ERROR_ARRAY_OF_TYPE = 'Expected an array of single type.';
 const ERROR_OBJECT_OF_TYPE = 'Expected object of one type.';
 const ERROR_ONE_OF = 'Expected one of the following values: ';
 const ERROR_ONE_OF_TYPE = 'Expected one of given types.';
@@ -227,7 +226,8 @@ function maybe(typeValidator) {
 function validateArrayItems(validator, value, name, context) {
 	for (let i = 0; i < value.length; i++) {
 		if (isInvalid(validator(value[i], name, context))) {
-			return composeError(ERROR_ARRAY_OF_TYPE, name, context);
+
+			return composeError(value[i], name, context);
 		}
 	}
 	return true;
