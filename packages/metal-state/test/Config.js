@@ -141,17 +141,17 @@ describe('Config', function() {
 		assert.ok(core.isFunction(configShape.config.validator));
 
 		assert.ok(configShape.config.validator({ 
-		one: false,
-		two: 30,
-		three: 'anything',
+			one: false,
+			two: 30,
+			three: 'anything',
 		}) instanceof Error);
 
 		assert.ok(configShape.config.validator([1, 2]) instanceof Error);
 		assert.ok(configShape.config.validator({
-		one: false,
-		two: 'is String!',
-		three: 'propOne',
-		four: 30
+			one: false,
+			two: 'is String!',
+			three: 'propOne',
+			four: 30
 		}));
 	});
 
