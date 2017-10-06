@@ -2,11 +2,9 @@
 
 import { getFunctionName, isDefAndNotNull } from 'metal';
 
-const ERROR_ARRAY_OF_TYPE = 'Expected an array of single type.';
 const ERROR_OBJECT_OF_TYPE = 'Expected object of one type.';
-const ERROR_ONE_OF = 'Expected one of given values.';
+const ERROR_ONE_OF = 'Expected one of the following values: ';
 const ERROR_ONE_OF_TYPE = 'Expected one of given types.';
-const ERROR_SHAPE_OF = 'Expected object with a specific shape.';
 
 /**
  * Provides access to various type validators that will return an
@@ -83,8 +81,9 @@ const validators = {
 			if (isInvalid(result)) {
 				return result;
 			}
+			const message = ERROR_ONE_OF + arrayOfValues.join(', ') + '.';
 			return arrayOfValues.indexOf(value) === -1 ?
-				composeError(ERROR_ONE_OF, name, context) :
+				composeError(message, name, context) :
 				true;
 		});
 	},
@@ -132,9 +131,9 @@ const validators = {
 					required = validator.config.required;
 					validator = validator.config.validator;
 				}
-				if ((required && !isDefAndNotNull(value[key])) ||
-					isInvalid(validator(value[key]))) {
-					return composeError(ERROR_SHAPE_OF, name, context);
+				if ((required && !isDefAndNotNull(value)) ||
+					isInvalid(validator(value))) {
+					return validator(value, name + '.' + key, context);
 				}
 			}
 			return true;
@@ -227,7 +226,8 @@ function maybe(typeValidator) {
 function validateArrayItems(validator, value, name, context) {
 	for (let i = 0; i < value.length; i++) {
 		if (isInvalid(validator(value[i], name, context))) {
-			return composeError(ERROR_ARRAY_OF_TYPE, name, context);
+
+			return composeError(value[i], name, context);
 		}
 	}
 	return true;
