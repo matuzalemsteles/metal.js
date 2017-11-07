@@ -177,14 +177,14 @@ function buildTypeValidator(expectedType) {
  * @return {!Error}
  */
 function composeError(error, name, context) {
-	const compName = context ? getFunctionName(context.constructor) : null;
-	const renderer = context && context.getRenderer && context.getRenderer();
-	const parent = renderer && renderer.getParent && renderer.getParent();
-	const parentName = parent ? getFunctionName(parent.constructor) : null;
-	const location = parentName ? `Check render method of '${parentName}'.` : '';
-	return new Error(
-		`Warning: Invalid state passed to '${name}'. ` +
-		`${error} Passed to '${compName}'. ${location}`
+    const compName = context ? getFunctionName(context.constructor) : null;
+    const renderer = context && context.getRenderer && context.getRenderer();
+    const parent = renderer && renderer.getParent && renderer.getParent();
+    const parentName = parent ? getFunctionName(parent.constructor) : null;
+    const location = parentName ? `Check render method of '${parentName}'.` : '';
+    return new Error(
+		`Invalid state passed to '${name}'.` +
+	    ` ${error} Passed to '${compName}'. ${location}`
 	);
 }
 
