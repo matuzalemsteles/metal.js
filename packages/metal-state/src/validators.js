@@ -121,11 +121,14 @@ const validators = {
 	 */
 	shapeOf: function(shape) {
 		return maybe((value, name, context) => {
-			const result = validators.object(shape, name, context);
-			if (isInvalid(result)) {
-				return result;
+			const shapeResult = validators.object(shape, name, context);
+			const valueResult = validators.object(value, name, context);
+			if (isInvalid(shapeResult)) {
+				return shapeResult;
 			}
-
+			if(isInvalid(valueResult)) {
+				return valueResult;
+			}
 			for (let key in shape) {
 				let validator = shape[key];
 				let required = false;
@@ -135,7 +138,7 @@ const validators = {
 				}
 				if ((required && !isDefAndNotNull(value[key])) ||
 					isInvalid(validator(value[key]))) {
-					return composeError(ERROR_SHAPE_OF, name, context);
+					return validator(value[key], name + '.' + key, context);
 				}
 			}
 			return true;
