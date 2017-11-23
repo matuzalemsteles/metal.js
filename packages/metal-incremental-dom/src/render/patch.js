@@ -1,9 +1,8 @@
 'use strict';
 
-import { append, exitDocument } from 'metal-dom';
-import { getData } from '../data';
-import { isServerSide } from 'metal';
-import { render } from './render';
+import {append, exitDocument} from 'metal-dom';
+import {getData} from '../data';
+import {render} from './render';
 
 const patchingComponents_ = [];
 
@@ -11,13 +10,14 @@ const patchingComponents_ = [];
  * Guarantees that the component's element has a parent. That's necessary
  * when calling incremental dom's `patchOuter` for now, as otherwise it will
  * throw an error if the element needs to be replaced.
+ * @param {Element} element
  * @return {Element} The parent, in case it was added.
  * @private
  */
 function buildParentIfNecessary_(element) {
 	if (!element || !element.parentNode) {
 		let parent = {};
-		if (!isServerSide()) {
+		if (typeof document !== 'undefined') {
 			parent = document.createElement('div');
 		}
 		if (element) {
@@ -31,11 +31,11 @@ function buildParentIfNecessary_(element) {
  * Calls incremental dom's patch function.
  * @param {!Component} component The component to patch.
  * @param {!Element} element The element the component should be patched on.
- * @param {boolean=} opt_outer Flag indicating if `patchOuter` should be used
+ * @param {boolean=} outer Flag indicating if `patchOuter` should be used
  *     instead of `patch`.
  * @private
  */
-function callPatch_(component, element, opt_outer) {
+function callPatch_(component, element, outer) {
 	patchingComponents_.push(component);
 
 	const data = getData(component);
@@ -44,7 +44,7 @@ function callPatch_(component, element, opt_outer) {
 		data.render = render.bind(null, component);
 	}
 
-	const patchFn = opt_outer ? IncrementalDOM.patchOuter : IncrementalDOM.patch;
+	const patchFn = outer ? IncrementalDOM.patchOuter : IncrementalDOM.patch;
 	patchFn(element, data.render);
 
 	patchingComponents_.pop();
