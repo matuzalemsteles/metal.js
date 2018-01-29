@@ -18,11 +18,11 @@ class Fragment extends Component {
 Fragment.PROPS = {
 	elementClasses: {
 		setter: () => undefined,
-		validator: () => {
-			return new Error(
-				`Warning: passing 'elementClasses' to 'Fragment' will add class
-				 to first child element. This is not recommended.`
-			);
+		validator: value => {
+			if (value != undefined) {
+				return new Error(`Warning: passing 'elementClasses' to 'Fragment' will add class
+				 to first child element. This is not recommended.`);
+			}
 		},
 	},
 };
