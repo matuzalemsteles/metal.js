@@ -1,0 +1,517 @@
+0 silly input [ '--no-optional' ]
+1 silly flags { _: [ 'bootstrap' ], args: [ '--no-optional' ] }
+2 verbose rootPath /Users/diegonascimento/workspace/metal.js
+3 info version 2.4.0
+4 silly existsSync /Users/diegonascimento/workspace/metal.js/VERSION
+5 silly initialize attempt
+6 silly npmConfig { registry: undefined,
+6 silly npmConfig   npmClient: undefined,
+6 silly npmConfig   npmClientArgs: [ '--no-optional' ],
+6 silly npmConfig   mutex: undefined }
+7 silly initialize success
+8 silly execute attempt
+9 info Bootstrapping 13 packages
+10 info lifecycle preinstall
+11 silly runScript preinstall metal
+12 silly metal
+13 silly runScript preinstall metaljs.com
+14 silly metaljs.com
+15 silly runScript preinstall metal-assertions
+16 silly metal-assertions
+17 silly runScript preinstall metal-events
+18 silly metal-events
+19 silly runScript preinstall metal-dom
+20 silly metal-dom
+21 silly runScript preinstall metal-state
+22 silly metal-state
+23 silly runScript preinstall metal-component
+24 silly metal-component
+25 silly runScript preinstall metal-incremental-dom
+26 silly metal-incremental-dom
+27 silly runScript preinstall metal-jsx
+28 silly metal-jsx
+29 silly runScript preinstall metal-soy-bundle
+30 silly metal-soy-bundle
+31 silly runScript preinstall metal-soy
+32 silly metal-soy
+33 silly runScript preinstall metal-isomorphic
+34 silly metal-isomorphic
+35 silly runScript preinstall metal-web-component
+36 silly metal-web-component
+37 silly hasMatchingDependency metal-assertions metal
+38 silly hasMatchingDependency metal-component metal
+39 silly hasMatchingDependency metal-component metal-dom
+40 silly hasMatchingDependency metal-component metal-events
+41 silly hasMatchingDependency metal-component metal-state
+42 silly hasMatchingDependency metal-dom metal
+43 silly hasMatchingDependency metal-dom metal-events
+44 silly hasMatchingDependency metal-events metal
+45 silly hasMatchingDependency metal-incremental-dom metal
+46 silly hasMatchingDependency metal-incremental-dom metal-component
+47 silly hasMatchingDependency metal-incremental-dom metal-dom
+48 silly hasMatchingDependency metal-isomorphic metal-component
+49 silly hasMatchingDependency metal-isomorphic metal-jsx
+50 silly hasMatchingDependency metal-isomorphic metal-soy
+51 silly hasMatchingDependency metal-jsx metal
+52 silly hasMatchingDependency metal-jsx metal-component
+53 silly hasMatchingDependency metal-jsx metal-dom
+54 silly hasMatchingDependency metal-jsx metal-incremental-dom
+55 silly hasMatchingDependency metal-jsx metal-state
+56 silly hasMatchingDependency metal-soy-bundle metal-incremental-dom
+57 silly hasMatchingDependency metal-soy metal
+58 silly hasMatchingDependency metal-soy metal-component
+59 silly hasMatchingDependency metal-soy metal-dom
+60 silly hasMatchingDependency metal-soy metal-incremental-dom
+61 silly hasMatchingDependency metal-soy metal-soy-bundle
+62 silly hasMatchingDependency metal-soy metal-state
+63 silly hasMatchingDependency metal-state metal
+64 silly hasMatchingDependency metal-state metal-events
+65 silly hasMatchingDependency metal-web-component metal-component
+66 silly hasMatchingDependency metal-web-component metal-incremental-dom
+67 silly hasMatchingDependency metal-web-component metal-jsx
+68 silly hasMatchingDependency metal-web-component metal-soy
+69 silly hasMatchingDependency metal-web-component metal-soy-bundle
+70 silly hasMatchingDependency metal-web-component metal
+71 silly hasDependencyInstalled metal-assertions babel-preset-env
+72 silly dependencyIsSatisfied [ 'babel-preset-env',
+72 silly dependencyIsSatisfied   '^1.6.0',
+72 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-assertions/node_modules' ]
+73 verbose dependencyIsSatisfied babel-preset-env true
+74 silly hasDependencyInstalled metal-component babel-preset-env
+75 silly dependencyIsSatisfied [ 'babel-preset-env',
+75 silly dependencyIsSatisfied   '^1.6.0',
+75 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-component/node_modules' ]
+76 verbose dependencyIsSatisfied babel-preset-env true
+77 silly hasDependencyInstalled metal-dom babel-preset-env
+78 silly dependencyIsSatisfied [ 'babel-preset-env',
+78 silly dependencyIsSatisfied   '^1.6.0',
+78 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-dom/node_modules' ]
+79 verbose dependencyIsSatisfied babel-preset-env true
+80 silly hasDependencyInstalled metal-events babel-preset-env
+81 silly dependencyIsSatisfied [ 'babel-preset-env',
+81 silly dependencyIsSatisfied   '^1.6.0',
+81 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-events/node_modules' ]
+82 verbose dependencyIsSatisfied babel-preset-env true
+83 silly hasDependencyInstalled metal-incremental-dom babel-preset-env
+84 silly dependencyIsSatisfied [ 'babel-preset-env',
+84 silly dependencyIsSatisfied   '^1.6.0',
+84 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-incremental-dom/node_modules' ]
+85 verbose dependencyIsSatisfied babel-preset-env true
+86 silly hasDependencyInstalled metal-jsx babel-preset-env
+87 silly dependencyIsSatisfied [ 'babel-preset-env',
+87 silly dependencyIsSatisfied   '^1.6.0',
+87 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-jsx/node_modules' ]
+88 verbose dependencyIsSatisfied babel-preset-env true
+89 silly hasDependencyInstalled metal-soy-bundle babel-preset-env
+90 silly dependencyIsSatisfied [ 'babel-preset-env',
+90 silly dependencyIsSatisfied   '^1.6.0',
+90 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+91 verbose dependencyIsSatisfied babel-preset-env true
+92 silly hasDependencyInstalled metal-soy babel-preset-env
+93 silly dependencyIsSatisfied [ 'babel-preset-env',
+93 silly dependencyIsSatisfied   '^1.6.0',
+93 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy/node_modules' ]
+94 verbose dependencyIsSatisfied babel-preset-env true
+95 silly hasDependencyInstalled metal-state babel-preset-env
+96 silly dependencyIsSatisfied [ 'babel-preset-env',
+96 silly dependencyIsSatisfied   '^1.6.0',
+96 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-state/node_modules' ]
+97 verbose dependencyIsSatisfied babel-preset-env true
+98 silly hasDependencyInstalled metal-web-component babel-preset-env
+99 silly dependencyIsSatisfied [ 'babel-preset-env',
+99 silly dependencyIsSatisfied   '^1.6.0',
+99 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/node_modules' ]
+100 verbose dependencyIsSatisfied babel-preset-env true
+101 silly hasDependencyInstalled metal babel-preset-env
+102 silly dependencyIsSatisfied [ 'babel-preset-env',
+102 silly dependencyIsSatisfied   '^1.6.0',
+102 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal/node_modules' ]
+103 verbose dependencyIsSatisfied babel-preset-env true
+104 silly hasDependencyInstalled metal-jsx babel-preset-metal-jsx
+105 silly dependencyIsSatisfied [ 'babel-preset-metal-jsx',
+105 silly dependencyIsSatisfied   '^0.0.2',
+105 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-jsx/node_modules' ]
+106 verbose dependencyIsSatisfied babel-preset-metal-jsx true
+107 silly hasDependencyInstalled metal-soy-bundle gulp
+108 silly dependencyIsSatisfied [ 'gulp',
+108 silly dependencyIsSatisfied   '^3.9.1',
+108 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+109 verbose dependencyIsSatisfied gulp true
+110 silly hasDependencyInstalled metal-soy-bundle gulp-replace
+111 silly dependencyIsSatisfied [ 'gulp-replace',
+111 silly dependencyIsSatisfied   '^0.5.4',
+111 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+112 verbose dependencyIsSatisfied gulp-replace true
+113 silly hasDependencyInstalled metal-web-component metal-useragent
+114 silly dependencyIsSatisfied [ 'metal-useragent',
+114 silly dependencyIsSatisfied   '^2.1.3',
+114 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/node_modules' ]
+115 verbose dependencyIsSatisfied metal-useragent true
+116 silly hasDependencyInstalled metal-assertions babel-cli
+117 silly dependencyIsSatisfied [ 'babel-cli',
+117 silly dependencyIsSatisfied   '^6.4.5',
+117 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-assertions/node_modules' ]
+118 verbose dependencyIsSatisfied babel-cli true
+119 silly hasDependencyInstalled metal-component babel-cli
+120 silly dependencyIsSatisfied [ 'babel-cli',
+120 silly dependencyIsSatisfied   '^6.4.5',
+120 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-component/node_modules' ]
+121 verbose dependencyIsSatisfied babel-cli true
+122 silly hasDependencyInstalled metal-dom babel-cli
+123 silly dependencyIsSatisfied [ 'babel-cli',
+123 silly dependencyIsSatisfied   '^6.4.5',
+123 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-dom/node_modules' ]
+124 verbose dependencyIsSatisfied babel-cli true
+125 silly hasDependencyInstalled metal-events babel-cli
+126 silly dependencyIsSatisfied [ 'babel-cli',
+126 silly dependencyIsSatisfied   '^6.4.5',
+126 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-events/node_modules' ]
+127 verbose dependencyIsSatisfied babel-cli true
+128 silly hasDependencyInstalled metal-incremental-dom babel-cli
+129 silly dependencyIsSatisfied [ 'babel-cli',
+129 silly dependencyIsSatisfied   '^6.4.5',
+129 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-incremental-dom/node_modules' ]
+130 verbose dependencyIsSatisfied babel-cli true
+131 silly hasDependencyInstalled metal-jsx babel-cli
+132 silly dependencyIsSatisfied [ 'babel-cli',
+132 silly dependencyIsSatisfied   '^6.4.5',
+132 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-jsx/node_modules' ]
+133 verbose dependencyIsSatisfied babel-cli true
+134 silly hasDependencyInstalled metal-soy-bundle babel-cli
+135 silly dependencyIsSatisfied [ 'babel-cli',
+135 silly dependencyIsSatisfied   '^6.4.5',
+135 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+136 verbose dependencyIsSatisfied babel-cli true
+137 silly hasDependencyInstalled metal-soy babel-cli
+138 silly dependencyIsSatisfied [ 'babel-cli',
+138 silly dependencyIsSatisfied   '^6.4.5',
+138 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy/node_modules' ]
+139 verbose dependencyIsSatisfied babel-cli true
+140 silly hasDependencyInstalled metal-state babel-cli
+141 silly dependencyIsSatisfied [ 'babel-cli',
+141 silly dependencyIsSatisfied   '^6.4.5',
+141 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-state/node_modules' ]
+142 verbose dependencyIsSatisfied babel-cli true
+143 silly hasDependencyInstalled metal-web-component babel-cli
+144 silly dependencyIsSatisfied [ 'babel-cli',
+144 silly dependencyIsSatisfied   '^6.4.5',
+144 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/node_modules' ]
+145 verbose dependencyIsSatisfied babel-cli true
+146 silly hasDependencyInstalled metal babel-cli
+147 silly dependencyIsSatisfied [ 'babel-cli',
+147 silly dependencyIsSatisfied   '^6.4.5',
+147 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal/node_modules' ]
+148 verbose dependencyIsSatisfied babel-cli true
+149 silly hasDependencyInstalled metal-incremental-dom incremental-dom
+150 silly dependencyIsSatisfied [ 'incremental-dom',
+150 silly dependencyIsSatisfied   '^0.5.1',
+150 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-incremental-dom/node_modules' ]
+151 verbose dependencyIsSatisfied incremental-dom true
+152 silly hasDependencyInstalled metal-incremental-dom incremental-dom-string
+153 silly dependencyIsSatisfied [ 'incremental-dom-string',
+153 silly dependencyIsSatisfied   '0.0.2',
+153 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-incremental-dom/node_modules' ]
+154 verbose dependencyIsSatisfied incremental-dom-string true
+155 silly hasDependencyInstalled metal-soy-bundle gulp-concat
+156 silly dependencyIsSatisfied [ 'gulp-concat',
+156 silly dependencyIsSatisfied   '^2.6.0',
+156 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+157 verbose dependencyIsSatisfied gulp-concat true
+158 silly hasDependencyInstalled metal-soy-bundle gulp-footer
+159 silly dependencyIsSatisfied [ 'gulp-footer',
+159 silly dependencyIsSatisfied   '^1.0.5',
+159 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+160 verbose dependencyIsSatisfied gulp-footer true
+161 silly hasDependencyInstalled metal-soy-bundle gulp-header
+162 silly dependencyIsSatisfied [ 'gulp-header',
+162 silly dependencyIsSatisfied   '^1.7.1',
+162 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+163 verbose dependencyIsSatisfied gulp-header true
+164 silly hasDependencyInstalled metal-soy-bundle jshint
+165 silly dependencyIsSatisfied [ 'jshint',
+165 silly dependencyIsSatisfied   '^2.7.0',
+165 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-soy-bundle/node_modules' ]
+166 verbose dependencyIsSatisfied jshint true
+167 silly hasDependencyInstalled metal-web-component @webcomponents/webcomponentsjs
+168 silly dependencyIsSatisfied [ '@webcomponents/webcomponentsjs',
+168 silly dependencyIsSatisfied   'github:webcomponents/webcomponentsjs',
+168 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/node_modules' ]
+169 verbose dependencyIsSatisfied @webcomponents/webcomponentsjs false
+170 silly hasDependencyInstalled metal-web-component babel-polyfill
+171 silly dependencyIsSatisfied [ 'babel-polyfill',
+171 silly dependencyIsSatisfied   '^6.23.0',
+171 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/node_modules' ]
+172 verbose dependencyIsSatisfied babel-polyfill true
+173 silly hasDependencyInstalled metal-web-component metal-state
+174 silly dependencyIsSatisfied [ 'metal-state',
+174 silly dependencyIsSatisfied   '2.7.0',
+174 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/node_modules' ]
+175 verbose dependencyIsSatisfied metal-state true
+176 silly hasDependencyInstalled metaljs.com electric-cli
+177 silly dependencyIsSatisfied [ 'electric-cli',
+177 silly dependencyIsSatisfied   '^2.2.0',
+177 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metaljs.com/node_modules' ]
+178 verbose dependencyIsSatisfied electric-cli true
+179 silly hasDependencyInstalled metaljs.com electric-marble-components
+180 silly dependencyIsSatisfied [ 'electric-marble-components',
+180 silly dependencyIsSatisfied   '^3.0.3',
+180 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metaljs.com/node_modules' ]
+181 verbose dependencyIsSatisfied electric-marble-components true
+182 silly hasDependencyInstalled metaljs.com marble
+183 silly dependencyIsSatisfied [ 'marble',
+183 silly dependencyIsSatisfied   '^3.1.4',
+183 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metaljs.com/node_modules' ]
+184 verbose dependencyIsSatisfied marble true
+185 silly hasDependencyInstalled metaljs.com metal-toggler
+186 silly dependencyIsSatisfied [ 'metal-toggler',
+186 silly dependencyIsSatisfied   '^2.0.0',
+186 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metaljs.com/node_modules' ]
+187 verbose dependencyIsSatisfied metal-toggler true
+188 silly hasDependencyInstalled metaljs.com moment
+189 silly dependencyIsSatisfied [ 'moment',
+189 silly dependencyIsSatisfied   '^2.19.2',
+189 silly dependencyIsSatisfied   '/Users/diegonascimento/workspace/metal.js/packages/metaljs.com/node_modules' ]
+190 verbose dependencyIsSatisfied moment true
+191 silly root dependencies []
+192 silly leaf dependencies {
+192 silly leaf dependencies   "metal-assertions": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-component": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-dom": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-events": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-incremental-dom": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "incremental-dom@^0.5.1",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "incremental-dom-string@0.0.2",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-jsx": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-metal-jsx@^0.0.2",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-soy-bundle": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "gulp@^3.9.1",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "gulp-replace@^0.5.4",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "gulp-concat@^2.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "gulp-footer@^1.0.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "gulp-header@^1.7.1",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "jshint@^2.7.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-soy": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-state": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal-web-component": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "metal-useragent@^2.1.3",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "@webcomponents/webcomponentsjs@github:webcomponents/webcomponentsjs",
+192 silly leaf dependencies       "isSatisfied": false
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-polyfill@^6.23.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "metal-state@2.7.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metal": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-preset-env@^1.6.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "babel-cli@^6.4.5",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ],
+192 silly leaf dependencies   "metaljs.com": [
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "electric-cli@^2.2.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "electric-marble-components@^3.0.3",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "marble@^3.1.4",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "metal-toggler@^2.0.0",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     },
+192 silly leaf dependencies     {
+192 silly leaf dependencies       "dependency": "moment@^2.19.2",
+192 silly leaf dependencies       "isSatisfied": true
+192 silly leaf dependencies     }
+192 silly leaf dependencies   ]
+192 silly leaf dependencies }
+193 info Installing external dependencies
+194 verbose actions 1 actions, concurrency 4
+195 silly installInDir metal-web-component [ 'babel-preset-env@^1.6.0',
+195 silly installInDir   'metal-useragent@^2.1.3',
+195 silly installInDir   'babel-cli@^6.4.5',
+195 silly installInDir   '@webcomponents/webcomponentsjs@github:webcomponents/webcomponentsjs',
+195 silly installInDir   'babel-polyfill@^6.23.0',
+195 silly installInDir   'metal-state@2.7.0' ]
+196 silly installInDir backup /Users/diegonascimento/workspace/metal.js/packages/metal-web-component/package.json
+197 silly rename [ '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/package.json',
+197 silly rename   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/package.json.lerna_backup' ]
+198 silly installInDir writing tempJson { dependencies:
+198 silly installInDir    { 'babel-preset-env': '^1.6.0',
+198 silly installInDir      'metal-useragent': '^2.1.3',
+198 silly installInDir      'babel-cli': '^6.4.5',
+198 silly installInDir      '@webcomponents/webcomponentsjs': 'github:webcomponents/webcomponentsjs',
+198 silly installInDir      'babel-polyfill': '^6.23.0',
+198 silly installInDir      'metal-state': '2.7.0' } }
+199 silly getExecOpts { cwd: '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component' }
+200 silly installInDir [ 'npm', [ 'install', '--no-optional' ] ]
+201 silly installInDir cleanup /Users/diegonascimento/workspace/metal.js/packages/metal-web-component/package.json
+202 silly renameSync [ '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/package.json.lerna_backup',
+202 silly renameSync   '/Users/diegonascimento/workspace/metal.js/packages/metal-web-component/package.json' ]
+203 verbose installed leaf metal-web-component
+204 error execute callback with error
+205 error Error: Command failed: npm install --no-optional
+205 error npm ERR! code ELIFECYCLE
+205 error npm ERR! errno 1
+205 error npm ERR! @webcomponents/webcomponentsjs@2.0.2 build: `gulp`
+205 error npm ERR! Exit status 1
+205 error npm ERR!
+205 error npm ERR! Failed at the @webcomponents/webcomponentsjs@2.0.2 build script.
+205 error npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+205 error npm WARN Local package.json exists, but node_modules missing, did you mean to install?
+205 error
+205 error npm ERR! A complete log of this run can be found in:
+205 error npm ERR!     /Users/diegonascimento/.npm/_logs/2018-07-17T18_00_05_495Z-debug.log
+205 error npm ERR! code ENOPACKAGEJSON
+205 error npm ERR! package.json Non-registry package missing package.json: @webcomponents/webcomponentsjs@github:webcomponents/webcomponentsjs.
+205 error npm ERR! package.json npm can't find a package.json file in your current directory.
+205 error
+205 error npm ERR! A complete log of this run can be found in:
+205 error npm ERR!     /Users/diegonascimento/.npm/_logs/2018-07-17T18_00_05_595Z-debug.log
+205 error
+205 error > @webcomponents/webcomponentsjs@2.0.2 prepack /Users/diegonascimento/.npm/_cacache/tmp/git-clone-60236a65
+205 error > npm run build
+205 error
+205 error
+205 error > @webcomponents/webcomponentsjs@2.0.2 build /Users/diegonascimento/.npm/_cacache/tmp/git-clone-60236a65
+205 error > gulp
+205 error
+205 error [15:00:05] Local gulp not found in ~/.npm/_cacache/tmp/git-clone-60236a65
+205 error [15:00:05] Try running: npm install gulp
+205 error
+205 error     at Promise.all.then.arr (/Users/diegonascimento/workspace/metal.js/node_modules/execa/index.js:236:11)
+205 error     at <anonymous>

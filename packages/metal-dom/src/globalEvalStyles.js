@@ -63,8 +63,21 @@ class globalEvalStyles {
 		if (style.tagName === 'STYLE') {
 			async.nextTick(callback);
 		} else {
-			once(style, 'load', callback);
 			once(style, 'error', callback);
+			setInterval(function() {
+				try {
+					if (
+						style.sheet.cssRules.length ||
+						style.styleSheet.rules.length
+					) {
+						async.nextTick(callback);
+					}
+					clearInterval();
+				} catch (e) {
+					async.nextTick(callback);
+					throw new Error(e);
+				}
+			}, 10);
 		}
 
 		if (appendFn) {
@@ -74,6 +87,33 @@ class globalEvalStyles {
 		}
 
 		return style;
+	}
+
+	/**
+	 * @param {!NodeList} styles NodeList of Link and Style that will be evaluated and executed.
+	 * @param {number} index Position where the counter will start the ascending iterate.
+	 * @param {function()=} defaultFn Optional function to be called when the
+	 *   style has been run.
+	 * @param {function()=} appendFn Optional function to append the node
+	 *   into document.
+	 */
+	static runStylesinOrder(styles, index, defaultFn, appendFn) {
+		globalEvalStyles.runStyle(
+			styles.item(index),
+			() => {
+				if (index < styles.length - 1) {
+					globalEvalStyles.runStylesinOrder(
+						styles,
+						index + 1,
+						defaultFn,
+						appendFn
+					);
+				} else if (defaultFn) {
+					async.nextTick(defaultFn);
+				}
+			},
+			appendFn
+		);
 	}
 
 	/**
@@ -97,8 +137,9 @@ class globalEvalStyles {
 				async.nextTick(defaultFn);
 			}
 		};
-		for (let i = 0; i < styles.length; i++) {
-			globalEvalStyles.runStyle(styles[i], callback, appendFn);
+
+		if (styles.length) {
+			globalEvalStyles.runStylesinOrder(styles, callback, appendFn);
 		}
 	}
 }
